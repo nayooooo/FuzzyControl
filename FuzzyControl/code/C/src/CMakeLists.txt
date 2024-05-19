@@ -7,7 +7,7 @@ project(FuzzyContcol VERSION 1.0.0
 file(GLOB SRC_LIST ${PROJECT_SOURCE_DIR}/core/*.c)
 set(SRC ${SRC_LIST})
 include_directories(${PROJECT_SOURCE_DIR})
-include_directories(${PROJECT_SOURCE_DIR}/core/include)
+include_directories(${PROJECT_SOURCE_DIR}/core)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../lib)
 add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
