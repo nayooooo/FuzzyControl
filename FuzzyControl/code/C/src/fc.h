@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 
-#include "./core/fc_error.h"
 #include "./core/fc_core.h"
-#include "./core/fc_type.h"
 
 #endif  // !__FC_H__
