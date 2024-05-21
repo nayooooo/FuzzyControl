@@ -1,3 +1,2 @@
-﻿  main.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\Core\main.c(9,47): warning C4311: “类型强制转换”: 从“fc_list_head”到“unsigned int”的指针截断
+﻿  fc_list.c
   Core.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\x64\Debug\Core.exe
