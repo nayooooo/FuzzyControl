@@ -267,7 +267,6 @@ bool fc_list_remove_if(fc_list_head l, void* data, fc_list_pred pred, fc_list_no
     return true;
 }
 
-// TODO
 bool fc_list_swap_if(fc_list_head l, void *data1, void *data2, fc_list_pred pred1, fc_list_pred pred2)
 {
     if (l == nullptr) return false;
@@ -279,58 +278,30 @@ bool fc_list_swap_if(fc_list_head l, void *data1, void *data2, fc_list_pred pred
     if (n1 == nullptr || n2 == nullptr) return false;
     if (n1 == n2) return true;  // The same node does not need to be swapped
 
-    // The length of the linked list is greater than 1,
-    // so there are three possible scenarios for the nodes to be exchanged,
-    // There are a total of 9 situations
-    // Considering the relative position of the nodes to be exchanged again, it's too terrifying......
+    // exchange nodes
     fc_list_node fn1 = fc_list_find_prev_node(l, n1);
-    fc_list_node nn1 = fc_list_find_next_node(l, n1);
     fc_list_node fn2 = fc_list_find_prev_node(l, n2);
-    fc_list_node nn2 = fc_list_find_next_node(l, n2);
-    // n1 is the 1st, n2 is the 1st
-    if (fn1 == nullptr && nn1 != nullptr && fn2 == nullptr && nn2 != nullptr)
+    if (fn1 == nullptr) *l = n2;
+    else fn1->next = n2;
+    if (fn2 == nullptr) *l = n1;
+    else fn2->next = n1;
+    fc_list_node temp = n1->next;
+    n1->next = n2->next;
+    n2->next = temp;
+
+    return true;
+}
+
+bool fc_list_trav(fc_list_head l, void* data, fc_list_event_cb event_cb)
+{
+    if (l == nullptr) return false;
+    if (event_cb == nullptr) return false;
+
+    fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+    while (n)
     {
-        ;
-    }
-    // n1 is the 1st, n2 is the last
-    else if (fn1 == nullptr && nn1 != nullptr && fn2 != nullptr && nn2 == nullptr)
-    {
-        ;
-    }
-    // n1 is the 1st, n2 is the mid
-    else if (fn1 == nullptr && nn1 != nullptr && fn2 != nullptr && nn2 != nullptr)
-    {
-        ;
-    }
-    // n1 is the last, n2 is the 1st
-    else if (fn1 != nullptr && nn1 == nullptr && fn2 == nullptr && nn2 != nullptr)
-    {
-        ;
-    }
-    // n1 is the last, n2 is the last
-    else if (fn1 != nullptr && nn1 == nullptr && fn2 != nullptr && nn2 == nullptr)
-    {
-        ;
-    }
-    // n1 is the last, n2 is the mid
-    else if (fn1 != nullptr && nn1 == nullptr && fn2 != nullptr && nn2 != nullptr)
-    {
-        ;
-    }
-    // n1 is the mid, n2 is the 1st
-    else if (fn1 != nullptr && nn1 != nullptr && fn2 == nullptr && nn2 != nullptr)
-    {
-        ;
-    }
-    // n1 is the mid, n2 is the last
-    else if (fn1 != nullptr && nn1 != nullptr && fn2 != nullptr && nn2 == nullptr)
-    {
-        ;
-    }
-    // n1 is the mid, n2 is the mid
-    else /* if (fn1 != nullptr && nn1 != nullptr && fn2 != nullptr && nn2 != nullptr) */
-    {
-        ;
+        if (!event_cb(n, data)) return false;
+        n = n->next;
     }
 
     return true;

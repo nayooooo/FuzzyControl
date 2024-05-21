@@ -45,7 +45,7 @@ typedef struct fc_list **fc_list_head;
  * @brief Predicate used to determine whether an operation will be executed
  * 
  * @param node The node currently being checked
- * @param data Data to be matched
+ * @param data Data user gave
  * @return bool
  *      true        will execute
  *      false       not execute
@@ -69,6 +69,17 @@ typedef bool (*fc_list_node_data_construct_cb)(void *data);
  * @return false failed
  */
 typedef bool (*fc_list_node_data_deconstruct_cb)(void *data);
+
+/**
+ * @brief event callback function
+ * 
+ * @param node The node currently being checked
+ * @param data Data user gave
+ * @return bool
+ *      true        success
+ *      false       failed
+ */
+typedef bool (*fc_list_event_cb)(fc_list_node node, void *data);
 
 /*==================================================================================
     built in predicate and callback
@@ -268,10 +279,21 @@ bool fc_list_remove_if(fc_list_head l, void *data, fc_list_pred pred, fc_list_no
  * @param data2 Data with exchange node 2, you must give a node
  * @param pred1 Determine if it is a predicate for node 1, you must give a predicate
  * @param pred2 Determine if it is a predicate for node 2, you must give a predicate
- * @return true
+ * @return true Returns true only when the exchange is successful or when the same node is passed in
  * @return false
  */
 bool fc_list_swap_if(fc_list_head l, void *data1, void *data2, fc_list_pred pred1, fc_list_pred pred2);
+
+/**
+ * @brief Traversing linked lists
+ * 
+ * @param l The linked list to be traversed
+ * @param data user data
+ * @param event_cb Event callbacks that each node needs to execute, you must give
+ * @param true      success
+ * @param false     failed
+ */
+bool fc_list_trav(fc_list_head l, void *data, fc_list_event_cb event_cb);
 
 #endif  // !__FC_LIST_H__
 
