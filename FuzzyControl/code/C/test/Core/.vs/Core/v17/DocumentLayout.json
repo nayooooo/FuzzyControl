@@ -6,11 +6,11 @@
       "AbsoluteMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\test\\Core\\Core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|solutionrelative:Core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\test\\Core\\Core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C2A8DE54-56DE-43F7-AE14-08300794CC2A}|Core\\Core.vcxproj|solutionrelative:Core\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,15 +24,16 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "fc_list.h",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.h",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_list.h",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.h",
               "RelativeToolTip": "..\\..\\src\\core\\fc_list.h",
-              "ViewState": "AQIAAJYAAAAAAAAAAAAqwKMAAAAAAAAA",
+              "ViewState": "AQIAAP4AAAAAAAAAAAAAABEBAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-05-21T06:58:25.869Z"
+              "WhenOpened": "2024-05-21T06:58:25.869Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -42,20 +43,20 @@
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_list.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\src\\core\\fc_list.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_list.c",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAUwEoAAAAjAAAA",
+              "ViewState": "AQIAAAoBAAAAAAAAAAAkwBwBAABmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-05-21T06:32:30.366Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "main.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\test\\Core\\Core\\main.c",
               "RelativeDocumentMoniker": "Core\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\ICA\\FuzzyControl\\code\\C\\test\\Core\\Core\\main.c",
               "RelativeToolTip": "Core\\main.c",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAcwA8AAAAiAAAA",
+              "ViewState": "AQIAAIsAAAAAAAAAAAAAAJMAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-05-21T05:43:04.633Z",
               "EditorCaption": ""
