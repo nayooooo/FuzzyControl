@@ -4,6 +4,9 @@ project(FuzzyControl VERSION 1.0.0
         HOMEPAGE_URL "https://github.com/nayooooo/ICA.git"
         LANGUAGES "C")
 
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 file(GLOB SRC_LIST ${PROJECT_SOURCE_DIR}/core/*.c)
 set(SRC ${SRC_LIST})
 include_directories(${PROJECT_SOURCE_DIR})
@@ -11,4 +14,4 @@ include_directories(${PROJECT_SOURCE_DIR}/core)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../lib)
 add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
-set_target_properties(FuzzyControl PROPERTIES PREFIX "")
+set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
