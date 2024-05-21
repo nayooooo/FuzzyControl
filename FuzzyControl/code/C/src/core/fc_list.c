@@ -76,8 +76,6 @@ fc_list_node fc_list_find_last_node(fc_list_head l)
 {
     if (l == nullptr) return nullptr;
 
-    if (*l == nullptr) return nullptr;
-
     fc_list_node n = *l;
     fc_list_node fn = n;
     while (n)
