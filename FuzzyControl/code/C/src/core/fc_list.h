@@ -141,9 +141,27 @@ bool fc_list_clear(fc_list_head l, fc_list_node_data_deconstruct_cb deconstruct)
  */
 bool fc_list_delete(fc_list_head l, fc_list_node_data_deconstruct_cb deconstruct);
 
+/**
+ * @brief Obtain the length of the linked list
+ * 
+ * @param l The linked list
+ * @return size_t
+ */
+size_t fc_list_length(fc_list_head l);
+
 /*==================================================================================
     internal operation function of linked list
 ==================================================================================*/
+
+/**
+ * @brief Find the last node
+ * 
+ * @param l The linked list
+ * @return fc_list_node 
+ *      nullptr     Not found or the linked list is empty
+ *      other       found
+ */
+fc_list_node fc_list_find_last_node(fc_list_head l);
 
 /**
  * @brief Find nodes through predicate
