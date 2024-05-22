@@ -38,7 +38,7 @@ int main()
     srand((unsigned int)time(NULL));
 
     l = list_create();
-    printf("list place: 0x%X\r\n", &(*l));
+    printf("list place: 0x%X\r\n", (int)&(*l));
     
     // push
     printf("\r\n\n=========================================================\r\n");

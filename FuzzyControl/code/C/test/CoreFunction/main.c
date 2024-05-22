@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "./../../src/fc.h"
+#include "fc.h"
 
 list_head l;
 
@@ -390,6 +390,9 @@ int main()
     }
 
     list_delete(l, nullptr);
+
+    printf("input enter...");
+    getchar();
 
     return 0;
 }

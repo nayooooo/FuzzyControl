@@ -11,9 +11,10 @@
         - [链表操作API](#链表操作api)
         - [链表节点操作API](#链表节点操作api)
         - [参数获取API](#参数获取api)
-      - [1.1.2 模糊集合（模糊子集）](#112-模糊集合模糊子集)
-      - [1.1.3 模糊关系](#113-模糊关系)
-      - [1.1.4 模糊集合运算](#114-模糊集合运算)
+      - [1.1.2 模糊运算](#112-模糊运算)
+      - [1.1.3 模糊集合（模糊子集）](#113-模糊集合模糊子集)
+      - [1.1.4 模糊关系](#114-模糊关系)
+      - [1.1.5 模糊集合运算](#115-模糊集合运算)
     - [1.2 算法核心框架](#12-算法核心框架)
       - [1.2.1 核心接口](#121-核心接口)
       - [1.2.2 接口规范](#122-接口规范)
@@ -89,7 +90,9 @@
 | list_get_node_data | list_head,list_index | void* | 获取指定索引处节点的数据 |
 | list_get_node_data_if | list_head,void*,list_pred | void* | 获取满足谓词描述的节点的数据 |
 
-#### 1.1.2 模糊集合（模糊子集）
+#### 1.1.2 模糊运算
+
+#### 1.1.3 模糊集合（模糊子集）
 
 模糊集合是数据对一个评价标准不同等级的隶属度向量，在其中保存有不定长度的范围在`[0,1]`的小数，为了知道小数对应的等级，需要将小数和一个标签绑定在一起，到这里我们就知道了隶属度向量中存放的是等级——隶属度对，而隶属度向量则通过单向链表进行管理。前面提及了等级和隶属度，但是我们并不知道这个隶属度向量属于哪一个评价标准，因此还需要一个总的标签来描述是什么评价标准。
 
@@ -107,6 +110,7 @@
      *                 same evaluation criterion, the 0th row belongs to the 0th
      *                 evaluation criterion, and the 1st row belongs to the 1st
      *                 evaluation criterion
+     * @memberof level_num The number of levels for each evaluation criterion
      * @memberof fdt fuzzy data type
      * @memberof ms_type ms's type
      * @memberof ms Membership degree vector/matrix
@@ -116,6 +120,7 @@
         label *eval;  // evaluation criterion
         size_t eval_num;
         label **level;
+        size_t *level_num;
 
         fuzzy_data_type fdt;
         membership_vm_type ms_type;
@@ -125,9 +130,9 @@
 
 这个模糊集合结构体能够兼容模糊关系，所以它们都使用这个类型，只是在具体细节上有所不同。
 
-#### 1.1.3 模糊关系
+#### 1.1.4 模糊关系
 
-#### 1.1.4 模糊集合运算
+#### 1.1.5 模糊集合运算
 
 ### 1.2 算法核心框架
 

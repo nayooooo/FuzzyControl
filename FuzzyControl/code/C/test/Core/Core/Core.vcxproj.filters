@@ -25,13 +25,22 @@
     <Filter Include="FuzzyControl\core\源文件">
       <UniqueIdentifier>{2c874354-bcd1-472d-be1a-9563d83f3c3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FuzzyControl\exter">
+      <UniqueIdentifier>{5fb62f36-b9dc-4d8f-94a1-0c7942ee1165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\exter\头文件">
+      <UniqueIdentifier>{cbf65d18-30e9-4cf1-bd83-af38ffdbe886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\exter\源文件">
+      <UniqueIdentifier>{51a1e7ab-eccf-4fb4-9737-fe8a880a4f06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\list.c">
-      <Filter>FuzzyControl\core\源文件</Filter>
+    <ClCompile Include="..\..\..\src\exter\list.c">
+      <Filter>FuzzyControl\exter\源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,11 +56,11 @@
     <ClInclude Include="..\..\..\src\core\fc_error.h">
       <Filter>FuzzyControl\core\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\core\list.h">
-      <Filter>FuzzyControl\core\头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\core\fc_std.h">
       <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\exter\list.h">
+      <Filter>FuzzyControl\exter\头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

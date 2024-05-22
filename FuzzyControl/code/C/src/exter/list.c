@@ -1,5 +1,4 @@
 #include "list.h"
-#include "fc_std.h"
 
 bool list_pred_true(list_node node, void *data)
 {
@@ -17,7 +16,7 @@ bool list_pred_false(list_node node, void *data)
 
 list_head list_create(void)
 {
-    list_head l = (list_head)fc_malloc(sizeof(list_node));
+    list_head l = (list_head)list_malloc(sizeof(list_node));
     if (l == nullptr) return nullptr;
 
     *l = nullptr;
@@ -40,7 +39,7 @@ bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct)
 
     if (!list_clear(l, deconstruct)) return false;
 
-    fc_free(l);
+    list_free(l);
     l = nullptr;
 
     return true;
@@ -124,16 +123,16 @@ bool list_push(list_head l, void* data, size_t data_size)
     list_node ln = list_get_last_node(l);
 
     // Create a new node
-    list_node n = (list_node)fc_malloc(sizeof(struct list));
+    list_node n = (list_node)list_malloc(sizeof(struct list));
     if (n == nullptr) return false;
-    n->data = (void*)fc_malloc(data_size);
+    n->data = (void*)list_malloc(data_size);
     if (n->data == nullptr)
     {
-        fc_free(n);
+        list_free(n);
         n = nullptr;
         return false;
     }
-    fc_memcpy(n->data, data, data_size);
+    list_memcpy(n->data, data, data_size);
     n->next = nullptr;
 
     // Link the created node to the end of the linked list
@@ -160,8 +159,8 @@ bool list_pop(list_head l)
     list_node fln = list_find_prev_node(l, ln);
     if (fln == nullptr) *l = nullptr;  // the list has only 1 node
     else fln->next = nullptr;
-    fc_free(ln->data);
-    fc_free(ln);
+    list_free(ln->data);
+    list_free(ln);
     ln->data = nullptr;
     ln = nullptr;
 
@@ -232,8 +231,8 @@ bool list_remove_if(list_head l, void* data, list_pred pred, list_node_data_deco
 
     if (frn == nullptr) *l = nrn;
     else frn->next = nrn;
-    fc_free(rn->data);
-    fc_free(rn);
+    list_free(rn->data);
+    list_free(rn);
     rn->data = nullptr;
     rn = nullptr;
 

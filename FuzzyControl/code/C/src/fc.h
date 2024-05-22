@@ -4,5 +4,6 @@
 #include <stdint.h>
 
 #include "./core/fc_core.h"
+#include "./exter/fc_exter.h"
 
 #endif  // !__FC_H__
