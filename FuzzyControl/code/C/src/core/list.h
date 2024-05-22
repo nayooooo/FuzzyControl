@@ -1,6 +1,3 @@
-#ifndef __LIST_H__
-#define __LIST_H__
-
 /**
  * @file list.h
  * @author nayooooo (YEWANhup@outlook.com)
@@ -20,6 +17,9 @@
  * @copyright Copyright (c) 2024
  * 
  */
+
+#ifndef __LIST_H__
+#define __LIST_H__
 
 #include <stdbool.h>
 #include <stdint.h>

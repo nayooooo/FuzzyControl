@@ -41,6 +41,7 @@ bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct)
     if (!list_clear(l, deconstruct)) return false;
 
     fc_free(l);
+    l = nullptr;
 
     return true;
 }
@@ -129,6 +130,7 @@ bool list_push(list_head l, void* data, size_t data_size)
     if (n->data == nullptr)
     {
         fc_free(n);
+        n = nullptr;
         return false;
     }
     fc_memcpy(n->data, data, data_size);
@@ -160,6 +162,8 @@ bool list_pop(list_head l)
     else fln->next = nullptr;
     fc_free(ln->data);
     fc_free(ln);
+    ln->data = nullptr;
+    ln = nullptr;
 
     return true;
 }
@@ -230,6 +234,8 @@ bool list_remove_if(list_head l, void* data, list_pred pred, list_node_data_deco
     else frn->next = nrn;
     fc_free(rn->data);
     fc_free(rn);
+    rn->data = nullptr;
+    rn = nullptr;
 
     return true;
 }

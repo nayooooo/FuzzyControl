@@ -93,6 +93,38 @@
 
 模糊集合是数据对一个评价标准不同等级的隶属度向量，在其中保存有不定长度的范围在`[0,1]`的小数，为了知道小数对应的等级，需要将小数和一个标签绑定在一起，到这里我们就知道了隶属度向量中存放的是等级——隶属度对，而隶属度向量则通过单向链表进行管理。前面提及了等级和隶属度，但是我们并不知道这个隶属度向量属于哪一个评价标准，因此还需要一个总的标签来描述是什么评价标准。
 
+    /**
+     * @brief Fuzzy data structures can be fuzzy sets or fuzzy relationships
+     * 
+     * @memberof eval Evaluation criteria, which is a label (string) array pointer that
+     *                can store multiple labels
+     *                   Number of tags      Representative data type
+     *                      1                   fuzzy set
+     *                      >=2                 fuzzy relation
+     * @memberof eval_num Evaluation criteria number, you can use it to determine
+     *                    whether the fuzzy output was successfully obtained
+     * @memberof level The level of evaluation criteria, the same row belongs to the
+     *                 same evaluation criterion, the 0th row belongs to the 0th
+     *                 evaluation criterion, and the 1st row belongs to the 1st
+     *                 evaluation criterion
+     * @memberof fdt fuzzy data type
+     * @memberof ms_type ms's type
+     * @memberof ms Membership degree vector/matrix
+     */
+    struct fuzzy_data
+    {
+        label *eval;  // evaluation criterion
+        size_t eval_num;
+        label **level;
+
+        fuzzy_data_type fdt;
+        membership_vm_type ms_type;
+
+        membership **ms;
+    };
+
+这个模糊集合结构体能够兼容模糊关系，所以它们都使用这个类型，只是在具体细节上有所不同。
+
 #### 1.1.3 模糊关系
 
 #### 1.1.4 模糊集合运算
