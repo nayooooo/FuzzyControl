@@ -131,14 +131,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\core\fc_list.c" />
+    <ClCompile Include="..\..\..\src\core\list.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\core\fc_core.h" />
     <ClInclude Include="..\..\..\src\core\fc_def.h" />
     <ClInclude Include="..\..\..\src\core\fc_error.h" />
-    <ClInclude Include="..\..\..\src\core\fc_list.h" />
+    <ClInclude Include="..\..\..\src\core\list.h" />
     <ClInclude Include="..\..\..\src\core\fc_std.h" />
     <ClInclude Include="..\..\..\src\fc.h" />
   </ItemGroup>

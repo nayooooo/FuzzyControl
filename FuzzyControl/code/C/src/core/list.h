@@ -1,8 +1,8 @@
-#ifndef __FC_LIST_H__
-#define __FC_LIST_H__
+#ifndef __LIST_H__
+#define __LIST_H__
 
 /**
- * @file fc_list.h
+ * @file list.h
  * @author nayooooo (YEWANhup@outlook.com)
  * @brief This is a linked list library
  * @details When creating a new node, this library will dynamically apply for memory
@@ -14,7 +14,7 @@
  *          options for constructing callback functions and destructing callback
  *          functions, making it convenient for you to operate on deeply copied node
  *          data.
- * @version 0.1
+ * @version 1.0.0
  * @date 2024-05-21
  * 
  * @copyright Copyright (c) 2024
@@ -23,23 +23,33 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "fc_def.h"
+
+#ifndef nullptr
+#   define nullptr ((void*)0)
+#endif
+
+#ifndef UNUSED
+#   define UNUSED(x) ((void)x)
+#endif
 
 /*==================================================================================
     structure
 ==================================================================================*/
 
-struct fc_list
+struct list
 {
     void *data;
-    struct fc_list *next;
+    struct list *next;
 };
-typedef struct fc_list *fc_list_node;
-typedef struct fc_list **fc_list_head;
+typedef struct list *list_node;
+typedef struct list **list_head;
 
 /*==================================================================================
     predicate and callback
 ==================================================================================*/
+
+// Index type of linked list
+typedef unsigned int list_index;
 
 /**
  * @brief Predicate used to determine whether an operation will be executed
@@ -50,7 +60,7 @@ typedef struct fc_list **fc_list_head;
  *      true        will execute
  *      false       not execute
  */
-typedef bool (*fc_list_pred)(fc_list_node node, void *data);
+typedef bool (*list_pred)(list_node node, void *data);
 
 /**
  * @brief Constructing callback functions for node data
@@ -59,7 +69,7 @@ typedef bool (*fc_list_pred)(fc_list_node node, void *data);
  * @return true success
  * @return false failed
  */
-typedef bool (*fc_list_node_data_construct_cb)(void *data);
+typedef bool (*list_node_data_construct_cb)(void *data);
 
 /**
  * @brief Deconstructive callback function for node data
@@ -68,7 +78,7 @@ typedef bool (*fc_list_node_data_construct_cb)(void *data);
  * @return true success
  * @return false failed
  */
-typedef bool (*fc_list_node_data_deconstruct_cb)(void *data);
+typedef bool (*list_node_data_deconstruct_cb)(void *data);
 
 /**
  * @brief event callback function
@@ -79,7 +89,7 @@ typedef bool (*fc_list_node_data_deconstruct_cb)(void *data);
  *      true        success
  *      false       failed
  */
-typedef bool (*fc_list_event_cb)(fc_list_node node, void *data);
+typedef bool (*list_event_cb)(list_node node, void *data);
 
 /*==================================================================================
     built in predicate and callback
@@ -92,7 +102,7 @@ typedef bool (*fc_list_event_cb)(fc_list_node node, void *data);
  * @param data No effect
  * @return true 
  */
-bool fc_list_pred_true(fc_list_node node, void *data);
+bool list_pred_true(list_node node, void *data);
 
 /**
  * @brief Built in total false predicate
@@ -101,7 +111,7 @@ bool fc_list_pred_true(fc_list_node node, void *data);
  * @param data No effect
  * @return false 
  */
-bool fc_list_pred_false(fc_list_node node, void *data);
+bool list_pred_false(list_node node, void *data);
 
 /*==================================================================================
     list operation function
@@ -110,9 +120,9 @@ bool fc_list_pred_false(fc_list_node node, void *data);
 /**
  * @brief Create a linked list
  * 
- * @return fc_list_head References to linked lists
+ * @return list_head References to linked lists
  */
-fc_list_head fc_list_create(void);
+list_head list_create(void);
 
 /**
  * @brief Clear a linked list
@@ -123,7 +133,7 @@ fc_list_head fc_list_create(void);
  * @return true success
  * @return false failed
  */
-bool fc_list_clear(fc_list_head l, fc_list_node_data_deconstruct_cb deconstruct);
+bool list_clear(list_head l, list_node_data_deconstruct_cb deconstruct);
 
 /**
  * @brief Delete(free) a linked list
@@ -134,15 +144,15 @@ bool fc_list_clear(fc_list_head l, fc_list_node_data_deconstruct_cb deconstruct)
  * @return true success
  * @return false failed
  */
-bool fc_list_delete(fc_list_head l, fc_list_node_data_deconstruct_cb deconstruct);
+bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct);
 
 /**
  * @brief Obtain the length of the linked list
  * 
  * @param l The linked list
- * @return size_t
+ * @return list_index
  */
-size_t fc_list_length(fc_list_head l);
+list_index list_length(list_head l);
 
 /*==================================================================================
     internal operation function of linked list
@@ -156,43 +166,33 @@ size_t fc_list_length(fc_list_head l);
  * @return true if on list
  * @return false not on list or the list and node at least one of them is illegal
  */
-bool fc_list_node_is_on_list(fc_list_head l, fc_list_node n);
-
-/**
- * @brief Find the last node
- * 
- * @param l The linked list
- * @return fc_list_node 
- *      nullptr     The linked list is illegal or the linked list is empty
- *      other       found
- */
-fc_list_node fc_list_find_last_node(fc_list_head l);
+bool list_node_is_on_list(list_head l, list_node n);
 
 /**
  * @brief Find the previous node
  * 
  * @param l The linked list
  * @param n Find based on this node
- * @param fc_list_node
+ * @param list_node
  *      nullptr     not found, this is an empty/illegal linked list
  *                  or this node is not in the linked list(or node is illegal)
  *                  or this node is the 1st node in the list
- *      other       found
+ *      others      found
  */
-fc_list_node fc_list_find_prev_node(fc_list_head l, fc_list_node n);
+list_node list_find_prev_node(list_head l, list_node n);
 
 /**
  * @brief Find the next node
  *
  * @param l The linked list
  * @param n Find based on this node
- * @param fc_list_node
+ * @param list_node
  *      nullptr     not found, this is an empty/illegal linked list
  *                  or this node is not in the linked list(or node is illegal)
  *                  or this node is the last node in the list
- *      other       found
+ *      others      found
  */
-fc_list_node fc_list_find_next_node(fc_list_head l, fc_list_node n);
+list_node list_find_next_node(list_head l, list_node n);
 
 /**
  * @brief Push nodes
@@ -204,7 +204,7 @@ fc_list_node fc_list_find_next_node(fc_list_head l, fc_list_node n);
  * @return true success
  * @return false failed
  */
-bool fc_list_push(fc_list_head l, void* data, size_t data_size);
+bool list_push(list_head l, void* data, size_t data_size);
 
 /**
  * @brief Pop nodes
@@ -214,22 +214,22 @@ bool fc_list_push(fc_list_head l, void* data, size_t data_size);
  * @return true success
  * @return false failed
  */
-bool fc_list_pop(fc_list_head l);
+bool list_pop(list_head l);
 
 /**
  * @brief Find nodes through predicate
- * @details you can use `fc_list_find_if(l, null, fc_list_pred_true)` to get the 1st node
+ * @details you can use `fc_list_find_if(l, null, list_pred_true)` to get the 1st node
  * 
  * @param l The linked list to be searched
  * @param data The data provided to the predicate, related to search
  * @param pred Determine whether it is a predicate for a specified node, you must give a predicate
- * @return fc_list_node
+ * @return list_node
  *      nullptr     not found or the list is illegal
  *                  or not have a predicate
  *                  or the list is empty
- *      other       found
+ *      others      found
  */
-fc_list_node fc_list_find_if(fc_list_head l, void *data, fc_list_pred pred);
+list_node list_find_if(list_head l, void *data, list_pred pred);
 
 /**
  * @brief Push nodes through predicate
@@ -243,7 +243,7 @@ fc_list_node fc_list_find_if(fc_list_head l, void *data, fc_list_pred pred);
  * @return true success
  * @return false failed
  */
-bool fc_list_push_if(fc_list_head l, void *data, size_t data_size, fc_list_pred pred, fc_list_node_data_construct_cb construct);
+bool list_push_if(list_head l, void *data, size_t data_size, list_pred pred, list_node_data_construct_cb construct);
 
 /**
  * @brief Pop nodes through predicate
@@ -256,7 +256,7 @@ bool fc_list_push_if(fc_list_head l, void *data, size_t data_size, fc_list_pred 
  * @return true success
  * @return false failed
  */
-bool fc_list_pop_if(fc_list_head l, void *data, fc_list_pred pred, fc_list_node_data_deconstruct_cb deconstruct);
+bool list_pop_if(list_head l, void *data, list_pred pred, list_node_data_deconstruct_cb deconstruct);
 
 /**
  * @brief Remove a node
@@ -269,7 +269,7 @@ bool fc_list_pop_if(fc_list_head l, void *data, fc_list_pred pred, fc_list_node_
  * @return true success
  * @return false failed
  */
-bool fc_list_remove_if(fc_list_head l, void *data, fc_list_pred pred, fc_list_node_data_deconstruct_cb deconstruct);
+bool list_remove_if(list_head l, void *data, list_pred pred, list_node_data_deconstruct_cb deconstruct);
 
 /**
  * @details Swap the logical positions of two nodes
@@ -282,7 +282,7 @@ bool fc_list_remove_if(fc_list_head l, void *data, fc_list_pred pred, fc_list_no
  * @return true Returns true only when the exchange is successful or when the same node is passed in
  * @return false
  */
-bool fc_list_swap_if(fc_list_head l, void *data1, void *data2, fc_list_pred pred1, fc_list_pred pred2);
+bool list_swap_if(list_head l, void *data1, void *data2, list_pred pred1, list_pred pred2);
 
 /**
  * @brief Traversing linked lists
@@ -293,8 +293,57 @@ bool fc_list_swap_if(fc_list_head l, void *data1, void *data2, fc_list_pred pred
  * @param true      success
  * @param false     failed
  */
-bool fc_list_trav(fc_list_head l, void *data, fc_list_event_cb event_cb);
+bool list_trav(list_head l, void *data, list_event_cb event_cb);
 
-#endif  // !__FC_LIST_H__
+/*==================================================================================
+    parameter acquisition API
+==================================================================================*/
+
+/**
+ * @brief Find the first node
+ *
+ * @param l The linked list
+ * @return list_node
+ *      nullptr     The linked list is illegal or the linked list is empty
+ *      others      found
+ */
+list_node list_get_first_node(list_head l);
+
+/**
+ * @brief Find the last node
+ *
+ * @param l The linked list
+ * @return list_node
+ *      nullptr     The linked list is illegal or the linked list is empty
+ *      others      found
+ */
+list_node list_get_last_node(list_head l);
+
+/**
+ * @brief Obtain data for the node at the specified index
+ * 
+ * @param l The linked list
+ * @param ind index(0,1,2,...,max(list_index))
+ * @return void*
+ *      nullptr     Index out of bounds or the list is illegal
+ *      others      The data of the node at the index
+ */
+void* list_get_node_data(list_head l, list_index ind);
+
+/**
+ * @brief Obtain data at a specified node through a predicate
+ * 
+ * @param l The linked list
+ * @param data user data
+ * @param pred Predicate used to determine whether it is a specified node, you must give
+ * @return void*
+ *      nullptr     not found or the list is illegal
+ *                  or not have predicate
+ *                  or the list is empty
+ *      others      The data of the node
+ */
+void* list_get_node_data_if(list_head l, void *data, list_pred pred);
+
+#endif  // !__LIST_H__
 
 

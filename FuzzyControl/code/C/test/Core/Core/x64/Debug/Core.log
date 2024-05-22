@@ -1,3 +1,4 @@
 ﻿  main.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\Core\main.c(41,51): warning C4311: “类型强制转换”: 从“fc_list_head”到“unsigned int”的指针截断
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\Core\main.c(41,12): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“list **”
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\Core\main.c(41,12): warning C4313: "printf": 格式字符串中的 "%X" 与类型为 "list **" 的参数 1 冲突
   Core.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\x64\Debug\Core.exe

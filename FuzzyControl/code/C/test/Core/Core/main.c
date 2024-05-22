@@ -3,9 +3,9 @@
 #include <time.h>
 #include "fc.h"
 
-fc_list_head l;
+list_head l;
 
-static bool int_pred_eq(fc_list_node node, void* data)
+static bool int_pred_eq(list_node node, void* data)
 {
     return *((int*)(node->data)) == *((int*)data);
 }
@@ -22,14 +22,14 @@ static bool int_deconstruct(void* data)
     return true;
 }
 
-static bool int_trav(fc_list_node node, void* data)
+static bool int_trav(list_node node, void* data)
 {
-    //printf("%d  ", *((int*)(node->data)));
-    for (int i = 0; i < *((int*)(node->data)); i++)
+    printf("%d  ", *((int*)(node->data)));
+    /*for (int i = 0; i < *((int*)(node->data)); i++)
     {
         printf("*");
     }
-    printf("    %d\r\n", *((int*)(node->data)));
+    printf("    %d\r\n", *((int*)(node->data)));*/
     return true;
 }
 
@@ -37,8 +37,8 @@ int main()
 {
     srand((unsigned int)time(NULL));
 
-    l = fc_list_create();
-    printf("list place: 0x%X\r\n", (unsigned int)l);
+    l = list_create();
+    printf("list place: 0x%X\r\n", &(*l));
     
     // push
     printf("\r\n\n=========================================================\r\n");
@@ -47,11 +47,11 @@ int main()
     for (int i = 1; i <= 10; i++)
     {
         printf("\r\n\n");
-        printf("[%d] before push list length: %d\r\n", i, (int)fc_list_length(l));
-        bool ret = fc_list_push(l, &i, sizeof(i));
+        printf("[%d] before push list length: %d\r\n", i, (int)list_length(l));
+        bool ret = list_push(l, &i, sizeof(i));
         printf("[%d] push %s\r\n", i, ret ? ("success") : ("failed"));
-        printf("[%d] after push list length: %d\r\n", i, (int)fc_list_length(l));
-        fc_list_node ln = fc_list_find_last_node(l);
+        printf("[%d] after push list length: %d\r\n", i, (int)list_length(l));
+        list_node ln = list_get_last_node(l);
         if (ln != nullptr)
         {
             int* a = ln->data;
@@ -70,11 +70,11 @@ int main()
     for (int i = 1; i <= 10; i++)
     {
         printf("\r\n\n");
-        printf("[%d] before pop list length: %d\r\n", i, (int)fc_list_length(l));
-        bool ret = fc_list_pop(l);
+        printf("[%d] before pop list length: %d\r\n", i, (int)list_length(l));
+        bool ret = list_pop(l);
         printf("[%d] pop %s\r\n", i, ret ? ("success") : ("failed"));
-        printf("[%d] after pop list length: %d\r\n", i, (int)fc_list_length(l));
-        fc_list_node ln = fc_list_find_last_node(l);
+        printf("[%d] after pop list length: %d\r\n", i, (int)list_length(l));
+        list_node ln = list_get_last_node(l);
         if (ln != nullptr)
         {
             int* a = ln->data;
@@ -93,11 +93,11 @@ int main()
     for (int i = 1; i <= 20; i++)
     {
         printf("\r\n\n");
-        printf("[%d] before push list length: %d\r\n", i, (int)fc_list_length(l));
-        bool ret = fc_list_push(l, &i, sizeof(i));
+        printf("[%d] before push list length: %d\r\n", i, (int)list_length(l));
+        bool ret = list_push(l, &i, sizeof(i));
         printf("[%d] push %s\r\n", i, ret ? ("success") : ("failed"));
-        printf("[%d] after push list length: %d\r\n", i, (int)fc_list_length(l));
-        fc_list_node ln = fc_list_find_last_node(l);
+        printf("[%d] after push list length: %d\r\n", i, (int)list_length(l));
+        list_node ln = list_get_last_node(l);
         if (ln != nullptr)
         {
             int* a = ln->data;
@@ -113,27 +113,27 @@ int main()
     //printf("\r\n\n=========================================================\r\n");
     //printf("clear\r\n");
     //printf("=========================================================\r\n");
-    //printf("before clear list length: %d\r\n", (int)fc_list_length(l));
-    //fc_list_clear(l, nullptr);
-    //printf("after clear list length: %d\r\n", (int)fc_list_length(l));
+    //printf("before clear list length: %d\r\n", (int)list_length(l));
+    //list_clear(l, nullptr);
+    //printf("after clear list length: %d\r\n", (int)list_length(l));
 
     // find_if
     printf("\r\n\n=========================================================\r\n");
     printf("find_if\r\n");
     printf("=========================================================\r\n");
     {
-        fc_list_head ll = fc_list_create();
+        list_head ll = list_create();
         for (int i = 1; i <= 100; i++)
         {
             printf("to find data = %d\r\n", i);
-            fc_list_node n = fc_list_find_if(l, &i, int_pred_eq);
+            list_node n = list_find_if(l, &i, int_pred_eq);
             printf("find_if %s\r\n", n ? ("success") : ("failed"));
             if (n)
             {
-                fc_list_push(ll, &i, sizeof(i));
+                list_push(ll, &i, sizeof(i));
             }
         }
-        fc_list_node n = fc_list_find_if(ll, nullptr, fc_list_pred_true);  // to get the 1st node
+        list_node n = list_find_if(ll, nullptr, list_pred_true);  // to get the 1st node
         printf("\r\n\n");
         if (n == nullptr) printf("not found any node, which data is between 1 and 100\r\n");
         printf("the list has number: \r\n");
@@ -144,7 +144,7 @@ int main()
             n = n->next;
         }
         printf("\r\n\n");
-        fc_list_delete(ll, nullptr);
+        list_delete(ll, nullptr);
     }
 
     // remove_if
@@ -155,9 +155,9 @@ int main()
     {
         int num = rand() % i;
         printf("\r\n\n");
-        printf("[%d] before remove_if list length: %d\r\n", i, (int)fc_list_length(l));
+        printf("[%d] before remove_if list length: %d\r\n", i, (int)list_length(l));
         printf("will remove: %d\r\n", num);
-        bool ret = fc_list_remove_if(l, &num, int_pred_eq, int_deconstruct);
+        bool ret = list_remove_if(l, &num, int_pred_eq, int_deconstruct);
         printf("[%d] remove_if %s\r\n", i, ret ? ("success") : ("failed"));
     }
 
@@ -165,16 +165,16 @@ int main()
     printf("\r\n\n=========================================================\r\n");
     printf("swap_if\r\n");
     printf("=========================================================\r\n");
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         int n1, n2;
         for (int i = 1; i <= 1; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        printf("list length: %d\r\n", (int)fc_list_length(l));
+        printf("list length: %d\r\n", (int)list_length(l));
         printf("before swap node data: \r\n");
-        fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        list_node n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -182,10 +182,10 @@ int main()
         }
         printf("\r\n");
         n1 = 1; n2 = 1;
-        bool ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        bool ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -194,16 +194,16 @@ int main()
         printf("\r\n\n");
     }
 
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         int n1, n2;
         for (int i = 1; i <= 2; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        printf("list length: %d\r\n", (int)fc_list_length(l));
+        printf("list length: %d\r\n", (int)list_length(l));
         printf("before swap node data: \r\n");
-        fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        list_node n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -211,10 +211,10 @@ int main()
         }
         printf("\r\n");
         n1 = 1; n2 = 2;
-        bool ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        bool ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -223,16 +223,16 @@ int main()
         printf("\r\n\n");
     }
 
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         int n1, n2;
         for (int i = 1; i <= 3; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        printf("list length: %d\r\n", (int)fc_list_length(l));
+        printf("list length: %d\r\n", (int)list_length(l));
         printf("before swap node data: \r\n");
-        fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        list_node n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -240,10 +240,10 @@ int main()
         }
         printf("\r\n");
         n1 = 2; n2 = 1;
-        bool ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        bool ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -252,16 +252,16 @@ int main()
         printf("\r\n\n");
     }
 
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         int n1, n2;
         for (int i = 1; i <= 3; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        printf("list length: %d\r\n", (int)fc_list_length(l));
+        printf("list length: %d\r\n", (int)list_length(l));
         printf("before swap node data: \r\n");
-        fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        list_node n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -269,10 +269,10 @@ int main()
         }
         printf("\r\n");
         n1 = 2; n2 = 3;
-        bool ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        bool ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -281,16 +281,16 @@ int main()
         printf("\r\n\n");
     }
 
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         int n1, n2;
         for (int i = 1; i <= 10; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        printf("list length: %d\r\n", (int)fc_list_length(l));
+        printf("list length: %d\r\n", (int)list_length(l));
         printf("before swap node data: \r\n");
-        fc_list_node n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        list_node n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -298,10 +298,10 @@ int main()
         }
         printf("\r\n");
         n1 = 1; n2 = 9;
-        bool ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        bool ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -310,7 +310,7 @@ int main()
         printf("\r\n\n");
 
         printf("before swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -318,10 +318,10 @@ int main()
         }
         printf("\r\n");
         n1 = 1; n2 = 10;
-        ret = fc_list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
+        ret = list_swap_if(l, &n1, &n2, int_pred_eq, int_pred_eq);
         printf("swap_if %s\r\n", ret ? ("success") : ("failed"));
         printf("after swap node data: \r\n");
-        n = fc_list_find_if(l, nullptr, fc_list_pred_true);
+        n = list_find_if(l, nullptr, list_pred_true);
         while (n)
         {
             printf("%d  ", *((int*)(n->data)));
@@ -334,17 +334,62 @@ int main()
     printf("\r\n\n=========================================================\r\n");
     printf("trav\r\n");
     printf("=========================================================\r\n");
-    fc_list_clear(l, nullptr);
+    list_clear(l, nullptr);
     {
         for (int i = 0; i <= 20; i++)
         {
-            fc_list_push(l, &i, sizeof(i));
+            list_push(l, &i, sizeof(i));
         }
-        fc_list_trav(l, nullptr, int_trav);
+        list_trav(l, nullptr, int_trav);
         printf("\r\n\n");
     }
 
-    fc_list_delete(l, nullptr);
+    // get node data
+    printf("\r\n\n=========================================================\r\n");
+    printf("get node data\r\n");
+    printf("=========================================================\r\n");
+    list_clear(l, nullptr);
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            list_push(l, &i, sizeof(i));
+        }
+        printf("list node data: \r\n");
+        list_trav(l, nullptr, int_trav);
+        printf("\r\n\n");
+        int* num;
+        printf("list_get_node_data\r\n");
+        num = list_get_node_data(l,             1);
+        printf("to get the node, which index is 1: %d\r\n",  num ? *num : -1);
+        num = list_get_node_data(l,             6);
+        printf("to get the node, which index is 6: %d\r\n",  num ? *num : -1);
+        num = list_get_node_data(l,             14);
+        printf("to get the node, which index is 14: %d\r\n", num ? *num : -1);
+        num = list_get_node_data(l,             18);
+        printf("to get the node, which index is 18: %d\r\n", num ? *num : -1);
+        num = list_get_node_data(l,             22);
+        printf("to get the node, which index is 22: %d\r\n", num ? *num : -1);
+
+        printf("list_get_node_data_if\r\n");
+        int a;
+        a = 1;
+        num = list_get_node_data_if(l, &a, int_pred_eq);
+        printf("to get the node, which index is 1: %d\r\n", num ? *num : -1);
+        a = 6;
+        num = list_get_node_data_if(l, &a, int_pred_eq);
+        printf("to get the node, which index is 6: %d\r\n", num ? *num : -1);
+        a = 14;
+        num = list_get_node_data_if(l, &a, int_pred_eq);
+        printf("to get the node, which index is 14: %d\r\n", num ? *num : -1);
+        a = 18;
+        num = list_get_node_data_if(l, &a, int_pred_eq);
+        printf("to get the node, which index is 18: %d\r\n", num ? *num : -1);
+        a = 22;
+        num = list_get_node_data_if(l, &a, int_pred_eq);
+        printf("to get the node, which index is 22: %d\r\n", num ? *num : -1);
+    }
+
+    list_delete(l, nullptr);
 
     return 0;
 }

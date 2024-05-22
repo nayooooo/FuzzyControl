@@ -30,7 +30,7 @@
     <ClCompile Include="main.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\core\fc_list.c">
+    <ClCompile Include="..\..\..\src\core\list.c">
       <Filter>FuzzyControl\core\源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="..\..\..\src\core\fc_error.h">
       <Filter>FuzzyControl\core\头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\core\fc_list.h">
+    <ClInclude Include="..\..\..\src\core\list.h">
       <Filter>FuzzyControl\core\头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\core\fc_std.h">
