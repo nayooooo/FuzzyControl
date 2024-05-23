@@ -1,7 +1,17 @@
+/*****************************************************************//**
+ * \file   fuzzy_opera.h
+ * \brief  Here we only discuss the operations between different
+ *         fuzzy subsets/relationships
+ * 
+ * \author nayooooo
+ * \date   May 2024
+ *********************************************************************/
+
 #ifndef __FUZZY_OPERA_H__
 #define __FUZZY_OPERA_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /*==================================================================================
     structure
@@ -49,8 +59,52 @@ static fuzzy_number _fuzzy_opera_mul(fuzzy_number mul1, fuzzy_number mul2);
  */
 static fuzzy_number _fuzzy_opera_div(fuzzy_number div1, fuzzy_number div2);
 
+/**
+ * @brief The union operation of a single fuzzy number
+ *
+ * @param uni1
+ * @param uni2
+ * @return fuzzy_number result
+ */
+static fuzzy_number _fuzzy_opera_uni(fuzzy_number uni1, fuzzy_number uni2);
+
+/**
+ * @brief The intersection operation of a single fuzzy number
+ *
+ * @param int1
+ * @param int2
+ * @return fuzzy_number result
+ */
+static fuzzy_number _fuzzy_opera_int(fuzzy_number int1, fuzzy_number int2);
+
+/**
+ * @brief The complement operation of a single fuzzy number
+ *
+ * @param com
+ * @return fuzzy_number result
+ */
+static fuzzy_number _fuzzy_opera_com(fuzzy_number com);
+
 /*==================================================================================
     Fuzzy operation API
 ==================================================================================*/
 
+/**
+ * @brief Invert matrices/vectors
+ * @details This function does not request memory, you need to apply for the memory
+ *          of MVT before running this function
+ * @note A two-dimensional array that can only handle requests for second level
+ *       pointers
+ * 
+ * @param mv Transposed matrix/vector
+ * @param row The number of rows in the transposed matrix/vector
+ * @param col The number of columns in the transposed matrix/vector
+ * @param mvt Memory for storing transposed matrices/vectors
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_opera_trans(fuzzy_number **mv, size_t row, size_t col, fuzzy_number **mvt);
+
 #endif  // !__FUZZY_OPERA_H__
+
+
