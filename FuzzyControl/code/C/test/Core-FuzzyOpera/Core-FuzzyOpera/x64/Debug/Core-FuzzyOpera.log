@@ -1,3 +1,7 @@
-﻿  main.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(28,20): warning C4244: “=”: 从“size_t”转换到“float”，可能丢失数据
+﻿  fuzzy_opera.c
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(152,5): warning C4013: “printf”未定义；假设外部返回 int
+  main.c
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(17,8): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(39,21): warning C4244: “=”: 从“size_t”转换到“fuzzy_number”，可能丢失数据
+  正在生成代码...
   Core-FuzzyOpera.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\x64\Debug\Core-FuzzyOpera.exe

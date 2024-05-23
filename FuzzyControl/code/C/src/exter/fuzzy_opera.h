@@ -1,7 +1,19 @@
 /*****************************************************************//**
  * \file   fuzzy_opera.h
- * \brief  Here we only discuss the operations between different
- *         fuzzy subsets/relationships
+ * \brief  This file is used to handle fuzzy matrix operations
+ * \note   When using, first declare a matrix, then use
+ *         fuzzy_matrix_it to initialize the matrix (you can also
+ *         manually initialize it, but the risk is relatively high).
+ *         After initialization, use fuzzy_matrix_create to create
+ *         the matrix. After completing the above operations, you can
+ *         operate on the matrix. Remember to use fuzzy_matrix_delete
+ *         to destroy the matrix at the end.
+ *         Except for some APIs that require matrix creation in
+ *         advance, there is no need to create a matrix in advance.
+ *         To reduce the number of memory application operations,
+ *         this file chooses to believe that the matrix entered by
+ *         the user is safe (initialized, created and destroyed
+ *         using the provided API).
  * 
  * \author nayooooo
  * \date   May 2024
@@ -19,71 +31,82 @@
 
 typedef float fuzzy_number;
 
+/**
+ * @brief Fuzzy matrix
+ * 
+ * @memberof mat matrix 
+ * @memberof row matrix rows
+ * @memberof col matrix columns
+ */
+struct fuzzy_matrix
+{
+    fuzzy_number** mat;
+    size_t row;
+    size_t col;
+};
+
+/**
+ * @brief event callback function
+ *
+ * @param fn Fuzzy number
+ * @param data Data user gave
+ * @return bool
+ *      true        success
+ *      false       failed
+ */
+typedef bool (*fuzzy_opera_event_cb)(fuzzy_number fn, void* data);
+
 /*==================================================================================
-    Internal Fuzzy Operation API
+    Fuzzy Matrix API
 ==================================================================================*/
 
 /**
- * @brief The addition operation of a single fuzzy number
+ * @brief Initialize Fuzzy Matrix
  * 
- * @param add1 Addend 1
- * @param add2 Addend 2
- * @return fuzzy_number result
+ * @param mat Pointer to the fuzzy matrix to be initialized
+ * @return true success
+ * @return false failed
  */
-static fuzzy_number _fuzzy_opera_add(fuzzy_number add1, fuzzy_number add2);
+bool fuzzy_matrix_init(struct fuzzy_matrix* mat);
 
 /**
- * @brief The subtraction operation of a single fuzzy number
+ * @brief Create a fuzzy matrix
  * 
- * @param sub1 Subtracted number
- * @param sub2 Subtraction
- * @return fuzzy_number result
+ * @param mat Pointer to the fuzzy matrix to be created
+ * @param row Fuzzy matrix rows
+ * @param col Fuzzy matrix columns
+ * @return true success
+ * @return false failed
  */
-static fuzzy_number _fuzzy_opera_sub(fuzzy_number sub1, fuzzy_number sub2);
+bool fuzzy_matrix_create(struct fuzzy_matrix *mat, size_t row, size_t col);
 
 /**
- * @brief The multiplication operation of a single fuzzy number
+ * @brief Destroy Fuzzy Matrix
  * 
- * @param mul1 Multiplicand
- * @param mul2 Multiplier
- * @return fuzzy_number result
+ * @param mat Pointer to the fuzzy matrix to be deleted
+ * @return true success
+ * @return false failed
  */
-static fuzzy_number _fuzzy_opera_mul(fuzzy_number mul1, fuzzy_number mul2);
+bool fuzzy_matrix_delete(struct fuzzy_matrix* mat);
 
 /**
- * @brief The division operation of a single fuzzy number
+ * @brief Traversing matrix
  * 
- * @param div1 Dividend
- * @param div2 Divisor
- * @return fuzzy_number result
+ * @param mat Pointer to the fuzzy matrix to be traversed
+ * @param data Data user gave
+ * @param event_cb Event callbacks that each fuzzy number needs to execute, you must give
+ * @return true success
+ * @return false failed
  */
-static fuzzy_number _fuzzy_opera_div(fuzzy_number div1, fuzzy_number div2);
+bool fuzzy_matrix_trav(struct fuzzy_matrix* mat, void *data, fuzzy_opera_event_cb event_cb);
 
 /**
- * @brief The union operation of a single fuzzy number
- *
- * @param uni1
- * @param uni2
- * @return fuzzy_number result
+ * @brief Print Matrix
+ * 
+ * @param mat Pointer to the fuzzy matrix to be printed
+ * @param label label
  */
-static fuzzy_number _fuzzy_opera_uni(fuzzy_number uni1, fuzzy_number uni2);
-
-/**
- * @brief The intersection operation of a single fuzzy number
- *
- * @param int1
- * @param int2
- * @return fuzzy_number result
- */
-static fuzzy_number _fuzzy_opera_int(fuzzy_number int1, fuzzy_number int2);
-
-/**
- * @brief The complement operation of a single fuzzy number
- *
- * @param com
- * @return fuzzy_number result
- */
-static fuzzy_number _fuzzy_opera_com(fuzzy_number com);
+void fuzzy_matrix_print(struct fuzzy_matrix* mat, const char* label);
 
 /*==================================================================================
     Fuzzy operation API
@@ -91,19 +114,27 @@ static fuzzy_number _fuzzy_opera_com(fuzzy_number com);
 
 /**
  * @brief Invert matrices/vectors
- * @details This function does not request memory, you need to apply for the memory
- *          of MVT before running this function
- * @note A two-dimensional array that can only handle requests for second level
- *       pointers
+ * @details Please note that if matT has been applied to matrix memory, it will be
+ *          cleared, even if the transpose fails
  * 
- * @param mv Transposed matrix/vector
- * @param row The number of rows in the transposed matrix/vector
- * @param col The number of columns in the transposed matrix/vector
- * @param mvt Memory for storing transposed matrices/vectors
+ * @param mat Transposed matrix/vector, You need to create and assign values in advance
+ * @param matT Memory for storing transposed matrices/vectors, it can be a matrix
+ *            that has already been created or an uncreated matrix
  * @return true success
  * @return false failed
  */
-bool fuzzy_opera_trans(fuzzy_number **mv, size_t row, size_t col, fuzzy_number **mvt);
+bool fuzzy_opera_trans(struct fuzzy_matrix *mat, struct fuzzy_matrix *matT);
+
+/**
+ * @brief Direct product of fuzzy matrices
+ * 
+ * @param mat1
+ * @param mat2
+ * @param result
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_opera_dir_pro(struct fuzzy_matrix* mat1, struct fuzzy_matrix* mat2, struct fuzzy_matrix* result);
 
 #endif  // !__FUZZY_OPERA_H__
 
