@@ -62,6 +62,8 @@ typedef bool (*fuzzy_opera_event_cb)(fuzzy_number fn, void* data);
 
 /**
  * @brief Initialize Fuzzy Matrix
+ * @details Please note that do not call this function directly
+ *          after creating a matrix to avoid memory leaks!
  * 
  * @param mat Pointer to the fuzzy matrix to be initialized
  * @return true success
@@ -84,10 +86,19 @@ bool fuzzy_matrix_create(struct fuzzy_matrix *mat, size_t row, size_t col);
  * @brief Destroy Fuzzy Matrix
  * 
  * @param mat Pointer to the fuzzy matrix to be deleted
- * @return true success
+ * @return true success or no need to destroy (i.e. no memory requested)
  * @return false failed
  */
 bool fuzzy_matrix_delete(struct fuzzy_matrix* mat);
+
+/**
+ * @brief Copy the source fuzzy matrix to the target fuzzy matrix
+ * @details The target fuzzy matrix will be destroyed
+ * 
+ * @param dst Objective Fuzzy Matrix
+ * @param src Source Fuzzy Matrix
+ */
+bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src);
 
 /**
  * @brief Traversing matrix
@@ -127,9 +138,11 @@ bool fuzzy_opera_trans(struct fuzzy_matrix *mat, struct fuzzy_matrix *matT);
 
 /**
  * @brief Direct product of fuzzy matrices
+ * @details Please note that if matT has been applied to matrix memory, it will be
+ *          cleared, even if direct product solution failed
  * 
- * @param mat1
- * @param mat2
+ * @param mat1 Direct product left term
+ * @param mat2 Direct product right term
  * @param result
  * @return true success
  * @return false failed

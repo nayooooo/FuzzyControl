@@ -1,7 +1,10 @@
 ﻿  fuzzy_opera.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(152,5): warning C4013: “printf”未定义；假设外部返回 int
-  main.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(17,8): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(39,21): warning C4244: “=”: 从“size_t”转换到“fuzzy_number”，可能丢失数据
-  正在生成代码...
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(210,16): warning C4477: “printf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“size_t”
+  D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(210,16):
+  请考虑在格式字符串中使用“%zu”
+  
+D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(220,16): warning C4477: “printf”: 格式字符串“%u”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“size_t”
+  D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\src\exter\fuzzy_opera.c(220,16):
+  请考虑在格式字符串中使用“%zu”
+  
   Core-FuzzyOpera.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-FuzzyOpera\x64\Debug\Core-FuzzyOpera.exe
