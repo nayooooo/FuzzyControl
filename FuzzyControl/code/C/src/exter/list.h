@@ -24,22 +24,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifndef nullptr
-#   define nullptr ((void*)0)
-#endif
-
-#ifndef UNUSED
-#   define UNUSED(x) ((void)x)
-#endif
-
-#include <stdlib.h>
-#include <string.h>
-
-#define list_malloc malloc
-#define list_free free
-
-#define list_memcpy memcpy
-
 /*==================================================================================
     structure
 ==================================================================================*/

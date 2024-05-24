@@ -2,14 +2,15 @@
  * \file   fuzzy_opera.h
  * \brief  This file is used to handle fuzzy matrix operations
  * \note   When using, first declare a matrix, then use
- *         fuzzy_matrix_it to initialize the matrix (you can also
+ *         fuzzy_matrix_init to initialize the matrix (you can also
  *         manually initialize it, but the risk is relatively high).
  *         After initialization, use fuzzy_matrix_create to create
  *         the matrix. After completing the above operations, you can
  *         operate on the matrix. Remember to use fuzzy_matrix_delete
  *         to destroy the matrix at the end.
  *         Except for some APIs that require matrix creation in
- *         advance, there is no need to create a matrix in advance.
+ *         advance, there is no need to create a matrix in advance
+ *         for others.
  *         To reduce the number of memory application operations,
  *         this file chooses to believe that the matrix entered by
  *         the user is safe (initialized, created and destroyed
@@ -25,11 +26,26 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+ /*==================================================================================
+     define
+ ==================================================================================*/
+
+#define FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE (-1)
+
+ /*==================================================================================
+     micro
+ ==================================================================================*/
+
+#define __is_fuzzy_matrix_created(m) (m->mat != nullptr)
+#define __is_fuzzy_matrix_damaged(m) (m->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __set_fuzzy_matrix_as_damaged(m) (m->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+
 /*==================================================================================
     structure
 ==================================================================================*/
 
 typedef float fuzzy_number;
+typedef long long fuzzy_size;
 
 /**
  * @brief Fuzzy matrix
@@ -41,8 +57,8 @@ typedef float fuzzy_number;
 struct fuzzy_matrix
 {
     fuzzy_number** mat;
-    size_t row;
-    size_t col;
+    fuzzy_size row;
+    fuzzy_size col;
 };
 
 /**
@@ -80,7 +96,77 @@ bool fuzzy_matrix_init(struct fuzzy_matrix* mat);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_create(struct fuzzy_matrix *mat, size_t row, size_t col);
+bool fuzzy_matrix_create(struct fuzzy_matrix *mat, fuzzy_size row, fuzzy_size col);
+
+/**
+ * @brief Apply for a matrix with a different shape, which will still
+ *        be stored in the passed in object, and the original matrix
+ *        will be destroyed
+ * @details If realloc fails, it may damage the matrix and render it unusable.
+ *          Specifically, there are two places where realloc may fail. The first
+ *          is the request for a row vector pointer array of a matrix, where
+ *          failure does not damage the matrix. The other is the realloc for each
+ *          row vector. If a row vector request fails, it will be marked as damaged.
+ *          The damaged matrix can be destroyed by calling fuzzy_matrix_delete, but
+ *          it cannot continue to be used
+ * 
+ * @param mat Pointer to the fuzzy matrix to be reshaped
+ * @param row The number of rows in the new matrix
+ * @param col The number of columns in the new matrix
+ * @return true success, if the number of rows and columns remains the same,
+ *              memory will not be reapplied for and the original memory will
+ *              not be manipulated
+ * @return false failed, not realloc or damaged matrix
+ */
+bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size col);
+
+/**
+ * @brief Applying for matrices with different shapes is safer,
+ *        but it takes up more memory
+ * 
+ * @param mat Pointer to the fuzzy matrix to be reshaped
+ * @param row The number of rows in the new matrix
+ * @param col The number of columns in the new matrix
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size col);
+
+/**
+ * @brief Clear matrix data (set the values of each element to 0)
+ * 
+ * @param mat Pointer to the fuzzy matrix to be cleared
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_clear(struct fuzzy_matrix* mat);
+
+/**
+ * @brief The vassal states pay tribute to the Chinese emperor (voluntarily
+ *        offering their matrix to the emperor, they will lose control of the matrix)
+ * 
+ * @param emperor it needs to be an empty matrix, used to receive the matrix
+ *                contributed by the vassal country to show respect
+ * @param vassal
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* emperor, struct fuzzy_matrix* vassal);
+
+/**
+ * @brief Seize the resources of the matrix
+ * @details King will seize the matrix of Brave and demote it to
+ *          a commoner (causing him to lose control of the matrix
+ *          and stare at him with a null ptr)
+ * 
+ * @param king Predator, accept damaged matrices
+ * @param brave The Brave Being Plundered, accept damaged matrices
+ * @return true success, the king successfully plundered the achievements of the brave
+ * @return false failed, the brave defended its achievements and killed the king
+ *               (destroying the matrix in the king's hands, if any), although it may
+ *               just be a damaged matrix
+ */
+bool fuzzy_matrix_rob(struct fuzzy_matrix* king, struct fuzzy_matrix* brave);
 
 /**
  * @brief Destroy Fuzzy Matrix
@@ -95,15 +181,28 @@ bool fuzzy_matrix_delete(struct fuzzy_matrix* mat);
  * @brief Copy the source fuzzy matrix to the target fuzzy matrix
  * @details The target fuzzy matrix will be destroyed
  * 
- * @param dst Objective Fuzzy Matrix
- * @param src Source Fuzzy Matrix
+ * @param dst Objective Fuzzy Matrix, accept damaged matrices
+ * @param src Source Fuzzy Matrix, matrix must be created and assigned values
+ * @return true success
+ * @return false failed
  */
 bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src);
 
 /**
+ * @brief Copy the values of elements in src to dst without involving
+ *        smemory application and destruction
+ * 
+ * @param dst Objective Fuzzy Matrix, do not accept damaged matrices
+ * @param src Source Fuzzy Matrix, matrix must be created and assigned values
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src);
+
+/**
  * @brief Traversing matrix
  * 
- * @param mat Pointer to the fuzzy matrix to be traversed
+ * @param mat Pointer to the fuzzy matrix to be traversed, matrix must be created and assigned values
  * @param data Data user gave
  * @param event_cb Event callbacks that each fuzzy number needs to execute, you must give
  * @return true success
@@ -114,7 +213,7 @@ bool fuzzy_matrix_trav(struct fuzzy_matrix* mat, void *data, fuzzy_opera_event_c
 /**
  * @brief Print Matrix
  * 
- * @param mat Pointer to the fuzzy matrix to be printed
+ * @param mat Pointer to the fuzzy matrix to be printed, matrix must be created and assigned values
  * @param label label
  */
 void fuzzy_matrix_print(struct fuzzy_matrix* mat, const char* label);
@@ -124,13 +223,12 @@ void fuzzy_matrix_print(struct fuzzy_matrix* mat, const char* label);
 ==================================================================================*/
 
 /**
- * @brief Invert matrices/vectors
+ * @brief Invert matrices
  * @details Please note that if matT has been applied to matrix memory, it will be
  *          cleared, even if the transpose fails
  * 
- * @param mat Transposed matrix/vector, You need to create and assign values in advance
- * @param matT Memory for storing transposed matrices/vectors, it can be a matrix
- *            that has already been created or an uncreated matrix
+ * @param mat Transposed matrix, matrix must be created and assigned values
+ * @param matT Memory for storing transposed matrices, accept damaged matrices
  * @return true success
  * @return false failed
  */
@@ -141,9 +239,9 @@ bool fuzzy_opera_trans(struct fuzzy_matrix *mat, struct fuzzy_matrix *matT);
  * @details Please note that if matT has been applied to matrix memory, it will be
  *          cleared, even if direct product solution failed
  * 
- * @param mat1 Direct product left term
- * @param mat2 Direct product right term
- * @param result
+ * @param mat1 Direct product left term, matrix must be created and assigned values
+ * @param mat2 Direct product right term, matrix must be created and assigned values
+ * @param result, accept damaged matrices
  * @return true success
  * @return false failed
  */

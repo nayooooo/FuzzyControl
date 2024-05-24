@@ -1,3 +1,2 @@
-﻿  main.c
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\Core\main.c(41,46): warning C4311: “类型强制转换”: 从“list **”到“int”的指针截断
+﻿  list.c
   Core.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core\x64\Debug\Core.exe
