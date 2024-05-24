@@ -116,10 +116,14 @@
 | - | - | - | - |
 | fuzzy_matrix_init | struct fuzzy_matrix* | bool | 初始化模糊矩阵，尽可能地使用此函数来初始化，而不是手动初始化，因为未来升级后，初始化配置可能被更改，如果使用此函数，将不会发生问题 |
 | fuzzy_matrix_create | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 创建指定行数和列数矩阵，同时每个元素初始值设置为0（每个bit为0） |
-| fuzzy_matrix_reshape | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 使用 `realloc` 重新申请矩阵，存在损毁矩阵的风险 |
-|||||
+| fuzzy_matrix_reshape | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 使用 `realloc` 重新申请矩阵，存在损毁矩阵的风险，另外，如果传入空矩阵，将会降级成为 `create` |
+| fuzzy_matrix_reshape_s | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 更加安全的 `reshape` ，如果传入空矩阵，将会降级成为 `create` |
+| fuzzy_matrix_clear | struct fuzzy_matrix* | bool | 将矩阵中的每个元素都设置成0（每个bit都是0） |
+| fuzzy_matrix_pay_tribute | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 纳贡函数，皇帝为表示尊敬，将自己清空以接收贡品，藩属国上贡后将失去贡品的掌控权 |
+| fuzzy_matrix_rob | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 抢夺函数，国王觊觎勇者的战利品，如果没有战利品，勇者将被逐出宫殿，有战利品的话，即使是残缺的，国王也会去抢夺，然后丢掉自己的东西。殊不知，如果国王抢夺勇者的残缺的战利品，勇者将会和他同归于尽 |
 | fuzzy_matrix_delete | struct fuzzy_matrix* | bool | 销毁创建的矩阵，注意不要将未创建矩阵且mat成员不为nullptr的参数传递给该函数，否则将会发生严重错误 |
 | fuzzy_matrix_copy | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 将源模糊矩阵深拷贝至目标模糊矩阵，如果两个矩阵的维度不一致，将会销毁目标矩阵并创建一个维度一致的矩阵 |
+| fuzzy_matrix_copy_just_elem | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 仅赋值对应位置的元素的值，不改变其他位置的元素，也不动内存 |
 | fuzzy_matrix_trav | struct fuzzy_matrix*,void*,fuzzy_opera_event_cb | bool | 遍历矩阵，并对矩阵的每个元素的值执行事件，不会改变矩阵中元素的值 |
 | fuzzy_matrix_print | struct fuzzy_matrix*,const char* | - | 打印出矩阵中每个元素的值 |
 

@@ -128,6 +128,14 @@ int main()
 		fuzzy_matrix_print(&mat, "then");
 		fuzzy_matrix_reshape_s(&mat, 6, 6);
 		fuzzy_matrix_print(&mat, "reshape_s mat");
+		fuzzy_matrix_reshape_s(&mat, 6, 7);
+		fuzzy_matrix_print(&mat, "reshape_s mat again");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_reshape(&mat, 5, 5);
+		fuzzy_matrix_print(&mat, "reshape after delete");
+
+		fuzzy_matrix_delete(&mat);
 	}
 
 	return 0;

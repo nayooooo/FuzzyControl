@@ -144,6 +144,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size c
 
     // The number of rows in the new matrix is not equal to the number of rows
     // in the original matrix, and a new application needs to be made
+    if (mat->row != row)
     {
         void* temp = nullptr;
         struct fuzzy_matrix mark;
@@ -161,6 +162,10 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size c
         temp = __fuzzy_matrix_realloc(mat->mat, row * sizeof(fuzzy_number*));
         if (temp == nullptr)
         {
+            if (__is_fuzzy_matrix_created(&mark))
+            {
+                fuzzy_matrix_delete(&mark);
+            }
             return false;
         }
         mat->mat = temp;
@@ -191,6 +196,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size c
 
     // The number of columns in the new matrix is not equal to the number of rows
     // in the original matrix, and a new application is needed
+    if (!(row <= ori_row && col == ori_col))
     {
         void *temp = nullptr;
 
@@ -244,13 +250,16 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size
     fuzzy_matrix_clear(&brave);
     fuzzy_matrix_copy_just_elem(&brave, mat);
 
-    if (!fuzzy_matrix_delete(mat))
+    struct fuzzy_matrix copy;
+    __fuzzy_matrix_memcpy(&copy, mat, sizeof(struct fuzzy_matrix));
+    fuzzy_matrix_init(mat);
+    if (!fuzzy_matrix_pay_tribute(mat, &brave))
     {
+        __fuzzy_matrix_memcpy(mat, &copy, sizeof(struct fuzzy_matrix));
         fuzzy_matrix_delete(&brave);
         return false;
     }
-
-    fuzzy_matrix_pay_tribute(mat, &brave);
+    fuzzy_matrix_delete(&copy);
 
     return true;
 }
@@ -284,17 +293,19 @@ bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* emperor, struct fuzzy_matrix*
 bool fuzzy_matrix_rob(struct fuzzy_matrix* king, struct fuzzy_matrix* brave)
 {
     if (king == nullptr || brave == nullptr) return false;
-    if (__is_fuzzy_matrix_damaged(brave)) goto king_failed;
+    if (!__is_fuzzy_matrix_created(brave)) return false;
 
-    if (0)
+    if (__is_fuzzy_matrix_damaged(brave))
     {
-    king_failed:
-        fuzzy_matrix_delete(king);
+        if (__is_fuzzy_matrix_created(king))
+            fuzzy_matrix_delete(king);
+        fuzzy_matrix_delete(brave);
         return false;
     }
 
-    fuzzy_matrix_copy(king, brave);
-    fuzzy_matrix_delete(brave);
+    fuzzy_matrix_delete(king);
+    __fuzzy_matrix_memcpy(king, brave, sizeof(struct fuzzy_matrix));
+    fuzzy_matrix_init(brave);
 
     return true;
 }
@@ -336,7 +347,7 @@ bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src)
         }
     }
 
-    if (!fuzzy_matrix_delete(dst)) return false;
+    fuzzy_matrix_delete(dst);
     if (!fuzzy_matrix_create(dst, src->row, src->col)) return false;
 
 skip_delete:

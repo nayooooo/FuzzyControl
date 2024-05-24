@@ -36,9 +36,9 @@
      micro
  ==================================================================================*/
 
-#define __is_fuzzy_matrix_created(m) (m->mat != nullptr)
-#define __is_fuzzy_matrix_damaged(m) (m->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
-#define __set_fuzzy_matrix_as_damaged(m) (m->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __is_fuzzy_matrix_created(m) ((m)->mat != nullptr)
+#define __is_fuzzy_matrix_damaged(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __set_fuzzy_matrix_as_damaged(m) ((m)->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
 
 /*==================================================================================
     structure
@@ -110,7 +110,8 @@ bool fuzzy_matrix_create(struct fuzzy_matrix *mat, fuzzy_size row, fuzzy_size co
  *          The damaged matrix can be destroyed by calling fuzzy_matrix_delete, but
  *          it cannot continue to be used
  * 
- * @param mat Pointer to the fuzzy matrix to be reshaped
+ * @param mat Pointer to the fuzzy matrix to be reshaped, if it is an empty matrix,
+ *            the function will be downgraded to "create"
  * @param row The number of rows in the new matrix
  * @param col The number of columns in the new matrix
  * @return true success, if the number of rows and columns remains the same,
@@ -123,8 +124,11 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size c
 /**
  * @brief Applying for matrices with different shapes is safer,
  *        but it takes up more memory
+ * @details During this process, it is necessary to destroy the incoming matrix.
+ *          If the matrix application is not successful, the input matrix will be retained
  * 
- * @param mat Pointer to the fuzzy matrix to be reshaped
+ * @param mat Pointer to the fuzzy matrix to be reshaped, if it is an empty matrix,
+ *            the function will be downgraded to "create"
  * @param row The number of rows in the new matrix
  * @param col The number of columns in the new matrix
  * @return true success
@@ -155,16 +159,18 @@ bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* emperor, struct fuzzy_matrix*
 
 /**
  * @brief Seize the resources of the matrix
- * @details King will seize the matrix of Brave and demote it to
- *          a commoner (causing him to lose control of the matrix
- *          and stare at him with a null ptr)
+ * @details The king looks down on warriors without spoils (matrices),
+ *          but if warriors have spoils, even if they are incomplete
+ *          (damaged matrices), the king will greedily plunder them.
+ *          However, the king can only safely seize intact spoils and
+ *          then throw away (destroy) his own belongings. If the spoils
+ *          of war are incomplete, the warrior will perish together with
+ *          the king
  * 
  * @param king Predator, accept damaged matrices
  * @param brave The Brave Being Plundered, accept damaged matrices
- * @return true success, the king successfully plundered the achievements of the brave
- * @return false failed, the brave defended its achievements and killed the king
- *               (destroying the matrix in the king's hands, if any), although it may
- *               just be a damaged matrix
+ * @return true success
+ * @return false failed
  */
 bool fuzzy_matrix_rob(struct fuzzy_matrix* king, struct fuzzy_matrix* brave);
 
