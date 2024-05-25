@@ -123,7 +123,10 @@
 | fuzzy_matrix_rob | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 抢夺函数，国王觊觎勇者的战利品，如果没有战利品，勇者将被逐出宫殿，有战利品的话，即使是残缺的，国王也会去抢夺，然后丢掉自己的东西。殊不知，如果国王抢夺勇者的残缺的战利品，勇者将会和他同归于尽 |
 | fuzzy_matrix_delete | struct fuzzy_matrix* | bool | 销毁创建的矩阵，注意不要将未创建矩阵且mat成员不为nullptr的参数传递给该函数，否则将会发生严重错误 |
 | fuzzy_matrix_copy | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 将源模糊矩阵深拷贝至目标模糊矩阵，如果两个矩阵的维度不一致，将会销毁目标矩阵并创建一个维度一致的矩阵 |
-| fuzzy_matrix_copy_just_elem | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 仅赋值对应位置的元素的值，不改变其他位置的元素，也不动内存 |
+| fuzzy_matrix_copy_just_elem | struct fuzzy_matrix*,struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 仅赋值对应位置的元素的值，不改变其他位置的元素，也不动内存，可以设置行偏移值和列偏移值 |
+| fuzzy_matrix_horzcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行横向拼接，如果输入的模板与 `dst` 是同一个矩阵，将会在函数中深度拷贝一份作为模板 |
+| fuzzy_matrix_vertcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行纵向拼接，如果输入的模板与 `dst` 是同一个矩阵，将会在函数中深度拷贝一份作为模板 |
+| fuzzy_matrix_repmat | struct fuzzy_matrix*,struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 将矩阵堆叠，如果以自己为模板进行堆叠，将会在函数中深度拷贝一份作为模板 |
 | fuzzy_matrix_trav | struct fuzzy_matrix*,void*,fuzzy_opera_event_cb | bool | 遍历矩阵，并对矩阵的每个元素的值执行事件，不会改变矩阵中元素的值 |
 | fuzzy_matrix_print | struct fuzzy_matrix*,const char* | - | 打印出矩阵中每个元素的值 |
 

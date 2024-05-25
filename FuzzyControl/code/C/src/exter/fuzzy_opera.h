@@ -146,6 +146,16 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size
 bool fuzzy_matrix_clear(struct fuzzy_matrix* mat);
 
 /**
+ * @brief Set all elements in the matrix to the specified values
+ * 
+ * @param mat Pointer to the fuzzy matrix to be set
+ * @param value
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_set_elem(struct fuzzy_matrix* mat, fuzzy_number value);
+
+/**
  * @brief The vassal states pay tribute to the Chinese emperor (voluntarily
  *        offering their matrix to the emperor, they will lose control of the matrix)
  * 
@@ -200,10 +210,50 @@ bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src)
  * 
  * @param dst Objective Fuzzy Matrix, do not accept damaged matrices
  * @param src Source Fuzzy Matrix, matrix must be created and assigned values
+ * @param offset_row Row offset
+ * @param offset_col Column offset
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src);
+bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src, fuzzy_size offset_row, fuzzy_size offset_col);
+
+/**
+ * @brief Horizontal splicing matrix
+ * @note If the input source matrix and target matrix are the same matrix,
+ *       a deep copy of the source matrix will be made in the function
+ *
+ * @param dst Matrices after concatenation
+ * @param src1 Matrix 1 to be spliced
+ * @param src2 Matrix 2 to be spliced
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_horzcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
+
+/**
+ * @brief Vertical concatenation matrix
+ *
+ * @param dst Matrices after concatenation
+ * @param src1 Matrix 1 to be spliced
+ * @param src2 Matrix 2 to be spliced
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_vertcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
+
+/**
+ * @brief Stacking matrices in two-dimensional space
+ * @note If stacked using oneself as a template, a deep copy of the template will be
+ *       made in the function
+ * 
+ * @param dst Stacked Matrix, accept damaged matrices
+ * @param src Stacking templates
+ * @param row Stacked Rows
+ * @param col Stacked Columns
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_matrix_repmat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src, fuzzy_size row, fuzzy_size col);
 
 /**
  * @brief Traversing matrix

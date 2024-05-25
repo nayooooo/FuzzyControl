@@ -107,7 +107,6 @@ int main()
 				mat.mat[r][c] = r * mat.col + c;
 			}
 		}
-
 		fuzzy_matrix_print(&mat, "ori mat");
 
 		fuzzy_matrix_reshape(&mat, 5, 5);
@@ -136,6 +135,99 @@ int main()
 		fuzzy_matrix_print(&mat, "reshape after delete");
 
 		fuzzy_matrix_delete(&mat);
+	}
+
+	{
+		printf("\r\n");
+		printf("--------------------------------\r\n");
+		printf("    repmat\r\n");
+		printf("--------------------------------\r\n");
+
+		struct fuzzy_matrix mat;
+		fuzzy_matrix_init(&mat);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
+				mat.mat[r][c] = r * mat.col + c;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+
+		struct fuzzy_matrix rep;
+		fuzzy_matrix_init(&rep);
+		fuzzy_matrix_repmat(&rep, &mat, 3, 4);
+		fuzzy_matrix_print(&rep, "rep mat");
+
+		fuzzy_matrix_repmat(&mat, &mat, 2, 2);
+		fuzzy_matrix_print(&mat, "rep mat by self");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_delete(&rep);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
+				mat.mat[r][c] = r * mat.col + c;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_create(&rep, 5, 5);
+		fuzzy_matrix_copy_just_elem(&rep, &mat, 3, 3);
+		fuzzy_matrix_print(&rep, "copy elem offset");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_delete(&rep);
+	}
+
+	{
+		printf("\r\n");
+		printf("--------------------------------\r\n");
+		printf("    horzcat\r\n");
+		printf("--------------------------------\r\n");
+
+		struct fuzzy_matrix mat;
+		fuzzy_matrix_init(&mat);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
+				mat.mat[r][c] = r * mat.col + c;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+
+		struct fuzzy_matrix mat2;
+		fuzzy_matrix_init(&mat2);
+		fuzzy_matrix_create(&mat2, 2, 5);
+		fuzzy_matrix_set_elem(&mat2, 1);
+		fuzzy_matrix_print(&mat2, "ori mat2");
+
+		struct fuzzy_matrix cat;
+		fuzzy_matrix_init(&cat);
+		fuzzy_matrix_horzcat(&cat, &mat, &mat2);
+		fuzzy_matrix_print(&cat, "horzcat mat");
+
+		fuzzy_matrix_delete(&cat);
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_print(&mat2, "ori mat2");
+		fuzzy_matrix_vertcat(&cat, &mat, &mat2);
+		fuzzy_matrix_print(&cat, "vertcat mat");
+
+		fuzzy_matrix_delete(&cat);
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_reshape_s(&mat2, 5, 2);
+		fuzzy_matrix_set_elem(&mat2, 5.6666);
+		fuzzy_matrix_print(&mat2, "ori mat2");
+		fuzzy_matrix_vertcat(&cat, &mat, &mat2);
+		fuzzy_matrix_print(&cat, "vertcat mat");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_delete(&mat2);
+		fuzzy_matrix_delete(&cat);
 	}
 
 	return 0;
