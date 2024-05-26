@@ -282,5 +282,27 @@ int main()
 		fuzzy_matrix_delete(&cat);
 	}
 
+	{
+		printf("\r\n");
+		printf("--------------------------------\r\n");
+		printf("    fuzzy opera\r\n");
+		printf("--------------------------------\r\n");
+
+		struct fuzzy_matrix mat1, mat2, mat3;
+		fuzzy_matrix_init(&mat1);
+		fuzzy_matrix_init(&mat2);
+		fuzzy_matrix_init(&mat3);
+		fuzzy_matrix_create(&mat1, 1, 3);
+		fuzzy_matrix_create(&mat2, 1, 2);
+		mat1.mat[0][0] = 0.2; mat1.mat[0][1] = 0.8; mat1.mat[0][2] = 0.5;
+		mat2.mat[0][0] = 0.7892; mat2.mat[0][1] = 0.3213;
+		fuzzy_matrix_print(&mat1, "mat1");
+		fuzzy_matrix_print(&mat2, "mat2");
+		fuzzy_opera_dir_pro(&mat3, &mat1, &mat2);
+		fuzzy_matrix_print(&mat3, "dir_pro");
+		fuzzy_opera(&mat2, &mat1, &mat3);
+		fuzzy_matrix_print(&mat2, "fuzzy_opera");
+	}
+
 	return 0;
 }

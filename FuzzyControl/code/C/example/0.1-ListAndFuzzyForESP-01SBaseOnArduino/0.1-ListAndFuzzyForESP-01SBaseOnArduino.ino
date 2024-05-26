@@ -202,6 +202,20 @@ void setup() {
         fuzzy_matrix_print(&mat2, "[mat2] ori");
         fuzzy_opera_dir_pro(&mat3, &mat, &mat2);
         fuzzy_matrix_print(&mat3, "[mat3] dir_pro");
+        
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_delete(&mat2);
+		fuzzy_matrix_delete(&mat3);
+		fuzzy_matrix_create(&mat, 1, 3);
+		fuzzy_matrix_create(&mat2, 1, 2);
+		mat.mat[0][0] = 0.2; mat.mat[0][1] = 0.8; mat.mat[0][2] = 0.5;
+		mat2.mat[0][0] = 0.7892; mat2.mat[0][1] = 0.3213;
+		fuzzy_matrix_print(&mat, "mat");
+		fuzzy_matrix_print(&mat2, "mat2");
+		fuzzy_opera_dir_pro(&mat3, &mat, &mat2);
+		fuzzy_matrix_print(&mat3, "dir_pro");
+		fuzzy_opera(&mat2, &mat, &mat3);
+		fuzzy_matrix_print(&mat2, "fuzzy_opera");
 
     fuzzy_matrix_over:
         Serial.write("\r\n\n");

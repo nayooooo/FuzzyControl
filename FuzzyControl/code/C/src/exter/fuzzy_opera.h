@@ -92,7 +92,7 @@ typedef bool (*fuzzy_opera_event_cb)(fuzzy_number fn, void* data);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_init(struct fuzzy_matrix* mat);
+bool fuzzy_matrix_init(struct fuzzy_matrix* const mat);
 
 /**
  * @brief Create a fuzzy matrix
@@ -103,7 +103,7 @@ bool fuzzy_matrix_init(struct fuzzy_matrix* mat);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_create(struct fuzzy_matrix *mat, fuzzy_size row, fuzzy_size col);
+bool fuzzy_matrix_create(struct fuzzy_matrix* const mat, const fuzzy_size row, const fuzzy_size col);
 
 /**
  * @brief Apply for a matrix with a different shape, which will still
@@ -127,7 +127,7 @@ bool fuzzy_matrix_create(struct fuzzy_matrix *mat, fuzzy_size row, fuzzy_size co
  *              not be manipulated
  * @return false failed, not realloc or damaged matrix
  */
-bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size col);
+bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, const fuzzy_size col);
 
 /**
  * @brief Applying for matrices with different shapes is safer,
@@ -143,7 +143,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size c
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size col);
+bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* const mat, const fuzzy_size row, const fuzzy_size col);
 
 /**
  * @brief Clear matrix data (set the values of each element to 0)
@@ -152,7 +152,7 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* mat, fuzzy_size row, fuzzy_size
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_clear(struct fuzzy_matrix* mat);
+bool fuzzy_matrix_clear(const struct fuzzy_matrix* const mat);
 
 /**
  * @brief Set all elements in the matrix to the specified values
@@ -162,7 +162,7 @@ bool fuzzy_matrix_clear(struct fuzzy_matrix* mat);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_set_elem(struct fuzzy_matrix* mat, fuzzy_number value);
+bool fuzzy_matrix_set_elem(const struct fuzzy_matrix* const mat, const fuzzy_number value);
 
 /**
  * @brief The vassal states pay tribute to the Chinese emperor (voluntarily
@@ -174,7 +174,7 @@ bool fuzzy_matrix_set_elem(struct fuzzy_matrix* mat, fuzzy_number value);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* emperor, struct fuzzy_matrix* vassal);
+bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* const emperor, struct fuzzy_matrix* const vassal);
 
 /**
  * @brief Seize the resources of the matrix
@@ -191,7 +191,7 @@ bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* emperor, struct fuzzy_matrix*
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_rob(struct fuzzy_matrix* king, struct fuzzy_matrix* brave);
+bool fuzzy_matrix_rob(struct fuzzy_matrix* const king, struct fuzzy_matrix* const brave);
 
 /**
  * @brief Destroy Fuzzy Matrix
@@ -200,7 +200,7 @@ bool fuzzy_matrix_rob(struct fuzzy_matrix* king, struct fuzzy_matrix* brave);
  * @return true success or no need to destroy (i.e. no memory requested)
  * @return false failed
  */
-bool fuzzy_matrix_delete(struct fuzzy_matrix* mat);
+bool fuzzy_matrix_delete(struct fuzzy_matrix* const mat);
 
 /**
  * @brief Copy the source fuzzy matrix to the target fuzzy matrix
@@ -211,7 +211,7 @@ bool fuzzy_matrix_delete(struct fuzzy_matrix* mat);
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src);
+bool fuzzy_matrix_copy(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* const src);
 
 /**
  * @brief Copy the values of elements in src to dst without involving
@@ -224,7 +224,7 @@ bool fuzzy_matrix_copy(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src)
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src, fuzzy_size offset_row, fuzzy_size offset_col);
+bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* const src, const fuzzy_size offset_row, const fuzzy_size offset_col);
 
 /**
  * @brief Horizontal splicing matrix
@@ -240,7 +240,7 @@ bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* dst, const struct fuzzy_ma
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_horzcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
+bool fuzzy_matrix_horzcat(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
 
 /**
  * @brief Vertical concatenation matrix
@@ -256,7 +256,7 @@ bool fuzzy_matrix_horzcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* s
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_vertcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
+bool fuzzy_matrix_vertcat(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2);
 
 /**
  * @brief Stacking matrices in two-dimensional space
@@ -272,7 +272,7 @@ bool fuzzy_matrix_vertcat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* s
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_repmat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* src, fuzzy_size row, fuzzy_size col);
+bool fuzzy_matrix_repmat(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* src, const fuzzy_size row, const fuzzy_size col);
 
 /**
  * @brief Traversing matrix
@@ -283,7 +283,7 @@ bool fuzzy_matrix_repmat(struct fuzzy_matrix* dst, const struct fuzzy_matrix* sr
  * @return true success
  * @return false failed
  */
-bool fuzzy_matrix_trav(struct fuzzy_matrix* mat, void *data, fuzzy_opera_event_cb event_cb);
+bool fuzzy_matrix_trav(const struct fuzzy_matrix* const mat, void* const data, const fuzzy_opera_event_cb event_cb);
 
 /**
  * @brief Print Matrix
@@ -291,7 +291,7 @@ bool fuzzy_matrix_trav(struct fuzzy_matrix* mat, void *data, fuzzy_opera_event_c
  * @param mat Pointer to the fuzzy matrix to be printed, matrix must be created and assigned values
  * @param label label
  */
-void fuzzy_matrix_print(struct fuzzy_matrix* mat, const char* label);
+void fuzzy_matrix_print(const struct fuzzy_matrix* const mat, const char* label);
 
 /*==================================================================================
     Fuzzy operation API
@@ -311,17 +311,12 @@ void fuzzy_matrix_print(struct fuzzy_matrix* mat, const char* label);
  * @return true success
  * @return false failed
  */
-bool fuzzy_opera_transpose(struct fuzzy_matrix *matT, struct fuzzy_matrix *mat);
+bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_matrix *mat);
 
 /**
  * @brief Direct product of fuzzy matrices
- * @details This function performs a direct product between "mat1" and "mat2". The
- *          right operand ("mat2") should be a single row matrix. The result is
- *          stored in "result". If the "result" already exists and matches the
- *          expected size of the product, it will be reused; Otherwise, it will be
- *          resized or newly created as needed.
- * @note This function handles memory management for "results" and may release
- *       existing data.
+ * @details Use fuzzy'opera for operations, in which memory is allocated to create
+ *          transposes of matrices unfolded by rows
  * 
  * @param result, accept damaged matrices
  * @param mat1 Direct product left term, matrix must be created and assigned values
@@ -329,7 +324,36 @@ bool fuzzy_opera_transpose(struct fuzzy_matrix *matT, struct fuzzy_matrix *mat);
  * @return true success
  * @return false failed
  */
-bool fuzzy_opera_dir_pro(struct fuzzy_matrix* result, struct fuzzy_matrix* mat1, struct fuzzy_matrix* mat2);
+bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2);
+
+/**
+ * @brief Direct product of fuzzy matrices(safe)
+ * @details This function performs a direct product between "mat1" and "mat2". The
+ *          right operand ("mat2") should be a single row matrix. The result is
+ *          stored in "result". If the "result" already exists and matches the
+ *          expected size of the product, it will be reused; Otherwise, it will be
+ *          resized or newly created as needed.
+ * @note This function handles memory management for "results" and may release
+ *       existing data.
+ *
+ * @param result, accept damaged matrices
+ * @param mat1 Direct product left term, matrix must be created and assigned values
+ * @param mat2 Direct product right term, matrix must be created and assigned values
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_opera_dir_pro_s(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2);
+
+/**
+ * @brief Perform fuzzy operations on matrices
+ * 
+ * @param result, accept damaged matrices
+ * @param mat1 Fuzzy operations left term, matrix must be created and assigned values
+ * @param mat2 Fuzzy operations right term, matrix must be created and assigned values
+ * @return true success
+ * @return false failed
+ */
+bool fuzzy_opera(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2);
 
 #ifdef __cplusplus
 } /*extern "C"*/
