@@ -48,9 +48,15 @@ int main()
 		struct fuzzy_matrix matT;
 		fuzzy_matrix_init(&matT);
 
-		fuzzy_opera_trans(&mat, &matT);
+		fuzzy_opera_transpose(&matT, &mat);
 		fuzzy_matrix_print(&mat, "mat");
 		fuzzy_matrix_print(&matT, "matT");
+
+		fuzzy_opera_transpose(&matT, &matT);
+		fuzzy_matrix_print(&matT, "matT trans by self");
+
+		fuzzy_opera_transpose(&matT, nullptr);
+		fuzzy_matrix_print(&matT, "matT trans by self no give param(1)");
 
 		fuzzy_matrix_delete(&matT);
 		fuzzy_matrix_delete(&mat);
@@ -73,15 +79,7 @@ int main()
 		mat1.mat[0][0] = 0.0058; mat1.mat[0][1] = 0.9633; mat1.mat[0][2] = 0.3978;
 		mat2.mat[0][0] = 0.8999; mat2.mat[0][1] = 0.5896;
 
-		printf("\r\n\n1st dir_pro\r\n");
-		fuzzy_opera_dir_pro(&mat1, &mat2, &result);
-		fuzzy_matrix_print(&mat1, "mat1");
-		fuzzy_matrix_print(&mat2, "mat2");
-		fuzzy_matrix_print(&result, "result");
-
-		printf("\r\n\n2nd dir_pro\r\n");
-		fuzzy_matrix_copy(&mat1, &result);
-		fuzzy_opera_dir_pro(&mat1, &mat2, &result);
+		fuzzy_opera_dir_pro(&result, &mat1, &mat2);
 		fuzzy_matrix_print(&mat1, "mat1");
 		fuzzy_matrix_print(&mat2, "mat2");
 		fuzzy_matrix_print(&result, "result");
@@ -170,6 +168,20 @@ int main()
 		{
 			for (fuzzy_size c = 0; c < mat.col; c++)
 			{
+				mat.mat[r][c] = r * mat.col + c + 1;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_repmat(&mat, nullptr, 2, 2);
+		fuzzy_matrix_print(&mat, "rep mat by self no give param(1)");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_delete(&rep);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
 				mat.mat[r][c] = r * mat.col + c;
 			}
 		}
@@ -185,7 +197,7 @@ int main()
 	{
 		printf("\r\n");
 		printf("--------------------------------\r\n");
-		printf("    horzcat\r\n");
+		printf("    horzcat and vertcat\r\n");
 		printf("--------------------------------\r\n");
 
 		struct fuzzy_matrix mat;
@@ -211,6 +223,26 @@ int main()
 		fuzzy_matrix_horzcat(&cat, &mat, &mat2);
 		fuzzy_matrix_print(&cat, "horzcat mat");
 
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
+				mat.mat[r][c] = r * mat.col + c + 1;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_copy(&mat2, &mat);
+		fuzzy_matrix_horzcat(&mat, nullptr, &mat);
+		fuzzy_matrix_print(&mat, "horzcat mat no param(1)");
+		fuzzy_matrix_copy(&mat, &mat2);
+		fuzzy_matrix_horzcat(&mat, &mat, nullptr);
+		fuzzy_matrix_print(&mat, "horzcat mat no param(2)");
+		fuzzy_matrix_copy(&mat, &mat2);
+		fuzzy_matrix_horzcat(&mat, nullptr, nullptr);
+		fuzzy_matrix_print(&mat, "horzcat mat no param(1,2)");
+
 		fuzzy_matrix_delete(&cat);
 		fuzzy_matrix_print(&mat, "ori mat");
 		fuzzy_matrix_print(&mat2, "ori mat2");
@@ -224,6 +256,26 @@ int main()
 		fuzzy_matrix_print(&mat2, "ori mat2");
 		fuzzy_matrix_vertcat(&cat, &mat, &mat2);
 		fuzzy_matrix_print(&cat, "vertcat mat");
+
+		fuzzy_matrix_delete(&mat);
+		fuzzy_matrix_create(&mat, 2, 2);
+		for (fuzzy_size r = 0; r < mat.row; r++)
+		{
+			for (fuzzy_size c = 0; c < mat.col; c++)
+			{
+				mat.mat[r][c] = r * mat.col + c + 1;
+			}
+		}
+		fuzzy_matrix_print(&mat, "ori mat");
+		fuzzy_matrix_copy(&mat2, &mat);
+		fuzzy_matrix_vertcat(&mat, nullptr, &mat);
+		fuzzy_matrix_print(&mat, "vertcat mat no param(1)");
+		fuzzy_matrix_copy(&mat, &mat2);
+		fuzzy_matrix_vertcat(&mat, &mat, nullptr);
+		fuzzy_matrix_print(&mat, "vertcat mat no param(2)");
+		fuzzy_matrix_copy(&mat, &mat2);
+		fuzzy_matrix_vertcat(&mat, nullptr, nullptr);
+		fuzzy_matrix_print(&mat, "vertcat mat no param(1,2)");
 
 		fuzzy_matrix_delete(&mat);
 		fuzzy_matrix_delete(&mat2);

@@ -12,12 +12,11 @@
         - [链表节点操作API](#链表节点操作api)
         - [参数获取API](#参数获取api)
       - [1.1.2 模糊运算](#112-模糊运算)
-      - [1.1.3 模糊集合（模糊子集）](#113-模糊集合模糊子集)
-      - [1.1.4 模糊关系](#114-模糊关系)
-      - [1.1.5 模糊集合运算](#115-模糊集合运算)
     - [1.2 算法核心框架](#12-算法核心框架)
-      - [1.2.1 核心接口](#121-核心接口)
-      - [1.2.2 接口规范](#122-接口规范)
+      - [1.2.1 模糊输入](#121-模糊输入)
+      - [1.2.2 模糊输出](#122-模糊输出)
+      - [1.2.3 模糊推理](#123-模糊推理)
+      - [1.2.4 模糊控制器](#124-模糊控制器)
     - [1.3 算法外围框架](#13-算法外围框架)
       - [1.3.1 输入数据模糊化](#131-输入数据模糊化)
       - [1.3.2 输出数据清晰化](#132-输出数据清晰化)
@@ -116,17 +115,17 @@
 | - | - | - | - |
 | fuzzy_matrix_init | struct fuzzy_matrix* | bool | 初始化模糊矩阵，尽可能地使用此函数来初始化，而不是手动初始化，因为未来升级后，初始化配置可能被更改，如果使用此函数，将不会发生问题 |
 | fuzzy_matrix_create | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 创建指定行数和列数矩阵，同时每个元素初始值设置为0（每个bit为0） |
-| fuzzy_matrix_reshape | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 使用 `realloc` 重新申请矩阵，存在损毁矩阵的风险，另外，如果传入空矩阵，将会降级成为 `create` |
-| fuzzy_matrix_reshape_s | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 更加安全的 `reshape` ，如果传入空矩阵，将会降级成为 `create` |
+| fuzzy_matrix_reshape | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 使用 `realloc` 重新申请矩阵，存在损毁矩阵的风险，如果传入空矩阵，将会被降级成 `create` |
+| fuzzy_matrix_reshape_s | struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 更加安全的 `reshape` ,如果传入空矩阵，将会被降级成 `create` |
 | fuzzy_matrix_clear | struct fuzzy_matrix* | bool | 将矩阵中的每个元素都设置成0（每个bit都是0） |
 | fuzzy_matrix_pay_tribute | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 纳贡函数，皇帝为表示尊敬，将自己清空以接收贡品，藩属国上贡后将失去贡品的掌控权 |
 | fuzzy_matrix_rob | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 抢夺函数，国王觊觎勇者的战利品，如果没有战利品，勇者将被逐出宫殿，有战利品的话，即使是残缺的，国王也会去抢夺，然后丢掉自己的东西。殊不知，如果国王抢夺勇者的残缺的战利品，勇者将会和他同归于尽 |
 | fuzzy_matrix_delete | struct fuzzy_matrix* | bool | 销毁创建的矩阵，注意不要将未创建矩阵且mat成员不为nullptr的参数传递给该函数，否则将会发生严重错误 |
-| fuzzy_matrix_copy | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 将源模糊矩阵深拷贝至目标模糊矩阵，如果两个矩阵的维度不一致，将会销毁目标矩阵并创建一个维度一致的矩阵 |
+| fuzzy_matrix_copy | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 将源模糊矩阵深拷贝至目标模糊矩阵，如果两个矩阵的维度不一致，将会销毁目标矩阵并创建一个维度一致的矩阵，然后复制源矩阵中元素的值 |
 | fuzzy_matrix_copy_just_elem | struct fuzzy_matrix*,struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 仅赋值对应位置的元素的值，不改变其他位置的元素，也不动内存，可以设置行偏移值和列偏移值 |
-| fuzzy_matrix_horzcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行横向拼接，如果输入的模板与 `dst` 是同一个矩阵，将会在函数中深度拷贝一份作为模板 |
-| fuzzy_matrix_vertcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行纵向拼接，如果输入的模板与 `dst` 是同一个矩阵，将会在函数中深度拷贝一份作为模板 |
-| fuzzy_matrix_repmat | struct fuzzy_matrix*,struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 将矩阵堆叠，如果以自己为模板进行堆叠，将会在函数中深度拷贝一份作为模板 |
+| fuzzy_matrix_horzcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行横向拼接，如果以自己为模板或者没有给拼接模板，则以自己为拼接模板进行拼接（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。注意，如果拼接失败，且问题不在于销毁dst之后申请内存失败或复制元素值失败，则会保留 `dst` |
+| fuzzy_matrix_vertcat | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 对两个矩阵进行纵向拼接，如果以自己为模板或者没有给拼接模板，则以自己为拼接模板进行拼接（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。注意，如果拼接失败，且问题不在于销毁dst之后申请内存失败或复制元素值失败，则会保留 `dst` |
+| fuzzy_matrix_repmat | struct fuzzy_matrix*,struct fuzzy_matrix*,fuzzy_size,fuzzy_size | bool | 将矩阵堆叠，如果以自己为模板或者没有给堆叠模板，则以自己为堆叠模板进行堆叠（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。注意，如果堆叠失败，且问题不在于销毁dst之后申请内存失败，则会保留 `dst` |
 | fuzzy_matrix_trav | struct fuzzy_matrix*,void*,fuzzy_opera_event_cb | bool | 遍历矩阵，并对矩阵的每个元素的值执行事件，不会改变矩阵中元素的值 |
 | fuzzy_matrix_print | struct fuzzy_matrix*,const char* | - | 打印出矩阵中每个元素的值 |
 
@@ -134,30 +133,30 @@
 
 | 名称 | 参数 | 返回值 | 描述 |
 | - | - | - | - |
-| fuzzy_opera_trans | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 模糊矩阵转置 |
-| fuzzy_opera_dir_pro | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 求模糊矩阵的直积 |
-
-#### 1.1.3 模糊集合（模糊子集）
-
-#### 1.1.4 模糊关系
-
-#### 1.1.5 模糊集合运算
+| fuzzy_opera_trans | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 模糊矩阵转置，如果以自己为模板或者没有给转置模板，则以自己为转置模板进行转置（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。注意，如果转置失败，且问题不在于销毁matT之后申请内存失败，则会保留 `matT` |
+| fuzzy_opera_dir_pro | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 求模糊矩阵的直积。注意，如果直积失败，且问题不在于销毁result之后申请内存失败，则会保留 `result` |
 
 ### 1.2 算法核心框架
 
 算法核心框架图如下：
 
-![算法核心框架.jpg](./img/算法核心框架.jpg)
+![算法核心框架.png](./img/算法核心框架.png)
 
-#### 1.2.1 核心接口
+核心需要使用链表和一些基本的模糊矩阵及其运算，在它们的基础之上，搭建起模糊控制器的输入输出和推理，之后整合三者成为模糊控制器。
 
-#### 1.2.2 接口规范
+#### 1.2.1 模糊输入
+
+#### 1.2.2 模糊输出
+
+#### 1.2.3 模糊推理
+
+#### 1.2.4 模糊控制器
 
 ### 1.3 算法外围框架
 
 算法外围框架图如下：
 
-![算法外围框架.jpg](./img/算法外围框架.jpg)
+![算法外围框架.png](./img/算法外围框架.png)
 
 #### 1.3.1 输入数据模糊化
 
