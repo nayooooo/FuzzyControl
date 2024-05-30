@@ -1,5 +1,0 @@
-﻿  fc_input.c
-  main.c
-  正在生成代码...
-D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-fc_input\Core-fc_input\main.c(58,3): warning C4013: “printf”未定义；假设外部返回 int
-  Core-fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\ICA\FuzzyControl\code\C\test\Core-fc_input\x64\Debug\Core-fc_input.exe

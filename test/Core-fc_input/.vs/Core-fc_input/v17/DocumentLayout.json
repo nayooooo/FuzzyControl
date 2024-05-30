@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|solutionrelative:Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 213,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.c",
+              "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c",
+              "RelativeDocumentMoniker": "Core-fc_input\\main.c",
+              "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c",
+              "RelativeToolTip": "Core-fc_input\\main.c",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAAACEAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-05-30T12:01:19.682Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

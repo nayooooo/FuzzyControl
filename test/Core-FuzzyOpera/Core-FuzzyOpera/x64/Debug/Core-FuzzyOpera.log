@@ -1,0 +1,27 @@
+﻿  fuzzy_opera.c
+  list.c
+  main.c
+  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(17,8): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(33,24): warning C4018: “<”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(35,25): warning C4018: “<”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(39,21): warning C4244: “=”: 从“size_t”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(79,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(79,45): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(79,70): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(80,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(80,45): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(105,33): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(122,33): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(151,33): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(171,37): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(185,33): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(210,33): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(232,37): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(255,32): warning C4305: “函数”: 从“double”到“const fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(266,37): warning C4244: “=”: 从“fuzzy_size”转换到“fuzzy_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(297,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(297,42): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(298,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(298,45): warning C4305: “=”: 从“double”到“fuzzy_number”截断
+  Core-FuzzyOpera.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\x64\Debug\Core-FuzzyOpera.exe

@@ -1,0 +1,8 @@
+﻿  fc_input.c
+  fuzzy_opera.c
+  list.c
+  main.c
+  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\Core-fc_input\main.c(58,3): warning C4013: “printf”未定义；假设外部返回 int
+  LINK : 没有找到 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\x64\Debug\Core-fc_input.exe 或上一个增量链接没有生成它；正在执行完全链接
+  Core-fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\x64\Debug\Core-fc_input.exe
