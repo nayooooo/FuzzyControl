@@ -41,14 +41,15 @@ extern "C" {
      micro
  ==================================================================================*/
 
-#define __is_fuzzy_matrix_created(m) ((m)->mat != nullptr)
-#define __is_fuzzy_matrix_damaged(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
-#define __set_fuzzy_matrix_as_damaged(m) ((m)->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __IS_FUZZY_MATRIX_CREATED(m) ((m)->mat != nullptr)
+#define __IS_FUZZY_MATRIX_DAMAGED(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __SET_FUZZY_MATRIX_AS_DAMAGED(m) ((m)->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
 
 /*==================================================================================
     structure
 ==================================================================================*/
 
+typedef float accurate_number;
 typedef float fuzzy_number;
 typedef long long fuzzy_size;
 

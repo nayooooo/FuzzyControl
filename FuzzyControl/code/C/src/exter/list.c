@@ -61,12 +61,12 @@ bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct)
     return true;
 }
 
-list_index list_length(list_head l)
+list_size list_length(list_head l)
 {
     if (l == nullptr) return 0;
     
     list_node n = *l;
-    list_index length = 0;
+    list_size length = 0;
     while (n)
     {
         length++;

@@ -13,6 +13,10 @@ extern "C" {
 #   define UNUSED(x) ((void)x)
 #endif
 
+#ifndef FUZZY_DATA_ILLEGAL_VALUE
+#   define FUZZY_DATA_ILLEGAL_VALUE (-1)
+#endif
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif
