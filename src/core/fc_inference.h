@@ -22,7 +22,7 @@ extern "C" {
  */
 struct fc_inference
 {
-    struct fc_interface obj;
+    struct fc_interface interface;
 
     bool (*register_dev)(struct fc_inference* infer, const char* name);
     bool (*unregister_dev)(struct fc_inference* infer);
@@ -45,7 +45,7 @@ struct fc_inference
  * @return true success
  * @return false failed
  */
-bool fc_inference_register(struct fc_inference* infer, const char* name);
+bool fc_inference_register(struct fc_inference* const infer, const char* name);
 
 /**
  * @brief Unregister the inference device of the fuzzy controller
@@ -54,16 +54,32 @@ bool fc_inference_register(struct fc_inference* infer, const char* name);
  * @return true success
  * @return false failed
  */
-bool fc_inference_unregister(struct fc_inference* infer);
+bool fc_inference_unregister(struct fc_inference* const infer);
 
 /**
- * @brief Perform fuzzy reasoning
+ * @brief Add the input fuzzy matrix to the inference component
+ * @note Deep copy incoming fuzzy matrix
+ * 
+ * @param infer object
+ * @param data fuzzy input matrix
+ * @param name fuzzy input matrix name
+ * @param label The label of each element of the fuzzy input matrix (i.e. the name of the fuzzy subset)
+ * @return true success
+ * @return false failed
+ */
+bool fc_inference_add_fuzzy_input_data(
+    const struct fc_inference* const infer, const struct fuzzy_matrix data,
+    const char* name, list_head label
+);
+
+/**
+ * @brief Perform fuzzy inference
  * 
  * @param infer object
  * @return true success
  * @return false failed
  */
-bool fc_inference_inference(struct fc_inference* infer);
+bool fc_inference_inference(const struct fc_inference* const infer);
 
 /**
  * @brief Print out the fuzzy relationships
@@ -72,7 +88,7 @@ bool fc_inference_inference(struct fc_inference* infer);
  * @return true success
  * @return false failed
  */
-bool fc_inference_print(struct fc_inference* infer);
+bool fc_inference_print(const struct fc_inference* const infer);
 
 #ifdef __cplusplus
 } /*extern "C"*/

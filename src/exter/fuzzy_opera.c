@@ -16,13 +16,6 @@
 #define __fuzzy_matrix_memset memset
 #define __fuzzy_matrix_memcpy memcpy
 
-#ifdef ARDUINO
-    extern int arduino_printf(const char *format, ...);
-#   define __fuzzy_matrix_printf arduino_printf
-#else
-#   define __fuzzy_matrix_printf printf
-#endif
-
 /*==================================================================================
     Internal Fuzzy Operation API
 ==================================================================================*/
@@ -628,50 +621,50 @@ void fuzzy_matrix_print(const struct fuzzy_matrix* const mat, const char* label)
 {
     if (mat == nullptr)
     {
-        __fuzzy_matrix_printf("\r\nmat is illegal!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is illegal!\r\n");
         return;
     }
     if (!__IS_FUZZY_MATRIX_CREATED(mat))
     {
-        __fuzzy_matrix_printf("\r\nmat is not be created!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is not be created!\r\n");
         return;
     }
     if (__IS_FUZZY_MATRIX_DAMAGED(mat))
     {
-        __fuzzy_matrix_printf("\r\nmat is damaged!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is damaged!\r\n");
         return;
     }
 
-    __fuzzy_matrix_printf("\r\n");
+    __FUZZY_MATRIX_PRINTF("\r\n");
     if (label != nullptr)
     {
-        __fuzzy_matrix_printf("%s: \r\n", label);
+        __FUZZY_MATRIX_PRINTF("%s: \r\n", label);
     }
-    __fuzzy_matrix_printf("\t");
+    __FUZZY_MATRIX_PRINTF("\t");
     for (fuzzy_size c = 0; c < mat->col; c++)
     {
         fuzzy_size digit = get_digit(c) + 2;
-        __fuzzy_matrix_printf("   [%llu]", c);
+        __FUZZY_MATRIX_PRINTF("   [%llu]", c);
         if ((2 - digit / 4) < 0) continue;
         for (fuzzy_size n = 0; n < 2 - digit / 4; n++)
         {
-            __fuzzy_matrix_printf("\t");
+            __FUZZY_MATRIX_PRINTF("\t");
         }
     }
-    __fuzzy_matrix_printf("\r\n");
+    __FUZZY_MATRIX_PRINTF("\r\n");
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
         fuzzy_size digit = get_digit(r) + 2;
-        __fuzzy_matrix_printf("[%llu]", r);
+        __FUZZY_MATRIX_PRINTF("[%llu]", r);
         for (fuzzy_size n = 0; n < 1 - digit / 4; n++)
         {
-            __fuzzy_matrix_printf("\t");
+            __FUZZY_MATRIX_PRINTF("\t");
         }
         for (fuzzy_size c = 0; c < mat->col; c++)
         {
-            __fuzzy_matrix_printf("%9.4f\t", mat->mat[r][c]);
+            __FUZZY_MATRIX_PRINTF("%9.4f\t", mat->mat[r][c]);
         }
-        __fuzzy_matrix_printf("\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\n");
     }
 }
 

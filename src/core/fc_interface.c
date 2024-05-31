@@ -2,7 +2,7 @@
 
 #include "fc_def.h"
 
-bool fc_interface_register(struct fc_interface* interface, const char* name, fc_obj_type type)
+bool fc_interface_register(struct fc_interface* const interface, const char* name, const fc_obj_type type)
 {
     if (interface == nullptr || name == nullptr) return false;
     if (!__IS_FC_OBJ_TYPE(type)) return false;
@@ -21,7 +21,7 @@ bool fc_interface_register(struct fc_interface* interface, const char* name, fc_
     return true;
 }
 
-bool fc_interface_unregister(struct fc_interface* interface)
+bool fc_interface_unregister(struct fc_interface* const interface)
 {
     if (interface == nullptr) return false;
 
@@ -34,12 +34,12 @@ bool fc_interface_unregister(struct fc_interface* interface)
     return true;
 }
 
-bool fc_interface_print_data(struct fc_interface* interface)
+bool fc_interface_print_data(const struct fc_interface* const interface)
 {
     if (interface == nullptr) return false;
+    if (!__IS_FC_OBJ_TYPE(interface->obj.type)) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(&(interface->data))) return false;
     if (__IS_FUZZY_MATRIX_DAMAGED(&(interface->data))) return false;
-    if (!__IS_FC_OBJ_TYPE(interface->obj.type)) return false;
 
     fuzzy_matrix_print(&(interface->data), interface->obj.name);
 

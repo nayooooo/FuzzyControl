@@ -17,15 +17,15 @@ extern "C" {
 ==================================================================================*/
 
 /**
- * @brief Membership Index and Function Pairs
+ * @brief Membership Function and Label Pairs
  * 
- * @memberof index membership index
  * @memberof fn membership fn
+ * @memberof label fn's label
  */
-struct membership_index_fn
+struct membership_fn_label
 {
-    list_index index;
     fc_membership_fn fn;
+    const char* label;
 };
 
 /**
@@ -59,7 +59,7 @@ struct fc_interface
  * @return true success
  * @return false failed
  */
-bool fc_interface_register(struct fc_interface* interface, const char* name, fc_obj_type type);
+bool fc_interface_register(struct fc_interface* const interface, const char* name, const fc_obj_type type);
 
 /**
  * @brief Unregister the interface device of the fuzzy controller
@@ -68,7 +68,7 @@ bool fc_interface_register(struct fc_interface* interface, const char* name, fc_
  * @return true success
  * @return false failed
  */
-bool fc_interface_unregister(struct fc_interface* interface);
+bool fc_interface_unregister(struct fc_interface* const interface);
 
 /**
  * @brief Print out the data
@@ -77,7 +77,7 @@ bool fc_interface_unregister(struct fc_interface* interface);
  * @return true success
  * @return false failed
  */
-bool fc_interface_print_data(struct fc_interface* interface);
+bool fc_interface_print_data(const struct fc_interface* const interface);
 
 #ifdef __cplusplus
 } /*extern "C"*/

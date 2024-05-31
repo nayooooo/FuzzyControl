@@ -13,6 +13,7 @@ extern "C" {
 
 #include "fc_interface.h"
 #include "fc_input.h"
+#include "fc_inference.h"
 
 #ifdef __cplusplus
 } /*extern "C"*/
