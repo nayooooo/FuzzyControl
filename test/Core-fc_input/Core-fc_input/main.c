@@ -53,12 +53,12 @@ int main()
 	in.add_membership_fn(&in, score_good);
 	in.add_membership_fn(&in, score_excellent);
 
-	/*for (accurate_number score = 0; score <= 100; score++)
+	for (accurate_number score = 0; score <= 100; score++)
 	{
 		printf("\r\n\nscore=%.2f\r\n", score);
 		in.fuzzing(&in, &score, 1);
 		in.print(&in);
-	}*/
+	}
 
 	accurate_number score[3] = { 59.9, 79.1, 98.6 };
 	in.fuzzing(&in, score, 3);

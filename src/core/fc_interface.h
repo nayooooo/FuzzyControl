@@ -33,8 +33,7 @@ struct membership_index_fn
  * 
  * @memberof Obj object
  * @memberof data fuzzy Data
- * @memberof l Membership index and function linked list
- *                                The membership index starts from 0
+ * @memberof l list
  */
 struct fc_interface
 {
@@ -71,70 +70,14 @@ bool fc_interface_register(struct fc_interface* interface, const char* name, fc_
  */
 bool fc_interface_unregister(struct fc_interface* interface);
 
-/*---------------------------------- Only supports input devices start ----------------------------------*/
-
 /**
- * @brief Add a membership function to the end
- * @note Only supports input devices
- * 
- * @param interface object
- * @param fn membership function
- * @param type interface type
- * @return true success
- * @return false failed
- */
-bool fc_interface_add_membership_fn(struct fc_interface* interface, fc_membership_fn fn, fc_obj_type type);
-
-/**
- * @brief Clear membership function
- * @note Only supports input devices
- * 
- * @param interface object
- * @param type interface type
- * @return true success
- * @return false failed
- */
-bool fc_interface_clear_membership_fn(struct fc_interface* interface, fc_obj_type type);
-
-/**
- * @brief Fuzzy the input data and store the obtained membership vector in member data
- * @note The previously generated membership vectors will be destroyed
- *       Only supports input devices
- * 
- * @param interface object
- * @param value Accurate sending buffer
- * @param value_size Accurate sending buffer size, determine the number of rows in a fuzzy matrix
- * @return true success
- * @return false failed
- */
-bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value, fuzzy_size value_size);
-
-/*----------------------------------- Only supports input devices end -----------------------------------*/
-
-/*--------------------------------- Only supports output devices start ----------------------------------*/
-
-/**
- * @brief Perform anti fuzzing on the output data and return the exact value obtained
- * @note Only supports output devices
- * 
- * @param interface object
- * @param value Accurate receive buffer
- * @param value_size Accurate receive buffer size
- * @return true success
- * @return false failed
- */
-bool fc_interface_unfuzzing(struct fc_interface* interface, accurate_number* value, fuzzy_size value_size);
-
-/*---------------------------------- Only supports output devices end -----------------------------------*/
-
-/**
- * @brief Print out the membership vector
+ * @brief Print out the data
  * 
  * @param interface object
  * @return true success
  * @return false failed
  */
-bool fc_interface_print_membership_vector(struct fc_interface* interface);
+bool fc_interface_print_data(struct fc_interface* interface);
 
 #ifdef __cplusplus
 } /*extern "C"*/

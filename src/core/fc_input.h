@@ -14,7 +14,7 @@ extern "C" {
 /**
  * @brief Fuzzy controller input components
  * 
- * @memberof Obj object
+ * @memberof interface object
  * @memberof register_dev register
  * @memberof unregister_dev unregister
  * @memberof add_membership_fn add membership function
@@ -24,7 +24,7 @@ extern "C" {
  */
 struct fc_input
 {
-    struct fc_interface obj;
+    struct fc_interface interface;
 
     bool (*register_dev)(struct fc_input* in, const char* name);
     bool (*unregister_dev)(struct fc_input* in);
@@ -99,6 +99,10 @@ bool fc_input_fuzzing(struct fc_input* in, accurate_number* value, fuzzy_size va
  * @return false failed
  */
 bool fc_input_print_membership_vector(struct fc_input* in);
+
+/*==================================================================================
+    API for obtaining parameters
+==================================================================================*/
 
 #ifdef __cplusplus
 } /*extern "C"*/
