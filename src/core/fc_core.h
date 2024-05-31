@@ -11,6 +11,7 @@ extern "C" {
 
 #include "fc_obj.h"
 
+#include "fc_interface.h"
 #include "fc_input.h"
 #include "fc_output.h"
 

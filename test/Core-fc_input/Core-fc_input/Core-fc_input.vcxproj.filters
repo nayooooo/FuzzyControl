@@ -48,6 +48,9 @@
     <ClCompile Include="..\..\..\src\core\fc_input.c">
       <Filter>FuzzyControl\core\源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\core\fc_interface.c">
+      <Filter>FuzzyControl\core\源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\fc.h">
@@ -78,6 +81,9 @@
       <Filter>FuzzyControl\core\头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\core\fc_std.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_interface.h">
       <Filter>FuzzyControl\core\头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,12 +5,7 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-
-#include "fc_obj.h"
-
-#include "./../exter/fuzzy_opera.h"
-#include "./../exter/list.h"
+#include "fc_interface.h"
 
 /*==================================================================================
     structure
@@ -25,10 +20,14 @@ extern "C" {
  */
 struct fc_input
 {
-    struct fc_obj obj;
+    struct fc_interface obj;
 
-    struct fuzzy_matrix data;
-    list_head membership_fns;
+    bool (*register_dev)(struct fc_input* in);
+    bool (*unregister_dev)(struct fc_input* in);
+    bool (*add_membership_fn)(struct fc_input* in, fc_membership_fn fn);
+    bool (*clear_membership_fn)(struct fc_input* in);
+    bool (*fuzzing)(struct fc_input* in, accurate_number* value, fuzzy_size value_size);
+    bool (*print)(struct fc_input* in);
 };
 
 /*==================================================================================
@@ -80,11 +79,12 @@ bool fc_input_clear_membership_fn(struct fc_input* in);
  * @note The previously generated membership vectors will be destroyed
  * 
  * @param in object
- * @param value Data that will be blurred
+ * @param value Accurate sending buffer
+ * @param value_size Accurate sending buffer size, determine the number of rows in a fuzzy matrix
  * @return true success
  * @return false failed
  */
-bool fc_input_fuzzing(struct fc_input* in, accurate_number value);
+bool fc_input_fuzzing(struct fc_input* in, accurate_number* value, fuzzy_size value_size);
 
 /**
  * @brief Print out the membership vector

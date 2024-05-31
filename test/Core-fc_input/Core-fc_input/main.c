@@ -48,19 +48,23 @@ int main()
 {
 	fc_input_register(&in);
 
-	fc_input_add_membership_fn(&in, score_failed);
-	fc_input_add_membership_fn(&in, score_pass);
-	fc_input_add_membership_fn(&in, score_good);
-	fc_input_add_membership_fn(&in, score_excellent);
+	in.add_membership_fn(&in, score_failed);
+	in.add_membership_fn(&in, score_pass);
+	in.add_membership_fn(&in, score_good);
+	in.add_membership_fn(&in, score_excellent);
 
-	for (accurate_number score = 0; score <= 100; score++)
+	/*for (accurate_number score = 0; score <= 100; score++)
 	{
 		printf("\r\n\nscore=%.2f\r\n", score);
-		fc_input_fuzzing(&in, score);
-		fc_input_print_membership_vector(&in);
-	}
+		in.fuzzing(&in, &score, 1);
+		in.print(&in);
+	}*/
 
-	fc_input_unregister(&in);
+	accurate_number score[3] = { 59.9, 79.1, 98.6 };
+	in.fuzzing(&in, score, 3);
+	in.print(&in);
+
+	in.unregister_dev(&in);
 
 	printf("Done!\r\n");
 

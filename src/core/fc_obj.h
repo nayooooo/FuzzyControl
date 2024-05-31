@@ -31,12 +31,13 @@ typedef enum
     FC_OBJ_INFERENCE,
 } fc_obj_type;
 
-#define IS_FC_OBJ_TYPE(TYPE) (((TYPE) == FC_OBJ_INPUT) || \
+#define __IS_FC_OBJ_TYPE(TYPE) (((TYPE) == FC_OBJ_INPUT) || \
                               ((TYPE) == FC_OBJ_OUTPUT) || \
                               ((TYPE) == FC_OBJ_INFERENCE))
-#define IS_FC_OBJ_TYPE_INPUT(TYPE) ((TYPE) == FC_OBJ_INPUT)
-#define IS_FC_OBJ_TYPE_OUTPUT(TYPE) ((TYPE) == FC_OBJ_OUTPUT)
-#define IS_FC_OBJ_TYPE_INFERENCE(TYPE) ((TYPE) == FC_OBJ_INFERENCE)
+#define __IS_FC_OBJ_TYPE_INPUT(TYPE) ((TYPE) == FC_OBJ_INPUT)
+#define __IS_FC_OBJ_TYPE_OUTPUT(TYPE) ((TYPE) == FC_OBJ_OUTPUT)
+#define __IS_FC_OBJ_TYPE_INFERENCE(TYPE) ((TYPE) == FC_OBJ_INFERENCE)
+#define __IS_FC_OBJ_TYPE_IS(TYPE, TARGET_TYPE) ((TYPE) == (TARGET_TYPE))
 
 /*==================================================================================
     Base object
