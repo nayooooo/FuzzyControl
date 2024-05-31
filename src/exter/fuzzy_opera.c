@@ -1,7 +1,5 @@
 #include "fuzzy_opera.h"
 
-#include <stdio.h>
-
 #ifndef nullptr
 #   define nullptr ((void*)0)
 #endif // !nullptr

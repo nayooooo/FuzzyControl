@@ -57,7 +57,7 @@ bool fc_input_clear_membership_fn(const struct fc_input* const in)
     return list_clear(in->interface.l, nullptr);
 }
 
-bool fc_input_fuzzing(const struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size)
+bool fc_input_fuzzing(struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size)
 {
     if (in == nullptr || value == nullptr) return false;
     if (value_size <= 0) return false;

@@ -30,6 +30,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include <limits.h>
+#include <stdio.h>
 
 /*==================================================================================
     define

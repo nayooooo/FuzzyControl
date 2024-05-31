@@ -32,7 +32,7 @@ struct fc_input
     bool (*unregister_dev)(struct fc_input* const in);
     bool (*add_membership_fn)(const struct fc_input* const in, const fc_membership_fn fn, const char* label);
     bool (*clear_membership_fn)(const struct fc_input* const in);
-    bool (*fuzzing)(const struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size);
+    bool (*fuzzing)(struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size);
     bool (*print)(const struct fc_input* const in);
 };
 
@@ -94,7 +94,7 @@ bool fc_input_clear_membership_fn(const struct fc_input* const in);
  * @return true success
  * @return false failed
  */
-bool fc_input_fuzzing(const struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size);
+bool fc_input_fuzzing(struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size);
 
 /**
  * @brief Print out the membership vector

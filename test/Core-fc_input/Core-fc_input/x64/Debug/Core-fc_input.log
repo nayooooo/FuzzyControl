@@ -1,5 +1,8 @@
-﻿  main.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\Core-fc_input\main.c(69,2): warning C4013: “printf”未定义；假设外部返回 int
+﻿  fc_input.c
+  fc_interface.c
+  fuzzy_opera.c
+  main.c
+  正在生成代码...
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\Core-fc_input\main.c(63,31): warning C4305: “初始化”: 从“double”到“accurate_number”截断
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\Core-fc_input\main.c(63,37): warning C4305: “初始化”: 从“double”到“accurate_number”截断
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\Core-fc_input\main.c(63,43): warning C4305: “初始化”: 从“double”到“accurate_number”截断
