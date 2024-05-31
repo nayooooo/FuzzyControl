@@ -17,18 +17,31 @@ extern "C" {
 ==================================================================================*/
 
 /**
+ * @brief Membership Index and Function Pairs
+ * 
+ * @memberof index membership index
+ * @memberof fn membership fn
+ */
+struct membership_index_fn
+{
+    list_index index;
+    fc_membership_fn fn;
+};
+
+/**
  * @brief Fuzzy controller interface components
  * 
  * @memberof Obj object
  * @memberof data fuzzy Data
- * @memberof membership_fns Membership function linked list
+ * @memberof l Membership index and function linked list
+ *                                The membership index starts from 0
  */
 struct fc_interface
 {
     struct fc_obj obj;
 
     struct fuzzy_matrix data;
-    list_head membership_fns;
+    list_head l;
 };
 
 /*==================================================================================
@@ -42,11 +55,12 @@ struct fc_interface
  *       function, please unregister it first
  * 
  * @param interface object
+ * @param name the label
  * @param type interface type
  * @return true success
  * @return false failed
  */
-bool fc_interface_register(struct fc_interface* interface, fc_obj_type type);
+bool fc_interface_register(struct fc_interface* interface, const char* name, fc_obj_type type);
 
 /**
  * @brief Unregister the interface device of the fuzzy controller
@@ -57,8 +71,11 @@ bool fc_interface_register(struct fc_interface* interface, fc_obj_type type);
  */
 bool fc_interface_unregister(struct fc_interface* interface);
 
+/*---------------------------------- Only supports input devices start ----------------------------------*/
+
 /**
  * @brief Add a membership function to the end
+ * @note Only supports input devices
  * 
  * @param interface object
  * @param fn membership function
@@ -70,6 +87,7 @@ bool fc_interface_add_membership_fn(struct fc_interface* interface, fc_membershi
 
 /**
  * @brief Clear membership function
+ * @note Only supports input devices
  * 
  * @param interface object
  * @param type interface type
@@ -81,7 +99,7 @@ bool fc_interface_clear_membership_fn(struct fc_interface* interface, fc_obj_typ
 /**
  * @brief Fuzzy the input data and store the obtained membership vector in member data
  * @note The previously generated membership vectors will be destroyed
- *       Only provided to input interfaces
+ *       Only supports input devices
  * 
  * @param interface object
  * @param value Accurate sending buffer
@@ -91,9 +109,13 @@ bool fc_interface_clear_membership_fn(struct fc_interface* interface, fc_obj_typ
  */
 bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value, fuzzy_size value_size);
 
+/*----------------------------------- Only supports input devices end -----------------------------------*/
+
+/*--------------------------------- Only supports output devices start ----------------------------------*/
+
 /**
  * @brief Perform anti fuzzing on the output data and return the exact value obtained
- * @note Only provided to output interfaces
+ * @note Only supports output devices
  * 
  * @param interface object
  * @param value Accurate receive buffer
@@ -102,6 +124,8 @@ bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value
  * @return false failed
  */
 bool fc_interface_unfuzzing(struct fc_interface* interface, accurate_number* value, fuzzy_size value_size);
+
+/*---------------------------------- Only supports output devices end -----------------------------------*/
 
 /**
  * @brief Print out the membership vector

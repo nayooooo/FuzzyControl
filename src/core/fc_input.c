@@ -2,11 +2,11 @@
 
 #include "fc_def.h"
 
-bool fc_input_register(struct fc_input* in)
+bool fc_input_register(struct fc_input* in, const char* name)
 {
-    if (in == nullptr) return false;
+    if (in == nullptr || name == nullptr) return false;
 
-    if (!fc_interface_register(&(in->obj), FC_OBJ_INPUT)) return false;
+    if (!fc_interface_register(&(in->obj), name, FC_OBJ_INPUT)) return false;
 
     in->register_dev = fc_input_register;
     in->unregister_dev = fc_input_unregister;

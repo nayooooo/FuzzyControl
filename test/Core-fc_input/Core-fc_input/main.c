@@ -46,7 +46,7 @@ static fuzzy_number score_excellent(accurate_number value)
 
 int main()
 {
-	fc_input_register(&in);
+	fc_input_register(&in, "A");
 
 	in.add_membership_fn(&in, score_failed);
 	in.add_membership_fn(&in, score_pass);

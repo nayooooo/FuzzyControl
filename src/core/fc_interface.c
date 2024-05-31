@@ -2,19 +2,17 @@
 
 #include "fc_def.h"
 
-bool fc_interface_register(struct fc_interface* interface, fc_obj_type type)
+bool fc_interface_register(struct fc_interface* interface, const char* name, fc_obj_type type)
 {
-    if (interface == nullptr) return false;
+    if (interface == nullptr || name == nullptr) return false;
     if (!__IS_FC_OBJ_TYPE(type)) return false;
 
-    if (__IS_FC_OBJ_TYPE_INPUT(type)) interface->obj.name = "input";
-    else if (__IS_FC_OBJ_TYPE_OUTPUT(type)) interface->obj.name = "output";
-    else return false;
+    interface->obj.name = name;
     interface->obj.type = type;
 
     fuzzy_matrix_init(&(interface->data));
-    interface->membership_fns = list_create();
-    if (interface->membership_fns == nullptr)
+    interface->l = list_create();
+    if (interface->l == nullptr)
     {
         fuzzy_matrix_delete(&(interface->data));
         return false;
@@ -31,7 +29,7 @@ bool fc_interface_unregister(struct fc_interface* interface)
     interface->obj.type = FC_OBJ_NULL;
 
     fuzzy_matrix_delete(&(interface->data));
-    if (!list_delete(interface->membership_fns, nullptr)) return false;
+    if (!list_delete(interface->l, nullptr)) return false;
 
     return true;
 }
@@ -41,8 +39,14 @@ bool fc_interface_add_membership_fn(struct fc_interface* interface, fc_membershi
     if (interface == nullptr || fn == nullptr) return false;
 
     if (!__IS_FC_OBJ_TYPE_IS(interface->obj.type, type)) return false;
+    if (!__IS_FC_OBJ_TYPE_INPUT(type)) return false;
 
-    return list_push(interface->membership_fns, &fn, sizeof(fc_membership_fn));
+    struct membership_index_fn ifn = {
+        .index = list_length(interface->l),
+        .fn = fn
+    };
+
+    return list_push(interface->l, &ifn, sizeof(struct membership_index_fn));
 }
 
 bool fc_interface_clear_membership_fn(struct fc_interface* interface, fc_obj_type type)
@@ -50,8 +54,9 @@ bool fc_interface_clear_membership_fn(struct fc_interface* interface, fc_obj_typ
     if (interface == nullptr) return false;
 
     if (!__IS_FC_OBJ_TYPE_IS(interface->obj.type, type)) return false;
+    if (!__IS_FC_OBJ_TYPE_INPUT(type)) return false;
 
-    return list_clear(interface->membership_fns, nullptr);
+    return list_clear(interface->l, nullptr);
 }
 
 bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value, fuzzy_size value_size)
@@ -59,10 +64,10 @@ bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value
     if (interface == nullptr || value == nullptr) return false;
     if (value_size <= 0) return false;
 
-    if (!__IS_FC_OBJ_TYPE_IS(interface->obj.type, FC_OBJ_INPUT)) return false;
+    if (!__IS_FC_OBJ_TYPE_INPUT(interface->obj.type)) return false;
     
     // Number of columns in the membership vector
-    list_size ms_vector_col = list_length(interface->membership_fns);
+    list_size ms_vector_col = list_length(interface->l);
     if (ms_vector_col <= 0) return false;
 
     // Create appropriate membership vectors
@@ -75,15 +80,15 @@ bool fc_interface_fuzzing(struct fc_interface* interface, accurate_number* value
     // Start fuzzing
     for (fuzzy_size r = 0; r < value_size; r++)
     {
-        list_node n = list_get_first_node(interface->membership_fns);
+        list_node n = list_get_first_node(interface->l);
         for (list_size i = 0; i < ms_vector_col; i++)
         {
             if (n == nullptr) return false;
-            fc_membership_fn ms_fn = *(fc_membership_fn*)(n->data);
+            fc_membership_fn ms_fn = (*(struct membership_index_fn*)(n->data)).fn;
             if (ms_fn == nullptr) return false;
             interface->data.mat[r][i] = ms_fn(value[r]);
             if (interface->data.mat[r][i] == FUZZY_DATA_ILLEGAL_VALUE) return false;
-            n = list_find_next_node(interface->membership_fns, n);
+            n = list_find_next_node(interface->l, n);
         }
     }
 
@@ -96,7 +101,7 @@ bool fc_interface_unfuzzing(struct fc_interface* interface, accurate_number* val
     if (interface == nullptr || value == nullptr) return false;
     if (value_size <= 0) return false;
 
-    if (!__IS_FC_OBJ_TYPE_IS(interface->obj.type, FC_OBJ_OUTPUT)) return false;
+    if (!__IS_FC_OBJ_TYPE_OUTPUT(interface->obj.type)) return false;
 
     return false;
 }

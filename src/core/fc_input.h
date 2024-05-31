@@ -15,14 +15,18 @@ extern "C" {
  * @brief Fuzzy controller input components
  * 
  * @memberof Obj object
- * @memberof data fuzzy Data
- * @memberof membership_fns Membership function linked list
+ * @memberof register_dev register
+ * @memberof unregister_dev unregister
+ * @memberof add_membership_fn add membership function
+ * @memberof clear_membership_fn clear membership function
+ * @memberof fuzzing fuzzing data
+ * @memberof print print fuzzied data
  */
 struct fc_input
 {
     struct fc_interface obj;
 
-    bool (*register_dev)(struct fc_input* in);
+    bool (*register_dev)(struct fc_input* in, const char* name);
     bool (*unregister_dev)(struct fc_input* in);
     bool (*add_membership_fn)(struct fc_input* in, fc_membership_fn fn);
     bool (*clear_membership_fn)(struct fc_input* in);
@@ -41,10 +45,11 @@ struct fc_input
  *       function, please unregister it first
  * 
  * @param in object
+ * @param name the label
  * @return true success
  * @return false failed
  */
-bool fc_input_register(struct fc_input* in);
+bool fc_input_register(struct fc_input* in, const char* name);
 
 /**
  * @brief Unregister the input device of the fuzzy controller
