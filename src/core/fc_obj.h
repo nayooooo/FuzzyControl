@@ -10,6 +10,15 @@ extern "C" {
 ==================================================================================*/
 
 /**
+ * @brief Membership function
+ * 
+ * @param value Accurate number
+ * @return fuzzy_number Membership degree
+ */
+#include "./../exter/fuzzy_opera.h"
+typedef fuzzy_number (*fc_membership_fn)(accurate_number value);
+
+/**
  * @brief Fuzzy controller object type
  * @details Used to indicate the type of object, facilitating automatic
  *          invocation of object parsing functions

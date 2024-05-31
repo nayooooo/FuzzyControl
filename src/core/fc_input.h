@@ -17,14 +17,6 @@ extern "C" {
 ==================================================================================*/
 
 /**
- * @brief Membership function
- * 
- * @param value Accurate number
- * @return fuzzy_number Membership degree
- */
-typedef fuzzy_number (*fc_membership_fn)(accurate_number value);
-
-/**
  * @brief Fuzzy controller input components
  * 
  * @memberof Obj object
