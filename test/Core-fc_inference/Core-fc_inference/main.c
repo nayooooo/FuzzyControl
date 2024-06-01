@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "fc.h"
 
+#include <vld.h>
+
 static struct fc_input in1, in2, in3;
 static struct fc_inference infer;
 

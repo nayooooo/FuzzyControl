@@ -138,24 +138,25 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
     if (mat->row != row)
     {
         void* temp = nullptr;
-        struct fuzzy_matrix mark;
+        fuzzy_number** mark = nullptr;
 
         // Reduce the number of rows in the new matrix
         if (row < ori_row)
         {
             // Record the row vectors to be destroyed
-            fuzzy_matrix_init(&mark);
-            if (!fuzzy_matrix_create(&mark, ori_row - row, 1)) return false;
-            __FUZZY_MATRIX_MEMCPY(mark.mat, &(mat->mat[row]), ori_row - row);
+            mark = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((ori_row - row) * sizeof(fuzzy_number*));
+            if (mark == nullptr) return false;
+            __FUZZY_MATRIX_MEMCPY(mark, &(mat->mat[row]), (ori_row - row) * sizeof(fuzzy_number*));
         }
 
         // Applying for row vector pointers for a new matrix
         temp = __FUZZY_MATRIX_REALLOC(mat->mat, row * sizeof(fuzzy_number*));
         if (temp == nullptr)
         {
-            if (__IS_FUZZY_MATRIX_CREATED(&mark))
+            if (mark != nullptr)
             {
-                fuzzy_matrix_delete(&mark);
+                __FUZZY_MATRIX_FREE(mark);
+                mark = nullptr;
             }
             return false;
         }
@@ -173,15 +174,19 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
             // Destroy unwanted row vectors
             for (fuzzy_size r = 0; r < ori_row - row; r++)
             {
-                if (mark.mat[r] != nullptr)
+                if (mark[r] != nullptr)
                 {
-                    __FUZZY_MATRIX_FREE(mark.mat[r]);
-                    mark.mat[r] = nullptr;
+                    __FUZZY_MATRIX_FREE(mark[r]);
+                    mark[r] = nullptr;
                 }
             }
 
             // Destroy mark
-            fuzzy_matrix_delete(&mark);
+            if (mark != nullptr)
+            {
+                __FUZZY_MATRIX_FREE(mark);
+                mark = nullptr;
+            }
         }
     }
 

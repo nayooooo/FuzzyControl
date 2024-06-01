@@ -27,7 +27,7 @@ struct fc_inference
     bool (*register_dev)(struct fc_inference* const infer, const char* name);
     bool (*unregister_dev)(struct fc_inference* const infer);
     bool (*add_fuzzy_input_data)(
-        const struct fc_inference* const infer, const struct fuzzy_matrix data,
+        const struct fc_inference* const infer, const struct fuzzy_matrix* data,
         const char* name, list_head label
     );
     bool (*clear_fuzzy_input_data)(const struct fc_inference* const infer);

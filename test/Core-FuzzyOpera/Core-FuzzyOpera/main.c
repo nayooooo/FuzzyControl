@@ -129,6 +129,8 @@ int main()
 		fuzzy_matrix_print(&mat, "reshape_s mat");
 		fuzzy_matrix_reshape_s(&mat, 6, 7);
 		fuzzy_matrix_print(&mat, "reshape_s mat again");
+		fuzzy_matrix_reshape_s(&mat, 3, 6);
+		fuzzy_matrix_print(&mat, "reshape_s mat again 2");
 
 		fuzzy_matrix_delete(&mat);
 		fuzzy_matrix_reshape(&mat, 5, 5);
@@ -304,6 +306,10 @@ int main()
 		fuzzy_matrix_print(&mat3, "dir_pro");
 		fuzzy_opera(&mat2, &mat1, &mat3);
 		fuzzy_matrix_print(&mat2, "fuzzy_opera");
+
+		fuzzy_matrix_delete(&mat1);
+		fuzzy_matrix_delete(&mat2);
+		fuzzy_matrix_delete(&mat3);
 	}
 
 	return 0;

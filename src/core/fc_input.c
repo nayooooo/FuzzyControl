@@ -2,8 +2,6 @@
 
 #include "fc_def.h"
 
-#include <vld.h>
-
 /**
  * @brief Membership Function and Label Pairs
  *
