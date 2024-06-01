@@ -1,4 +1,7 @@
+#include <stdio.h>
 #include "fc.h"
+
+#include <vld.h>
 
 struct fc_input in;
 

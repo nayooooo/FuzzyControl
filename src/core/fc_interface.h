@@ -17,18 +17,6 @@ extern "C" {
 ==================================================================================*/
 
 /**
- * @brief Membership Function and Label Pairs
- * 
- * @memberof fn membership fn
- * @memberof label fn's label
- */
-struct membership_fn_label
-{
-    fc_membership_fn fn;
-    const char* label;
-};
-
-/**
  * @brief Fuzzy controller interface components
  * 
  * @memberof Obj object

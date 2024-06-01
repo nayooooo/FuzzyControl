@@ -2,6 +2,20 @@
 
 #include "fc_def.h"
 
+#include <vld.h>
+
+/**
+ * @brief Membership Function and Label Pairs
+ *
+ * @memberof fn membership fn
+ * @memberof label fn's label
+ */
+struct membership_fn_label
+{
+    fc_membership_fn fn;
+    const char* label;
+};
+
 bool fc_input_register(struct fc_input* const in, const char* name)
 {
     if (in == nullptr || name == nullptr) return false;

@@ -24,10 +24,15 @@ struct fc_inference
 {
     struct fc_interface interface;
 
-    bool (*register_dev)(struct fc_inference* infer, const char* name);
-    bool (*unregister_dev)(struct fc_inference* infer);
-    bool (*inference)(struct fc_inference* infer);
-    bool (*print)(struct fc_inference* infer);
+    bool (*register_dev)(struct fc_inference* const infer, const char* name);
+    bool (*unregister_dev)(struct fc_inference* const infer);
+    bool (*add_fuzzy_input_data)(
+        const struct fc_inference* const infer, const struct fuzzy_matrix data,
+        const char* name, list_head label
+    );
+    bool (*clear_fuzzy_input_data)(const struct fc_inference* const infer);
+    bool (*inference)(const struct fc_inference* const infer);
+    bool (*print)(const struct fc_inference* const infer);
 };
 
 /*==================================================================================
@@ -58,7 +63,9 @@ bool fc_inference_unregister(struct fc_inference* const infer);
 
 /**
  * @brief Add the input fuzzy matrix to the inference component
- * @note Deep copy incoming fuzzy matrix
+ * @note Deep copy incoming fuzzy matrix, name and label, store the structure in the form of fuzzy
+ *       input data description, and then provide it to the linked list
+ *       Note that the name belongs to the literal quantity, so take the literal quantity address directly
  * 
  * @param infer object
  * @param data fuzzy input matrix
@@ -68,9 +75,18 @@ bool fc_inference_unregister(struct fc_inference* const infer);
  * @return false failed
  */
 bool fc_inference_add_fuzzy_input_data(
-    const struct fc_inference* const infer, const struct fuzzy_matrix data,
+    const struct fc_inference* const infer, const struct fuzzy_matrix* data,
     const char* name, list_head label
 );
+
+/**
+ * @brief Clear fuzzy input data
+ * 
+ * @param infer object
+ * @return true success
+ * @return false failed
+ */
+bool fc_inference_clear_fuzzy_input_data(const struct fc_inference* const infer);
 
 /**
  * @brief Perform fuzzy inference

@@ -15,6 +15,7 @@
     - [1.2 算法核心框架](#12-算法核心框架)
       - [1.2.1 模糊控制器接口基类](#121-模糊控制器接口基类)
       - [1.2.2 模糊输入](#122-模糊输入)
+        - [模糊输入部件对自由链表使用规则](#模糊输入部件对自由链表使用规则)
       - [1.2.3 模糊推理](#123-模糊推理)
       - [1.2.4 模糊输出](#124-模糊输出)
       - [1.2.5 模糊控制器](#125-模糊控制器)
@@ -233,6 +234,22 @@
 | fc_input_get_name | const struct fc_input* const | const char* | 获取输入部件的名称，可以当作输入参数的类别 |
 | fc_input_get_label | const struct fc_input* const,const list_head | bool | 获取输入部件中的标签信息。如果传入的链表非空，则会清空链表，尽管输入部件中没有标签信息 |
 | fc_input_get_fuzzy_data | const struct fc_input* const,struct fuzzy_matrix* | bool | 获取输入部件中的模糊矩阵 |
+
+##### 模糊输入部件对自由链表使用规则
+
+模糊输入部件用自由链表存储隶属度函数标签对，其形式如下：
+
+    /**
+    * @brief Membership Function and Label Pairs
+    * 
+    * @memberof fn membership fn
+    * @memberof label fn's label
+    */
+    struct membership_fn_label
+    {
+        fc_membership_fn fn;
+        const char* label;
+    };
 
 #### 1.2.3 模糊推理
 

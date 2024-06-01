@@ -4,6 +4,8 @@
 #include <time.h>
 #include "fc.h"
 
+#include <vld.h>
+
 static bool print_number(fuzzy_number fn, void* data)
 {
 	UNUSED(data);

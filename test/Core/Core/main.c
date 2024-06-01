@@ -3,6 +3,8 @@
 #include <time.h>
 #include "fc.h"
 
+#include <vld.h>
+
 list_head l;
 
 static bool int_pred_eq(list_node node, void* data)
