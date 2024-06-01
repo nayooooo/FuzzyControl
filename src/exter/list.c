@@ -214,6 +214,7 @@ bool list_pop_if(list_head l, void *data, list_pred pred, list_node_data_deconst
 
     // Find the last node and determine whether to pop the node
     list_node ln = list_get_last_node(l);
+    if (ln == nullptr) return false;
     if (pred != nullptr) if (!pred(ln, data)) return false;
     if (deconstruct != nullptr) if (!deconstruct(ln->data)) return false;
 

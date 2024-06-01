@@ -647,7 +647,7 @@ void fuzzy_matrix_print(const struct fuzzy_matrix* const mat, const char* label)
     __FUZZY_MATRIX_PRINTF("\r\n");
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
-        fuzzy_size digit = get_digit(r) + 2;
+        fuzzy_size digit = get_digit(r) + 1;
         __FUZZY_MATRIX_PRINTF("[%llu]", r);
         for (fuzzy_size n = 0; n < 1 - digit / 4; n++)
         {
@@ -713,13 +713,29 @@ bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_m
     return true;
 }
 
-bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2)
+bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* mat1, const struct fuzzy_matrix* mat2)
 {
-    if (result == nullptr || mat1 == nullptr || mat2 == nullptr) return false;
-    if ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || (!__IS_FUZZY_MATRIX_CREATED(mat2))) return false;
-    if (__IS_FUZZY_MATRIX_DAMAGED(mat1)) return false;
-    if (__IS_FUZZY_MATRIX_DAMAGED(mat2)) return false;
-    if (mat2->row != 1) return false;
+    if (result == nullptr) return false;
+    if (mat1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || __IS_FUZZY_MATRIX_DAMAGED(mat1))) return false;
+    if (mat1 == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(result)) || __IS_FUZZY_MATRIX_DAMAGED(result))) return false;
+    if (mat2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat2)) || __IS_FUZZY_MATRIX_DAMAGED(mat2))) return false;
+    if (mat2 == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(result)) || __IS_FUZZY_MATRIX_DAMAGED(result))) return false;
+    if (mat2 != nullptr && mat2->row != 1) return false;
+    if (mat2 == nullptr && result->row != 1) return false;
+
+    struct fuzzy_matrix template2;
+    bool is_copy_template2 = false;
+    if (mat1 == nullptr)
+    {
+        mat1 = result;
+    }
+    if (result == mat2 || mat2 == nullptr)
+    {
+        fuzzy_matrix_init(&template2);
+        if (!fuzzy_matrix_copy(&template2, result)) return false;
+        mat2 = &template2;
+        is_copy_template2 = true;
+    }
 
     if (FUZZY_SIZE_MAX / mat1->row < mat1->col) return false;
     struct fuzzy_matrix mat1T;
@@ -736,6 +752,11 @@ bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_m
     bool ret = fuzzy_opera(result, &mat1T, mat2);
 
     fuzzy_matrix_delete(&mat1T);
+
+    if (is_copy_template2)
+    {
+        fuzzy_matrix_delete(&template2);
+    }
 
     return ret;
 }
@@ -817,5 +838,5 @@ bool fuzzy_opera(struct fuzzy_matrix* const result, const struct fuzzy_matrix* c
         }
     }
 
-    return false;
+    return true;
 }

@@ -7,6 +7,9 @@
       "RelativeMoniker": "D:0:0:{AD25FA08-2F64-4CC2-8A68-2D02C8A17697}|Core-fc_inference\\Core-fc_inference.vcxproj|solutionrelative:Core-fc_inference\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{AD25FA08-2F64-4CC2-8A68-2D02C8A17697}|Core-fc_inference\\Core-fc_inference.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\exter\\fuzzy_opera.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AD25FA08-2F64-4CC2-8A68-2D02C8A17697}|Core-fc_inference\\Core-fc_inference.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_inference.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
@@ -20,31 +23,46 @@
       "DocumentGroups": [
         {
           "DockedWidth": 213,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "fuzzy_opera.c",
+              "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\exter\\fuzzy_opera.c",
+              "RelativeDocumentMoniker": "..\\..\\src\\exter\\fuzzy_opera.c",
+              "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\exter\\fuzzy_opera.c",
+              "RelativeToolTip": "..\\..\\src\\exter\\fuzzy_opera.c",
+              "ViewState": "AQIAAIICAAAAAAAAAAAQwIkCAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-06-01T10:33:31.994Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "fc_inference.h",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_inference.h",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_inference.h",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_inference.h",
               "RelativeToolTip": "..\\..\\src\\core\\fc_inference.h",
-              "ViewState": "AQIAADoAAAAAAAAAAAAQwEIAAABHAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAQwBgAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-01T06:27:34.475Z"
+              "WhenOpened": "2024-06-01T06:27:34.475Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "fc_inference.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_inference.c",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_inference.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_inference.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_inference.c",
-              "ViewState": "AQIAAF8AAAAAAAAAAAAQwBcAAAAMAAAA",
+              "ViewState": "AQIAAH0AAAAAAAAAAAAawIkAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-05-31T14:44:28.027Z"
+              "WhenOpened": "2024-05-31T14:44:28.027Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -54,9 +72,9 @@
               "RelativeDocumentMoniker": "Core-fc_inference\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_inference\\Core-fc_inference\\main.c",
               "RelativeToolTip": "Core-fc_inference\\main.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAQAAAA",
+              "ViewState": "AQIAAFQAAAAAAAAAAAAawF0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-05-31T14:40:50.221Z",
+              "WhenOpened": "2024-06-01T09:38:59.406Z",
               "EditorCaption": ""
             }
           ]

@@ -136,7 +136,7 @@
 | 名称 | 参数 | 返回值 | 描述 |
 | - | - | - | - |
 | fuzzy_opera_trans | struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 模糊矩阵转置，如果以自己为模板或者没有给转置模板，则以自己为转置模板进行转置（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。注意，如果转置失败，且问题不在于销毁matT之后申请内存失败，则会保留 `matT` |
-| fuzzy_opera_dir_pro | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 求模糊矩阵的直积。相比于 `fuzzy_opera_dir_pro_s` 多了一个申请按行展开的矩阵的转置的过程，可能会申请失败，其算法通过调用 `fuzzy_opera` 实现 |
+| fuzzy_opera_dir_pro | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 求模糊矩阵的直积。相比于 `fuzzy_opera_dir_pro_s` 多了一个申请按行展开的矩阵的转置的过程，可能会申请失败，其算法通过调用 `fuzzy_opera` 实现，如果以自己为模板或者没有给转置模板，则以自己为转置模板进行转置（要求自己的矩阵已被创建），将会在函数中深度拷贝一份作为模板。 |
 | fuzzy_opera_dir_pro_s | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 求模糊矩阵的直积。注意，如果直积失败，且问题不在于销毁result之后申请内存失败，则会保留 `result` ，算法在函数内部实现 |
 | fuzzy_opera | struct fuzzy_matrix*,struct fuzzy_matrix*,struct fuzzy_matrix* | bool | 实现矩阵的模糊运算，如果模糊运算失败，且问题不在于销毁result之后申请内存失败，则会保留 `result` |
 

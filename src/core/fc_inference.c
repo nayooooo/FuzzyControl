@@ -61,7 +61,7 @@ bool fc_inference_unregister(struct fc_inference* const infer)
 }
 
 bool fc_inference_add_fuzzy_input_data(
-	const struct fc_inference* const infer, const struct fuzzy_matrix* data,
+	const struct fc_inference* const infer, const struct fuzzy_matrix* const data,
 	const char* name, list_head label
 )
 {
@@ -107,15 +107,33 @@ bool fc_inference_clear_fuzzy_input_data(const struct fc_inference* const infer)
 
 	if (!list_clear(infer->interface.l, fidnl_deconstruct_cb)) return false;
 
-	return false;
+	return true;
 }
 
 bool fc_inference_inference(const struct fc_inference* const infer)
 {
-	return false;
+	if (infer == nullptr) return false;
+
+	if (list_length(infer->interface.l) <= 0) return false;
+
+	list_node n = list_get_first_node(infer->interface.l);
+	if (n == nullptr) return false;
+	struct fuzzy_input_data_name_label* fidnl = n->data;
+	if (!fuzzy_matrix_copy(&(infer->interface.data), &(fidnl->data))) return false;
+	n = list_find_next_node(infer->interface.l, n);
+	while (n != nullptr)
+	{
+		fidnl = n->data;
+		if (!fuzzy_opera_dir_pro(&(infer->interface.data), nullptr, &(fidnl->data))) return false;
+		n = list_find_next_node(infer->interface.l, n);
+	}
+
+	return true;
 }
 
 bool fc_inference_print(const struct fc_inference* const infer)
 {
-	return false;
+	if (infer == nullptr) return false;
+
+	return fc_interface_print_data(&(infer->interface));
 }
