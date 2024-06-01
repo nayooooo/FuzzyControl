@@ -118,6 +118,38 @@ bool fc_input_print_membership_vector_with_label(const struct fc_input* const in
     API for obtaining parameters
 ==================================================================================*/
 
+/**
+ * @brief Obtain the name of the fuzzy matrix in the input component
+ *
+ * @param in object
+ * @return const char*
+ */
+const char* fc_input_get_name(const struct fc_input* const in);
+
+/**
+ * @brief Get labels from input components
+ * @note Retrieve the label from the input device. If the given parameter
+ *       label is not empty, it will be cleared, even though the label in
+ *       the input component is also empty
+ * 
+ * @param in object
+ * @param label label, must be an empty linked list, otherwise it will be
+ *              destroyed
+ * @return true success
+ * @return false failed
+ */
+bool fc_input_get_label(const struct fc_input* const in, const list_head label);
+
+/**
+ * @brief Obtaining Fuzzy Data from Input Components
+ * 
+ * @param in object
+ * @param data fuzzy data receive buff
+ * @return true success
+ * @return false failed
+ */
+bool fc_input_get_fuzzy_data(const struct fc_input* const in, struct fuzzy_matrix* data);
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

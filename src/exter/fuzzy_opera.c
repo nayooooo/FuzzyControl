@@ -4,16 +4,6 @@
 #   define nullptr ((void*)0)
 #endif // !nullptr
 
-#include <stdlib.h>
-#include <string.h>
-
-#define __fuzzy_matrix_malloc malloc
-#define __fuzzy_matrix_free free
-#define __fuzzy_matrix_realloc realloc
-
-#define __fuzzy_matrix_memset memset
-#define __fuzzy_matrix_memcpy memcpy
-
 /*==================================================================================
     Internal Fuzzy Operation API
 ==================================================================================*/
@@ -108,23 +98,23 @@ bool fuzzy_matrix_create(struct fuzzy_matrix* const mat, const fuzzy_size row, c
     if (__IS_FUZZY_MATRIX_CREATED(mat)) return false;
 
     // Dynamic application matrix memory
-    mat->mat = (fuzzy_number**)__fuzzy_matrix_malloc(row * sizeof(fuzzy_number*));
+    mat->mat = (fuzzy_number**)__FUZZY_MATRIX_MALLOC(row * sizeof(fuzzy_number*));
     if (mat->mat == nullptr) return false;
     for (fuzzy_size r = 0; r < row; r++)
     {
-        mat->mat[r] = (fuzzy_number*)__fuzzy_matrix_malloc(col * sizeof(fuzzy_number));
+        mat->mat[r] = (fuzzy_number*)__FUZZY_MATRIX_MALLOC(col * sizeof(fuzzy_number));
         if (mat->mat[r] == nullptr)
         {
             for (fuzzy_size i = 0; i < r; i++)
             {
-                __fuzzy_matrix_free(mat->mat[i]);
+                __FUZZY_MATRIX_FREE(mat->mat[i]);
                 mat->mat[i] = nullptr;
             }
-            __fuzzy_matrix_free(mat->mat);
+            __FUZZY_MATRIX_FREE(mat->mat);
             mat->mat = nullptr;
             return false;
         }
-        __fuzzy_matrix_memset(mat->mat[r], 0, col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, col * sizeof(fuzzy_number));
     }
     mat->row = row;
     mat->col = col;
@@ -156,11 +146,11 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
             // Record the row vectors to be destroyed
             fuzzy_matrix_init(&mark);
             if (!fuzzy_matrix_create(&mark, ori_row - row, 1)) return false;
-            __fuzzy_matrix_memcpy(mark.mat, &(mat->mat[row]), ori_row - row);
+            __FUZZY_MATRIX_MEMCPY(mark.mat, &(mat->mat[row]), ori_row - row);
         }
 
         // Applying for row vector pointers for a new matrix
-        temp = __fuzzy_matrix_realloc(mat->mat, row * sizeof(fuzzy_number*));
+        temp = __FUZZY_MATRIX_REALLOC(mat->mat, row * sizeof(fuzzy_number*));
         if (temp == nullptr)
         {
             if (__IS_FUZZY_MATRIX_CREATED(&mark))
@@ -174,7 +164,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         if (row > ori_row)
         {
-            __fuzzy_matrix_memset(&(mat->mat[ori_row]), 0, (row - ori_row) * sizeof(fuzzy_number*));
+            __FUZZY_MATRIX_MEMSET(&(mat->mat[ori_row]), 0, (row - ori_row) * sizeof(fuzzy_number*));
         }
 
         // Reduce the number of rows in the new matrix
@@ -185,7 +175,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
             {
                 if (mark.mat[r] != nullptr)
                 {
-                    __fuzzy_matrix_free(mark.mat[r]);
+                    __FUZZY_MATRIX_FREE(mark.mat[r]);
                     mark.mat[r] = nullptr;
                 }
             }
@@ -203,7 +193,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         for (fuzzy_size r = 0; r < mat->row; r++)
         {
-            temp = __fuzzy_matrix_realloc(mat->mat[r], col * sizeof(fuzzy_number));
+            temp = __FUZZY_MATRIX_REALLOC(mat->mat[r], col * sizeof(fuzzy_number));
             if (temp == nullptr)
             {
                 // Failed to realloc for matrix, marked as damaged matrix
@@ -219,7 +209,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = 0; r < mat->row; r++)
             {
-                __fuzzy_matrix_memset(&(mat->mat[r][ori_col]), 0, (col - ori_col) * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(&(mat->mat[r][ori_col]), 0, (col - ori_col) * sizeof(fuzzy_number));
             }
         }
 
@@ -227,7 +217,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = ori_row; r < row; r++)
             {
-                __fuzzy_matrix_memset(mat->mat[r], 0, col * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, col * sizeof(fuzzy_number));
             }
         }
     }
@@ -254,11 +244,11 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* const mat, const fuzzy_size row
     fuzzy_matrix_copy_just_elem(&brave, mat, 0, 0);
 
     struct fuzzy_matrix copy;
-    __fuzzy_matrix_memcpy(&copy, mat, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(&copy, mat, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(mat);
     if (!fuzzy_matrix_pay_tribute(mat, &brave))
     {
-        __fuzzy_matrix_memcpy(mat, &copy, sizeof(struct fuzzy_matrix));
+        __FUZZY_MATRIX_MEMCPY(mat, &copy, sizeof(struct fuzzy_matrix));
         fuzzy_matrix_delete(&brave);
         return false;
     }
@@ -275,7 +265,7 @@ bool fuzzy_matrix_clear(const struct fuzzy_matrix* const mat)
 
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
-        __fuzzy_matrix_memset(mat->mat[r], 0, mat->col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, mat->col * sizeof(fuzzy_number));
     }
 
     return true;
@@ -305,7 +295,7 @@ bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* const emperor, struct fuzzy_m
     if (!__IS_FUZZY_MATRIX_CREATED(vassal)) return false;
     if (__IS_FUZZY_MATRIX_DAMAGED(vassal)) return false;
 
-    __fuzzy_matrix_memcpy(emperor, vassal, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(emperor, vassal, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(vassal);
 
     return true;
@@ -325,7 +315,7 @@ bool fuzzy_matrix_rob(struct fuzzy_matrix* const king, struct fuzzy_matrix* cons
     }
 
     fuzzy_matrix_delete(king);
-    __fuzzy_matrix_memcpy(king, brave, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(king, brave, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(brave);
 
     return true;
@@ -340,12 +330,12 @@ bool fuzzy_matrix_delete(struct fuzzy_matrix* const mat)
     {
         if (mat->mat[r] != nullptr)
         {
-            __fuzzy_matrix_free(mat->mat[r]);
+            __FUZZY_MATRIX_FREE(mat->mat[r]);
             mat->mat[r] = nullptr;
         }
     }
 
-    __fuzzy_matrix_free(mat->mat);
+    __FUZZY_MATRIX_FREE(mat->mat);
     mat->mat = nullptr;
 
     mat->row = 0;

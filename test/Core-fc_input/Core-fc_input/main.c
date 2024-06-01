@@ -44,6 +44,14 @@ static fuzzy_number score_excellent(accurate_number value)
 	return (value - 90) / 10;
 }
 
+static bool print_label(list_node node, void* data)
+{
+	UNUSED(data);
+	if (node == nullptr) return false;
+
+	printf("%s\r\n", (node->data));
+}
+
 int main()
 {
 	fc_input_register(&in, "A");
@@ -62,8 +70,21 @@ int main()
 
 	accurate_number score[3] = { 59.9, 79.1, 98.6 };
 	in.fuzzing(&in, score, 3);
+	printf("%s: \r\n", fc_input_get_name(&in));
 	in.print(&in);
 
+	printf("\r\n");
+	list_head label = list_create();
+	fc_input_get_label(&in, label);
+	list_trav(label, nullptr, print_label);
+
+	struct fuzzy_matrix mat;
+	fuzzy_matrix_init(&mat);
+	fc_input_get_fuzzy_data(&in, &mat);
+	fuzzy_matrix_print(&mat, "data");
+
+	fuzzy_matrix_delete(&mat);
+	list_delete(label, nullptr);
 	in.unregister_dev(&in);
 
 	printf("Done!\r\n");

@@ -3,14 +3,14 @@
   "WorkspaceRootPath": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|solutionrelative:Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4FDE2600-EB70-4FB0-B407-A002629D1E61}|Core-fc_input\\Core-fc_input.vcxproj|solutionrelative:Core-fc_input\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,44 +20,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 213,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "fc_input.h",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.h",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_input.h",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.h",
               "RelativeToolTip": "..\\..\\src\\core\\fc_input.h",
-              "ViewState": "AQIAAGUAAAAAAAAAAAAowHIAAABSAAAA",
+              "ViewState": "AQIAAH0AAAAAAAAAAAAQwIwAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-05-31T10:44:49.676Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "fc_input.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.c",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_input.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_input.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAATAAAA",
+              "ViewState": "AQIAAJUAAAAAAAAAAAAQwKIAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-05-31T10:44:45.153Z"
+              "WhenOpened": "2024-05-31T10:44:45.153Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "main.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c",
               "RelativeDocumentMoniker": "Core-fc_input\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_input\\Core-fc_input\\main.c",
               "RelativeToolTip": "Core-fc_input\\main.c",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAADwAAAAEAAAA",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAAAFIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-05-30T12:01:19.682Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-30T12:01:19.682Z"
             }
           ]
         }

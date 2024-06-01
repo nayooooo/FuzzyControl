@@ -32,6 +32,9 @@ extern "C" {
 #include <limits.h>
 #include <stdio.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 /*==================================================================================
     define
 ==================================================================================*/
@@ -41,6 +44,13 @@ extern "C" {
 /*==================================================================================
     micro
 ==================================================================================*/
+
+#define __FUZZY_MATRIX_MALLOC malloc
+#define __FUZZY_MATRIX_FREE free
+#define __FUZZY_MATRIX_REALLOC realloc
+
+#define __FUZZY_MATRIX_MEMSET memset
+#define __FUZZY_MATRIX_MEMCPY memcpy
 
 #ifdef ARDUINO
     extern int arduino_printf(const char* format, ...);

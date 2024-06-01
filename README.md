@@ -13,10 +13,11 @@
         - [参数获取API](#参数获取api)
       - [1.1.2 模糊运算](#112-模糊运算)
     - [1.2 算法核心框架](#12-算法核心框架)
-      - [1.2.1 模糊输入](#121-模糊输入)
-      - [1.2.2 模糊输出](#122-模糊输出)
+      - [1.2.1 模糊控制器接口基类](#121-模糊控制器接口基类)
+      - [1.2.2 模糊输入](#122-模糊输入)
       - [1.2.3 模糊推理](#123-模糊推理)
-      - [1.2.4 模糊控制器](#124-模糊控制器)
+      - [1.2.4 模糊输出](#124-模糊输出)
+      - [1.2.5 模糊控制器](#125-模糊控制器)
     - [1.3 算法外围框架](#13-算法外围框架)
       - [1.3.1 输入数据模糊化](#131-输入数据模糊化)
       - [1.3.2 输出数据清晰化](#132-输出数据清晰化)
@@ -146,21 +147,98 @@
 
 核心需要使用链表和一些基本的模糊矩阵及其运算，在它们的基础之上，搭建起模糊控制器的输入输出和推理，之后整合三者成为模糊控制器。
 
-#### 1.2.1 模糊输入
+#### 1.2.1 模糊控制器接口基类
 
-模糊输入需要实现将输入的不同类型的精确值转换成模糊值，也即转换成隶属度向量的操作，而不同的输入存在着不同数目的模糊子集，每个模糊子集的隶属度函数又有所不同，这对模糊输入的数据结构提出了一定的考验。
+通过分析模糊控制器的三大部件（输入部件、推理部件、输出部件），发现其有一定的相同点，即都需要一个名称、一个类别、一个模糊矩阵、一个未限制使用方式的链表，因此我创建了模糊控制器的接口基类，其形式如下：
 
-首先，针对输入数据的类型不确定这一客观事实，我无法将模糊化函数的精确值参数设定成固定的类型，只能选择使用 `void*` 类型。为了解决因此带来的无法处理精确值数据的问题，选择使用回调函数来处理数据，也就是说，用户需要自己编写每种精确值模糊化的回调函数，不过这也实现了代码库处理不同隶属函数的功能。
+    /**
+    * @brief Fuzzy controller interface components
+    * 
+    * @memberof Obj object
+    * @memberof data fuzzy Data
+    * @memberof l list
+    */
+    struct fc_interface
+    {
+        struct fc_obj obj;
 
-然后，我需要将模糊化得到的隶属度向量存放下来，以便后续使用，这里采用将数据挂接在模糊控制器对象上，也即模板式单向链表的头节点。
+        struct fuzzy_matrix data;
+        list_head l;
+    };
 
-值得注意的一点是，每个精确值又有多个模糊子集，如果一个回调函数代表一个隶属度函数，那参数数目将会变成无法估计的。为此，我需要设计一个能够存放多个隶属度函数的数据结构，可以选择复用模板式单向链表。
+其中，使用到了最终基类 `struct fc_obj` ，其形式如下：
 
-#### 1.2.2 模糊输出
+    struct fc_obj
+    {
+        const char* name;
+
+        fc_obj_type type;
+    };
+
+在接口基类中提供了一些API用于注册、注销、打印数据等。
+
+| 名称 | 参数 | 返回值 | 描述 |
+| - | - | - | - |
+| fc_interface_register | struct fc_interface* const,const char*,const fc_obj_type | bool | 注册对象，赋予对象名称、类别，初始化模糊矩阵，生成自由链表。需要注意的是，不要将已经注册过的对象再次注册，如果需要这样做，请先将对象注销 |
+| fc_interface_unregister | struct fc_interface* const | bool | 注销对象 |
+| fc_interface_print_data | const struct fc_interface* const | bool | 将对象中的模糊矩阵打印出来 |
+
+#### 1.2.2 模糊输入
+
+模糊输入部件继承了接口基类，并添加了一系列函数指针，方便实现函数式操作对象，其形式如下：
+
+    /**
+    * @brief Fuzzy controller input components
+    * @details The linked list in the interface is used to store the membership
+    *          function and its labels(struct membership_fn_label)
+    * 
+    * @memberof interface object
+    * @memberof register_dev register
+    * @memberof unregister_dev unregister
+    * @memberof add_membership_fn add membership function
+    * @memberof clear_membership_fn clear membership function
+    * @memberof fuzzing fuzzing data
+    * @memberof print print fuzzied data
+    */
+    struct fc_input
+    {
+        struct fc_interface interface;
+
+        bool (*register_dev)(struct fc_input* const in, const char* name);
+        bool (*unregister_dev)(struct fc_input* const in);
+        bool (*add_membership_fn)(const struct fc_input* const in, const fc_membership_fn fn, const char* label);
+        bool (*clear_membership_fn)(const struct fc_input* const in);
+        bool (*fuzzing)(struct fc_input* const in, const accurate_number* const value, const fuzzy_size value_size);
+        bool (*print)(const struct fc_input* const in);
+    };
+
+输入部件需要实现添加隶属函数标签对、清空隶属函数标签对、模糊化数据等功能，另外还需要实现获取输入部件名称、标签序列、模糊矩阵等功能。
+
+与计算有关的API：
+
+| 名称 | 参数 | 返回值 | 描述 |
+| - | - | - | - |
+| fc_input_register | struct fc_input* const,const char* | bool | 注册输入部件。需要注意的是，不要将已经注册过的对象再次注册，如果需要这样做，请先将对象注销 |
+| fc_input_unregister | struct fc_input* const | bool | 注销输入部件 |
+| fc_input_add_membership_fn | const struct fc_input* const,const fc_membership_fn,const char* | bool | 添加隶属函数标签对 |
+| fc_input_clear_membership_fn | const struct fc_input* const | bool | 清空隶属函数标签对 |
+| fc_input_fuzzing | struct fc_input* const,const accurate_number* const,const fuzzy_size | bool | 将精确值转换成模糊的隶属度向量，精确值的数目决定隶属度向量的个数，即模糊矩阵的行数 |
+| fc_input_print_membership_vector | const struct fc_input* const | bool | 打印隶属度向量 |
+| fc_input_print_membership_vector_with_label | const struct fc_input* const | bool | 打印带有标签的隶属度向量 |
+
+参数获取API：
+
+| 名称 | 参数 | 返回值 | 描述 |
+| - | - | - | - |
+| fc_input_get_name | const struct fc_input* const | const char* | 获取输入部件的名称，可以当作输入参数的类别 |
+| fc_input_get_label | const struct fc_input* const,const list_head | bool | 获取输入部件中的标签信息。如果传入的链表非空，则会清空链表，尽管输入部件中没有标签信息 |
+| fc_input_get_fuzzy_data | const struct fc_input* const,struct fuzzy_matrix* | bool | 获取输入部件中的模糊矩阵 |
 
 #### 1.2.3 模糊推理
 
-#### 1.2.4 模糊控制器
+#### 1.2.4 模糊输出
+
+#### 1.2.5 模糊控制器
 
 ### 1.3 算法外围框架
 

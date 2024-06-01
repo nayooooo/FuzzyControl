@@ -107,7 +107,7 @@ bool fc_input_print_membership_vector_with_label(const struct fc_input* const in
     list_node n = list_get_first_node(in->interface.l);
     if (n == nullptr) return false;
     list_index i = 0;
-    __FUZZY_MATRIX_PRINTF("\r\n\n");
+    __FUZZY_MATRIX_PRINTF("\r\n");
     while (n != nullptr)
     {
         const char* label = ((struct membership_fn_label*)(n->data))->label;
@@ -117,4 +117,50 @@ bool fc_input_print_membership_vector_with_label(const struct fc_input* const in
     }
 
     return fc_interface_print_data(&(in->interface));
+}
+
+const char* fc_input_get_name(const struct fc_input* const in)
+{
+    if (in == nullptr) return nullptr;
+
+    return in->interface.obj.name;
+}
+
+bool fc_input_get_label(const struct fc_input* const in, const list_head label)
+{
+    if (in == nullptr || label == nullptr) return false;
+
+    // Check if the linked list is empty. If it is not empty, clear it
+    list_node n = list_get_first_node(label);
+    if (n != nullptr)
+    {
+        if (!list_clear(label, nullptr)) return false;
+    }
+
+    n = list_get_first_node(in->interface.l);
+    if (n == nullptr) return true;
+    while (n != nullptr)
+    {
+        struct membership_fn_label* fn_label = n->data;
+        if (!list_push(label, (void*)(fn_label->label), __LIST_STRLEN(fn_label->label) + 1)) return false;
+        n = list_find_next_node(in->interface.l, n);
+    }
+
+    return true;
+}
+
+bool fc_input_get_fuzzy_data(const struct fc_input* const in, struct fuzzy_matrix* data)
+{
+    if (in == nullptr || data == nullptr) return false;
+
+    if (!__IS_FUZZY_MATRIX_CREATED(&(in->interface.data))) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(&(in->interface.data))) return false;
+
+    if (__IS_FUZZY_MATRIX_CREATED(data) || __IS_FUZZY_MATRIX_DAMAGED(data))
+    {
+        fuzzy_matrix_delete(data);
+    }
+    if (!fuzzy_matrix_copy(data, &(in->interface.data))) return false;
+
+    return true;
 }

@@ -8,14 +8,6 @@
 #   define UNUSED(x) ((void)x)
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-
-#define __list_malloc malloc
-#define __list_free free
-
-#define __list_memcpy memcpy
-
 bool list_pred_true(list_node node, void *data)
 {
     UNUSED(node);
@@ -32,7 +24,7 @@ bool list_pred_false(list_node node, void *data)
 
 list_head list_create(void)
 {
-    list_head l = (list_head)__list_malloc(sizeof(list_node));
+    list_head l = (list_head)__LIST_MALLOC(sizeof(list_node));
     if (l == nullptr) return nullptr;
 
     *l = nullptr;
@@ -55,7 +47,7 @@ bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct)
 
     if (!list_clear(l, deconstruct)) return false;
 
-    __list_free(l);
+    __LIST_FREE(l);
     l = nullptr;
 
     return true;
@@ -139,16 +131,16 @@ bool list_push(list_head l, void* data, size_t data_size)
     list_node ln = list_get_last_node(l);
 
     // Create a new node
-    list_node n = (list_node)__list_malloc(sizeof(struct list));
+    list_node n = (list_node)__LIST_MALLOC(sizeof(struct list));
     if (n == nullptr) return false;
-    n->data = (void*)__list_malloc(data_size);
+    n->data = (void*)__LIST_MALLOC(data_size);
     if (n->data == nullptr)
     {
-        __list_free(n);
+        __LIST_FREE(n);
         n = nullptr;
         return false;
     }
-    __list_memcpy(n->data, data, data_size);
+    __LIST_MEMCPY(n->data, data, data_size);
     n->next = nullptr;
 
     // Link the created node to the end of the linked list
@@ -175,8 +167,8 @@ bool list_pop(list_head l)
     list_node fln = list_find_prev_node(l, ln);
     if (fln == nullptr) *l = nullptr;  // the list has only 1 node
     else fln->next = nullptr;
-    __list_free(ln->data);
-    __list_free(ln);
+    __LIST_FREE(ln->data);
+    __LIST_FREE(ln);
     ln->data = nullptr;
     ln = nullptr;
 
@@ -247,8 +239,8 @@ bool list_remove_if(list_head l, void* data, list_pred pred, list_node_data_deco
 
     if (frn == nullptr) *l = nrn;
     else frn->next = nrn;
-    __list_free(rn->data);
-    __list_free(rn);
+    __LIST_FREE(rn->data);
+    __LIST_FREE(rn);
     rn->data = nullptr;
     rn = nullptr;
 

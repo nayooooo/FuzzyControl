@@ -29,6 +29,16 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <stdlib.h>
+#include <string.h>
+
+#define __LIST_MALLOC malloc
+#define __LIST_FREE free
+
+#define __LIST_MEMCPY memcpy
+
+#define __LIST_STRLEN strlen
+
 /*==================================================================================
     structure
 ==================================================================================*/
