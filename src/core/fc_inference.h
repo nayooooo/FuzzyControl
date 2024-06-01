@@ -66,6 +66,7 @@ bool fc_inference_unregister(struct fc_inference* const infer);
  * @note Deep copy incoming fuzzy matrix, name and label, store the structure in the form of fuzzy
  *       input data description, and then provide it to the linked list
  *       Note that the name belongs to the literal quantity, so take the literal quantity address directly
+ *       Only accept row vectors
  * 
  * @param infer object
  * @param data fuzzy input matrix

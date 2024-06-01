@@ -89,7 +89,7 @@ int main()
 	infer.add_fuzzy_input_data(&infer, &mat, fc_input_get_name(&in2), label);
 	fc_input_get_fuzzy_data(&in3, &mat);
 	fc_input_get_label(&in3, label);
-	infer.add_fuzzy_input_data(&infer, &mat, fc_input_get_name(&in3), label);
+	//infer.add_fuzzy_input_data(&infer, &mat, fc_input_get_name(&in3), label);
 
 	infer.inference(&infer);
 	infer.print(&infer);
@@ -101,6 +101,8 @@ int main()
 	in2.unregister_dev(&in2);
 	in3.unregister_dev(&in3);
 	infer.unregister_dev(&infer);
+
+	//malloc(1);
 
 	return 0;
 }

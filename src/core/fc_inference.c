@@ -68,6 +68,7 @@ bool fc_inference_add_fuzzy_input_data(
 	if (infer == nullptr || data == nullptr || name == nullptr || label == nullptr) return false;
 	if (!__IS_FUZZY_MATRIX_CREATED(data)) return false;
 	if (__IS_FUZZY_MATRIX_DAMAGED(data)) return false;
+	if (data->row != 1) return false;
 	if (list_length(label) <= 0) return false;
 
 	struct fuzzy_input_data_name_label fidnl = {
