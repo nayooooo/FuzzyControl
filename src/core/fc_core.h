@@ -9,12 +9,6 @@ extern "C" {
 #include "fc_error.h"
 #include "fc_std.h"
 
-#include "fc_obj.h"
-
-#include "fc_interface.h"
-#include "fc_input.h"
-#include "fc_inference.h"
-
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

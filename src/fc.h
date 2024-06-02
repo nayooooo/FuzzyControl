@@ -7,8 +7,9 @@ extern "C" {
 
 #include <stdint.h>
 
-#include "./core/fc_core.h"
 #include "./exter/fc_exter.h"
+#include "./core/fc_core.h"
+#include "./periph/fc_periph.h"
 
 #ifdef __cplusplus
 } /*extern "C"*/
