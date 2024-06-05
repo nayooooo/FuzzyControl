@@ -26,6 +26,7 @@ typedef uint32_t fc_size;
 #define fc_strtok strtok
 #define fc_strtok_s strtok_s
 #define fc_strchr strchr
+#define fc_strstr strstr
 
 #ifdef __cplusplus
 } /*extern "C"*/

@@ -8,6 +8,21 @@ static const fc_rule_keyword __fc_rules_keyword_table[] = {
     "|",                     // multiple output annotations for results
 };
 
+static fc_size __count_sub_string_num(const char* str, const char* substr)
+{
+    fc_size num = 0;
+
+    while (*str != '\0')
+    {
+        const char* mark = fc_strstr(str, substr);
+        if (mark == nullptr) break;
+        num++;
+        str = mark + 1;
+    }
+
+    return num;
+}
+
 fc_index is_fc_fules_keyword(const fc_rule_keyword word, const fc_rule_keyword* const keyword_table, const fc_size num)
 {
     if (__IS_FC_RULES_RULE_KEYWORD_EMPTY(word) || keyword_table == nullptr || num <= 0) return -1;
@@ -29,6 +44,15 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule) || keyword_table == nullptr || num <= FC_RULES_KEYWORD_TABLE_MAX_INDEX)
         return false;
 
+    // Only one occurrence of "IF" is allowed
+    if (__count_sub_string_num(rule, keyword_table[KEYWORD_IF_INDEX]) != 1) return false;
+    // Only one occurrence of "THEN" is allowed
+    if (__count_sub_string_num(rule, keyword_table[KEYWORD_THEN_INDEX]) != 1) return false;
+
+    fc_rule_item rule_jump_to_if = fc_strstr(rule, keyword_table[KEYWORD_IF_INDEX]);
+    if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_jump_to_if) || rule_jump_to_if != rule) return false;
+
+    // Create Rule Copy
     fc_rule_item rule_copy = (fc_rule_item)fc_malloc(fc_strlen(rule) + 1);
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_copy)) return false;
     fc_strcpy_s((char*)rule_copy, fc_strlen(rule) + 1, rule);
@@ -39,83 +63,65 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
         uint8_t exist_THEN : 1;
         uint8_t exist_condition : 1;
         uint8_t exist_result : 1;
-    }flag = { 0, 0, 0, 0 };
-    fc_index count = 0;  // the index of word
-    const char* temp = nullptr;
+        uint8_t is_rule_ok : 1;
+    }flag = { 0, 0, 0, 0, 1, };
+    const char* word = nullptr;
     char* context = nullptr;
+    fc_index ind = KEYWORD_NOT_FOUND_INDEX;
+    fc_index count = 0;
 
-    // Check if the first word is IF
-    temp = fc_strtok_s((char*)rule_copy, " ", &context);
-    if (fc_strcmp(temp, keyword_table[KEYWORD_IF_INDEX]) == 0)
-        flag.exist_IF = 1;
-    else goto out;
-
-    // Check the words between IF and THEN (including THEN)
-    temp = fc_strtok_s(nullptr, " ", &context);
-    count++;
-    fc_index kw_ind;
-    while (temp != nullptr)
+    // check
+    word = fc_strtok_s((char*)rule_copy, " ", &context);
+    while (__IS_FC_RULES_RULE_ITEM_EXIST(word))
     {
-        // Ensure that the words at the corresponding positions are legal
-        kw_ind = is_fc_fules_keyword(temp, keyword_table, num);
-        if (!(count % 2) && kw_ind == KEYWORD_NOT_FOUND_INDEX) goto out;  // Must be a keyword, but not
-        if ((count % 2) && (kw_ind != KEYWORD_NOT_FOUND_INDEX && kw_ind != KEYWORD_QM_INDEX)) goto out;  // Must be a condition or "?", but not
+        ind = is_fc_fules_keyword(word, keyword_table, num);
 
-        // Determine whether the format of the condition is legal
-        if (count % 2)
+        // keyword
+        if ((!(count % 2)) && (ind == KEYWORD_NOT_FOUND_INDEX || ind == KEYWORD_QM_INDEX)) { flag.is_rule_ok = 0; break; }
+        // user
+        if ((count % 2) && (ind != KEYWORD_NOT_FOUND_INDEX && (flag.exist_THEN || ind != KEYWORD_QM_INDEX))) { flag.is_rule_ok = 0; break; }
+
+        // "IF"
+        if (!flag.exist_IF)
         {
-            const char* word_context = fc_strchr(temp, '-');
-            if (word_context == nullptr) goto out;
-            if (*(word_context + 1) == '\0') goto out;
+            if (count == 0 && ind == KEYWORD_IF_INDEX) flag.exist_IF = 1;
+            else { flag.is_rule_ok = 0; break; }
         }
 
-        if (count == 1) flag.exist_condition = 1;
+        // "THEN"
+        if (!flag.exist_THEN) if ((!(count % 2)) && ind == KEYWORD_THEN_INDEX) flag.exist_THEN = 1;
 
-        // find THEN
-        if (!(count % 2) && kw_ind == KEYWORD_THEN_INDEX)
+        // "condition"
+        if (!flag.exist_condition)
         {
-            flag.exist_THEN = 1;
-            break;
+            if (count == 1 && (ind == KEYWORD_NOT_FOUND_INDEX || ind == KEYWORD_QM_INDEX))
+                flag.exist_condition = 1;
+            else if (count == 1) { flag.is_rule_ok = 0; break; }
         }
 
-        temp = fc_strtok_s(nullptr, " ", &context);
-        count++;
-    }
+        // "result"
+        if ((count % 2) && flag.exist_THEN && ind == KEYWORD_NOT_FOUND_INDEX) flag.exist_result = 1;
 
-    // Check the words after THEN (cannot be keywords, including "?")
-    temp = fc_strtok_s(nullptr, " ", &context);
-    count++;
-    if (temp != nullptr) flag.exist_result = 1;
-    while (temp != nullptr)
-    {
-        // Ensure that the words at the corresponding positions are legal
-        kw_ind = is_fc_fules_keyword(temp, keyword_table, num);
-        if (!(count % 2) && kw_ind != KEYWORD_VB_INDEX) goto out;  // Must be "|", but not
-        if ((count % 2) && kw_ind != KEYWORD_NOT_FOUND_INDEX) goto out;  // Must be a condition, but not
-
+        // check user
         if (count % 2)
         {
-            const char* word_context = fc_strchr(temp, '-');
+            const char* word_context = fc_strchr(word, '-');
             if (word_context == nullptr || *(word_context + 1) == '\0')
             {
-                fc_free((void*)rule_copy);
-                rule_copy = nullptr;
-                return false;
+                flag.is_rule_ok = 0;
+                break;
             }
         }
 
-        temp = fc_strtok_s(nullptr, " ", &context);
+        word = fc_strtok_s(nullptr, " ", &context);
         count++;
     }
-
-out:
 
     fc_free((void*)rule_copy);
     rule_copy = nullptr;
 
-    if (flag.exist_IF && flag.exist_THEN && flag.exist_condition && flag.exist_result)
-        if (!(count % 2))
-            return true;
+    if (flag.exist_IF && flag.exist_THEN && flag.exist_condition && flag.exist_result && flag.is_rule_ok)
+        return true;
     return false;
 }
 
