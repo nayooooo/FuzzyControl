@@ -5,8 +5,13 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 #include <stdlib.h>
 #include <string.h>
+
+typedef int32_t fc_index;
+typedef uint32_t fc_size;
 
 #define fc_malloc malloc
 #define fc_realloc realloc
@@ -14,7 +19,13 @@ extern "C" {
 
 #define fc_memcpy memcpy
 
+#define fc_strlen strlen
 #define fc_strcpy strcpy
+#define fc_strcpy_s strcpy_s
+#define fc_strcmp strcmp
+#define fc_strtok strtok
+#define fc_strtok_s strtok_s
+#define fc_strchr strchr
 
 #ifdef __cplusplus
 } /*extern "C"*/

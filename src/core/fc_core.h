@@ -9,6 +9,9 @@ extern "C" {
 #include "fc_error.h"
 #include "fc_std.h"
 
+#include "fc_rules.h"
+#include "fc_controler.h"
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif
