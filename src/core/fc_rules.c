@@ -31,7 +31,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
 
     fc_rule_item rule_copy = (fc_rule_item)fc_malloc(fc_strlen(rule) + 1);
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_copy)) return false;
-    fc_strcpy_s(rule_copy, fc_strlen(rule) + 1, rule);
+    fc_strcpy_s((char*)rule_copy, fc_strlen(rule) + 1, rule);
 
     struct
     {
@@ -45,12 +45,12 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     char* context = nullptr;
 
     // Check if the first word is IF
-    temp = fc_strtok_s(rule_copy, " ", &context);
+    temp = fc_strtok_s((char*)rule_copy, " ", &context);
     if (fc_strcmp(temp, keyword_table[KEYWORD_IF_INDEX]) == 0)
         flag.exist_IF = 1;
     else goto out;
 
-    // Check the words between IF and THE (including THE)
+    // Check the words between IF and THEN (including THEN)
     temp = fc_strtok_s(nullptr, " ", &context);
     count++;
     fc_index kw_ind;
@@ -98,7 +98,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
             const char* word_context = fc_strchr(temp, '-');
             if (word_context == nullptr || *(word_context + 1) == '\0')
             {
-                fc_free(rule_copy);
+                fc_free((void*)rule_copy);
                 rule_copy = nullptr;
                 return false;
             }
@@ -110,7 +110,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
 
 out:
 
-    fc_free(rule_copy);
+    fc_free((void*)rule_copy);
     rule_copy = nullptr;
 
     if (flag.exist_IF && flag.exist_THEN && flag.exist_condition && flag.exist_result)

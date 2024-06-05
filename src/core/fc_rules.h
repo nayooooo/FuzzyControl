@@ -58,7 +58,7 @@ typedef enum
  */
 struct fc_rules
 {
-    fc_rule_keyword* rule_keyword_table;
+    const fc_rule_keyword* rule_keyword_table;
     fc_size rule_keyword_num;
 
     list_head rules;
