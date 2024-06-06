@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+
 #include "./../exter/list.h"
 
 #include "fc_std.h"
@@ -24,6 +26,9 @@ typedef const char* fc_rule_consition;
 
 // rule result
 typedef const char* fc_rule_result;
+
+// rule consition/result
+typedef const char* fc_rule_consition_result;
 
 /*==================================================================================
     micro function
@@ -58,6 +63,7 @@ typedef enum
 {
     OPERA_AND = 0,
     OPERA_OR,
+    OPERA_VB,
 }fc_rules_opera_type;
 
 /*==================================================================================
@@ -79,22 +85,16 @@ struct fc_rules
     list_head rules;
 };
 
+struct __fc_calculation_unit
+{
+    fc_rule_consition_result cr;
+    fc_rules_opera_type opera;
+};
+
 struct fc_calculation
 {
-    fc_size condition_num;
-    fc_size result_num;
-
-    struct
-    {
-        fc_rule_consition con;
-        fc_rules_opera_type opera;
-    } *condition;
-
-    struct
-    {
-        fc_rule_result res;
-        fc_rules_opera_type opera;
-    } *result;
+    list_head condition;
+    list_head result;
 };
 
 /*==================================================================================
@@ -176,6 +176,14 @@ bool fc_rules_add_rule(const struct fc_rules* const obj, fc_rule_item rule);
 bool fc_rules_clear_rule(const struct fc_rules* const obj);
 
 /**
+ * @brief Get rules number
+ * 
+ * @param obj obect
+ * @return fc_size the rules number
+ */
+fc_size fc_rules_get_rule_num(const struct fc_rules* const obj);
+
+/**
  * @brief Print rules in the rule controller
  *
  * @param obj object
@@ -186,14 +194,25 @@ bool fc_rules_clear_rule(const struct fc_rules* const obj);
 bool fc_rules_print_rule(const struct fc_rules* const obj, const char* label);
 
 /**
- * @brief Export calculation structure
+ * @brief Create calculation
+ * @note Do not use this function on calculations that have already been created
  * 
- * @param obj object
  * @param cal calculation structure
  * @return true success
  * @retrun false failed
  */
-bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal);
+bool fc_rules_create_calculation(struct fc_calculation* const cal);
+
+/**
+ * @brief Export calculation structure
+ * 
+ * @param obj object
+ * @param cal calculation structure
+ * @param ind the rule index(0, 1, 2, ...)
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal, const fc_index ind);
 
 /**
  * @brief Delete calculation structure
@@ -203,6 +222,16 @@ bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_cal
  * @retrun false failed
  */
 bool fc_rules_delete_calculation(struct fc_calculation* const cal);
+
+/**
+ * @brief Print calculation structure
+ *
+ * @param cal calculation structure
+ * @param label label
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_print_calculation(const struct fc_calculation* const cal, const char* label);
 
 #ifdef __cplusplus
 } /*extern "C"*/

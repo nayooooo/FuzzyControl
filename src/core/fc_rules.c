@@ -51,9 +51,9 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     if (fc_strstr(rule, keyword_table[KEYWORD_IF_INDEX]) != rule) return false;
 
     // Create Rule Copy
-    fc_rule_item rule_copy = (fc_rule_item)fc_malloc(fc_strlen(rule) + 1);
+    fc_rule_item rule_copy = (fc_rule_item)fc_malloc((fc_strlen(rule) + 1) * sizeof(char));
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_copy)) return false;
-    fc_strcpy_s((char*)rule_copy, fc_strlen(rule) + 1, rule);
+    fc_strcpy_s((char*)rule_copy, (fc_strlen(rule) + 1) * sizeof(char), rule);
 
     struct
     {
@@ -70,7 +70,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
 
     // check
     word = fc_strtok_s((char*)rule_copy, " ", &context);
-    while (__IS_FC_RULES_RULE_ITEM_EXIST(word))
+    while (word != nullptr)
     {
         ind = is_fc_fules_keyword(word, keyword_table, num);
 
@@ -154,7 +154,7 @@ bool fc_rules_add_rule(const struct fc_rules* const obj, fc_rule_item rule)
 
     if (!is_fc_rules_legal_rule(rule, obj->rule_keyword_table, obj->rule_keyword_num)) return false;
 
-    if (!list_push(obj->rules, rule, fc_strlen(rule) + 1)) return false;
+    if (!list_push(obj->rules, (void*)rule, fc_strlen(rule) + 1)) return false;
 
     return true;
 }
@@ -166,6 +166,13 @@ bool fc_rules_clear_rule(const struct fc_rules* const obj)
     if (!list_clear(obj->rules, nullptr)) return false;
 
     return true;
+}
+
+fc_size fc_rules_get_rule_num(const struct fc_rules* const obj)
+{
+    if (obj == nullptr) return 0;
+
+    return list_length(obj->rules);
 }
 
 static bool __fc_rules_print_rule_cb(list_node node, void* data)
@@ -187,11 +194,176 @@ bool fc_rules_print_rule(const struct fc_rules* const obj, const char* label)
     return true;
 }
 
-bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal)
+static bool __fc_rules_calculation_construct_cb(void* data)
+{
+    if (data == nullptr) return false;
+
+    struct __fc_calculation_unit* unit = data;
+    if (unit->cr == nullptr) return false;
+
+    fc_rule_consition_result cr = (fc_rule_consition_result)fc_malloc((fc_strlen(unit->cr) + 1) * sizeof(char));
+    if (cr == nullptr) return false;
+    fc_strcpy_s((char*)cr, (fc_strlen(unit->cr) + 1) * sizeof(char), unit->cr);
+
+    unit->cr = cr;
+
+    return true;
+}
+
+static bool __fc_rules_calculation_deconstruct_cb(void* data)
+{
+    if (data == nullptr) return false;
+
+    struct __fc_calculation_unit* unit = data;
+
+    if (unit->cr != nullptr)
+    {
+        fc_free((void*)(unit->cr));
+        unit->cr = nullptr;
+    }
+
+    return true;
+}
+
+bool fc_rules_create_calculation(struct fc_calculation* const cal)
+{
+    if (cal == nullptr) return false;
+
+    cal->condition = list_create();
+    if (cal->condition == nullptr) goto error_out;
+    cal->result = list_create();
+    if (cal->result == nullptr) goto error_out;
+
+    if (0)
+    {
+    error_out:
+        list_delete(cal->condition, nullptr);
+        list_delete(cal->result, nullptr);
+        return false;
+    }
+
+    return true;
+}
+
+bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal, const fc_index ind)
 {
     if (obj == nullptr || cal == nullptr) return false;
 
-    if (list_length(obj->rules) <= 0) return false;
+    if (list_length(obj->rules) <= ind) return false;
+
+    // get rule
+    fc_rule_item rule = list_get_node_data(obj->rules, ind);
+    if (rule == nullptr) return false;
+
+    // create rule copy
+    fc_rule_item rule_copy = (fc_rule_item)fc_malloc((fc_strlen(rule) + 1) * sizeof(char));
+    if (rule_copy == nullptr) return false;
+    fc_strcpy_s((char*)rule_copy, (fc_strlen(rule) + 1) * sizeof(char), rule);
+
+    bool is_result = false;
+    const char* word = nullptr;
+    char* context = nullptr;
+    fc_index count = 0;
+    word = fc_strtok_s((char*)rule_copy, " ", &context);
+
+    // set consition and result
+    struct __fc_calculation_unit unit = { "", OPERA_OR };  // The first input should be taken as larger
+    while (word != nullptr)
+    {
+        fc_index word_ind = is_fc_fules_keyword(word, obj->rule_keyword_table, obj->rule_keyword_num);
+
+        // find THEN
+        if (!(count % 2) && word_ind == KEYWORD_THEN_INDEX) is_result = true;
+
+        // set opera
+        if (!(count % 2))
+        {
+            switch (word_ind)
+            {
+            case KEYWORD_AND_INDEX:
+                unit.opera = OPERA_AND;
+                break;
+            case KEYWORD_OR_INDEX:
+                unit.opera = OPERA_OR;
+                break;
+            case KEYWORD_VB_INDEX:
+                unit.opera = OPERA_VB;
+                break;
+            }
+        }
+
+        // set consition and result
+        if (count % 2)
+        {
+            unit.cr = word;
+            if (!is_result)  // consition
+            {
+                list_push_if(cal->condition, &unit, sizeof(struct __fc_calculation_unit), list_pred_true, __fc_rules_calculation_construct_cb);
+            }
+            else  // result
+            {
+                list_push_if(cal->result, &unit, sizeof(struct __fc_calculation_unit), list_pred_true, __fc_rules_calculation_construct_cb);
+            }
+        }
+
+        word = fc_strtok_s(nullptr, " ", &context);
+        count++;
+    }
+
+    fc_free((void*)rule_copy);
+    rule_copy = nullptr;
 
     return false;
+}
+
+bool fc_rules_delete_calculation(struct fc_calculation* const cal)
+{
+    if (cal == nullptr) return false;
+
+    if (cal->condition != nullptr)
+    {
+        list_delete(cal->condition, __fc_rules_calculation_deconstruct_cb);
+    }
+    if (cal->result != nullptr)
+    {
+        list_delete(cal->result, __fc_rules_calculation_deconstruct_cb);
+    }
+
+    return true;
+}
+
+bool fc_rules_print_calculation(const struct fc_calculation* const cal, const char* label)
+{
+    if (cal == nullptr || label == nullptr) return false;
+    if (cal->condition == nullptr || cal->result == nullptr) return false;
+
+    __FC_RULES_PRINTF("%s: \r\n", label ? label : "(unset label)");
+    for (fc_index i = 0; i < list_length(cal->condition); i++)
+    {
+        struct __fc_calculation_unit* unit = list_get_node_data(cal->condition, i);
+        if (unit == nullptr) return false;
+        if (i != 0)
+        {
+            switch (unit->opera)
+            {
+            case OPERA_AND:
+                __FC_RULES_PRINTF(" /\\ ");
+                break;
+            case OPERA_OR:
+                __FC_RULES_PRINTF(" \\/ ");
+                break;
+            }
+        }
+        __FC_RULES_PRINTF("\"%s\"", unit->cr);
+    }
+    __FC_RULES_PRINTF(" = ");
+    for (fc_index i = 0; i < list_length(cal->result); i++)
+    {
+        struct __fc_calculation_unit* unit = list_get_node_data(cal->result, i);
+        if (unit == nullptr) return false;
+        if (i != 0) __FC_RULES_PRINTF(" | ");
+        __FC_RULES_PRINTF("\"%s\"", unit->cr);
+    }
+
+    __FC_RULES_PRINTF("\r\n");
 }
