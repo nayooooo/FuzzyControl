@@ -1,0 +1,5 @@
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\Debug\fc_controler.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\Debug\fc_rules.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\Debug\fuzzy_opera.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\list.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\Debug\list.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\Debug\main.obj

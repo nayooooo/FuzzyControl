@@ -1,0 +1,4 @@
+﻿  main.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(14,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const fc_rule_keyword *”
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(16,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“list_head”
+  Core-fc_rules.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Debug\Core-fc_rules.exe

@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_rules\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{243FCA56-7EA0-44E3-A714-0D8B35A9BEA0}|Core-fc_rules\\Core-fc_rules.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{243FCA56-7EA0-44E3-A714-0D8B35A9BEA0}|Core-fc_rules\\Core-fc_rules.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_rules\\Core-fc_rules\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{243FCA56-7EA0-44E3-A714-0D8B35A9BEA0}|Core-fc_rules\\Core-fc_rules.vcxproj|solutionrelative:Core-fc_rules\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{243FCA56-7EA0-44E3-A714-0D8B35A9BEA0}|Core-fc_rules\\Core-fc_rules.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{243FCA56-7EA0-44E3-A714-0D8B35A9BEA0}|Core-fc_rules\\Core-fc_rules.vcxproj|D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
@@ -20,7 +20,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 213,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -30,20 +30,21 @@
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_rules.h",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.h",
               "RelativeToolTip": "..\\..\\src\\core\\fc_rules.h",
-              "ViewState": "AQIAADIAAAAAAAAAAAAQwD8AAAAMAAAA",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAQwFcAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-06-05T08:47:05.15Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "fc_rules.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.c",
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_rules.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_rules.c",
-              "ViewState": "AQIAAE8BAAAAAAAAAAAgwGABAAAnAAAA",
+              "ViewState": "AQIAAC8BAAAAAAAAAAAWwDwBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-06-05T08:46:20.325Z",
               "IsPinned": true,
@@ -51,16 +52,17 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "main.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_rules\\Core-fc_rules\\main.c",
               "RelativeDocumentMoniker": "Core-fc_rules\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_rules\\Core-fc_rules\\main.c",
               "RelativeToolTip": "Core-fc_rules\\main.c",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAAEgAAAAqAAAA",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAgwE8AAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-06-05T08:45:17.764Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             }
           ]
         }

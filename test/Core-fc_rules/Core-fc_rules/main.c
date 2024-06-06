@@ -63,6 +63,9 @@ int main()
 	rule = "IF A-1 AND B-2 OR C-3 THEN U-2";
 	ret = fc_rules_add_rule(&r, rule);
 	printf("[Add Rule] \"%s\" %s\r\n", rule, ret ? "success" : "failed");
+	rule = "IF A-1 AND B-2 OR C-3 THEN U-2 | V-7";
+	ret = fc_rules_add_rule(&r, rule);
+	printf("[Add Rule] \"%s\" %s\r\n", rule, ret ? "success" : "failed");
 	printf("\r\n");
 
 	printf("\r\n");
@@ -70,7 +73,7 @@ int main()
 	printf("\r\n");
 
 	fc_rules_create_calculation(&cal);
-	fc_rules_export_calculation(&r, &cal, 1);
+	fc_rules_export_calculation(&r, &cal, 2);
 	fc_rules_print_calculation(&cal, "calculation");
 
 	fc_rules_delete_calculation(&cal);
