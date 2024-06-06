@@ -19,9 +19,17 @@ typedef const char* fc_rule_keyword;
 // rule item
 typedef const char* fc_rule_item;
 
+// rule consition
+typedef const char* fc_rule_consition;
+
+// rule result
+typedef const char* fc_rule_result;
+
 /*==================================================================================
     micro function
 ==================================================================================*/
+
+#define __FC_RULES_PRINTF printf
 
 #define __IS_FC_RULES_RULE_ITEM_EXIST(RULE) (RULE != nullptr)
 
@@ -45,6 +53,13 @@ typedef enum
 }fc_rules_keyword_table_index;
 #define FC_RULES_KEYWORD_TABLE_MAX_INDEX KEYWORD_QM_INDEX
 
+// Operation type
+typedef enum
+{
+    OPERA_AND = 0,
+    OPERA_OR,
+}fc_rules_opera_type;
+
 /*==================================================================================
     structure
 ==================================================================================*/
@@ -62,6 +77,24 @@ struct fc_rules
     fc_size rule_keyword_num;
 
     list_head rules;
+};
+
+struct fc_calculation
+{
+    fc_size condition_num;
+    fc_size result_num;
+
+    struct
+    {
+        fc_rule_consition con;
+        fc_rules_opera_type opera;
+    } *condition;
+
+    struct
+    {
+        fc_rule_result res;
+        fc_rules_opera_type opera;
+    } *result;
 };
 
 /*==================================================================================
@@ -131,7 +164,7 @@ bool fc_rules_unregister(struct fc_rules* const obj);
  * @return true success
  * @retrun false failed
  */
-bool fc_fules_add_rule(const struct fc_rules* const obj, fc_rule_item rule);
+bool fc_rules_add_rule(const struct fc_rules* const obj, fc_rule_item rule);
 
 /**
  * @brief Clear rules in the rule controller
@@ -140,7 +173,36 @@ bool fc_fules_add_rule(const struct fc_rules* const obj, fc_rule_item rule);
  * @return true success
  * @retrun false failed
  */
-bool fc_fules_clear_rule(const struct fc_rules* const obj);
+bool fc_rules_clear_rule(const struct fc_rules* const obj);
+
+/**
+ * @brief Print rules in the rule controller
+ *
+ * @param obj object
+ * @param label label
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_print_rule(const struct fc_rules* const obj, const char* label);
+
+/**
+ * @brief Export calculation structure
+ * 
+ * @param obj object
+ * @param cal calculation structure
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal);
+
+/**
+ * @brief Delete calculation structure
+ *
+ * @param cal calculation structure
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_delete_calculation(struct fc_calculation* const cal);
 
 #ifdef __cplusplus
 } /*extern "C"*/

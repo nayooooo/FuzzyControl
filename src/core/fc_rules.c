@@ -38,7 +38,6 @@ fc_index is_fc_fules_keyword(const fc_rule_keyword word, const fc_rule_keyword* 
     return KEYWORD_NOT_FOUND_INDEX;
 }
 
-// TODO(me) Need to be more concise
 bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* const keyword_table, const fc_size num)
 {
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule) || keyword_table == nullptr || num <= FC_RULES_KEYWORD_TABLE_MAX_INDEX)
@@ -49,8 +48,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     // Only one occurrence of "THEN" is allowed
     if (__count_sub_string_num(rule, keyword_table[KEYWORD_THEN_INDEX]) != 1) return false;
 
-    fc_rule_item rule_jump_to_if = fc_strstr(rule, keyword_table[KEYWORD_IF_INDEX]);
-    if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_jump_to_if) || rule_jump_to_if != rule) return false;
+    if (fc_strstr(rule, keyword_table[KEYWORD_IF_INDEX]) != rule) return false;
 
     // Create Rule Copy
     fc_rule_item rule_copy = (fc_rule_item)fc_malloc(fc_strlen(rule) + 1);
@@ -148,4 +146,52 @@ bool fc_rules_unregister(struct fc_rules* const obj)
     list_delete(obj->rules, nullptr);
 
     return true;
+}
+
+bool fc_rules_add_rule(const struct fc_rules* const obj, fc_rule_item rule)
+{
+    if (obj == nullptr || !__IS_FC_RULES_RULE_ITEM_EXIST(rule)) return false;
+
+    if (!is_fc_rules_legal_rule(rule, obj->rule_keyword_table, obj->rule_keyword_num)) return false;
+
+    if (!list_push(obj->rules, rule, fc_strlen(rule) + 1)) return false;
+
+    return true;
+}
+
+bool fc_rules_clear_rule(const struct fc_rules* const obj)
+{
+    if (obj == nullptr) return false;
+
+    if (!list_clear(obj->rules, nullptr)) return false;
+
+    return true;
+}
+
+static bool __fc_rules_print_rule_cb(list_node node, void* data)
+{
+    UNUSED(data);
+
+    __FC_RULES_PRINTF("\"%s\"\r\n", node->data);
+
+    return true;
+}
+
+bool fc_rules_print_rule(const struct fc_rules* const obj, const char* label)
+{
+    if (obj == nullptr) return false;
+
+    __FC_RULES_PRINTF("%s: \r\n", label ? label : "(unset label)");
+    if (!list_trav(obj->rules, nullptr, __fc_rules_print_rule_cb)) return false;
+
+    return true;
+}
+
+bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal)
+{
+    if (obj == nullptr || cal == nullptr) return false;
+
+    if (list_length(obj->rules) <= 0) return false;
+
+    return false;
 }

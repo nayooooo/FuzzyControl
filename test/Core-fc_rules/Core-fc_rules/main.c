@@ -52,6 +52,22 @@ int main()
 	printf("rule(%s) is %s\r\n", rule, ret ? "legal" : "illegal");
 	printf("\r\n");
 
+	printf("\r\n");
+	rule = "IF A-1 THEN U-2";
+	ret = fc_rules_add_rule(&r, rule);
+	printf("[Add Rule] \"%s\" %s\r\n", rule, ret ? "success" : "failed");
+	rule = "IF A1 THEN U-2";
+	ret = fc_rules_add_rule(&r, rule);
+	printf("[Add Rule] \"%s\" %s\r\n", rule, ret ? "success" : "failed");
+	rule = "IF A-1 AND B-2 OR C-3 THEN U-2";
+	ret = fc_rules_add_rule(&r, rule);
+	printf("[Add Rule] \"%s\" %s\r\n", rule, ret ? "success" : "failed");
+	printf("\r\n");
+
+	printf("\r\n");
+	fc_rules_print_rule(&r, "rules");
+	printf("\r\n");
+
 	fc_rules_unregister(&r);
 
 	return 0;

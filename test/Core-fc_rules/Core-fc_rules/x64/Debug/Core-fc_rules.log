@@ -1,3 +1,5 @@
 ﻿  fc_rules.c
 D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(32,18): warning C4018: “<”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(157,32): warning C4090: “函数”: 不同的“const”限定符
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(175,5): warning C4013: “printf”未定义；假设外部返回 int
   Core-fc_rules.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\x64\Debug\Core-fc_rules.exe
