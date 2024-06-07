@@ -73,13 +73,11 @@ int main()
 	printf("\r\n");
 
 	fc_rules_create_calculation(&cal);
-	fc_rules_export_calculation(&r, &cal, 2);
+	fc_rules_export_calculation(&cal, &r, 2);
 	fc_rules_print_calculation(&cal, "calculation");
 
 	fc_rules_delete_calculation(&cal);
 	fc_rules_unregister(&r);
-
-	malloc(1);
 
 	return 0;
 }

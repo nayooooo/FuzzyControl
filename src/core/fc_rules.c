@@ -179,7 +179,7 @@ static bool __fc_rules_print_rule_cb(list_node node, void* data)
 {
     UNUSED(data);
 
-    __FC_RULES_PRINTF("\"%s\"\r\n", node->data);
+    __FC_RULES_PRINTF("\"%s\"\r\n", (char*)(node->data));
 
     return true;
 }
@@ -245,14 +245,14 @@ bool fc_rules_create_calculation(struct fc_calculation* const cal)
     return true;
 }
 
-bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal, const fc_index ind)
+bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct fc_rules* const rules, const fc_index ind)
 {
-    if (obj == nullptr || cal == nullptr) return false;
+    if (rules == nullptr || cal == nullptr) return false;
 
-    if (list_length(obj->rules) <= ind) return false;
+    if (list_length(rules->rules) <= ind) return false;
 
     // get rule
-    fc_rule_item rule = list_get_node_data(obj->rules, ind);
+    fc_rule_item rule = list_get_node_data(rules->rules, ind);
     if (rule == nullptr) return false;
 
     // create rule copy
@@ -270,7 +270,7 @@ bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_cal
     struct __fc_calculation_unit unit = { "", OPERA_OR };  // The first input should be taken as larger
     while (word != nullptr)
     {
-        fc_index word_ind = is_fc_fules_keyword(word, obj->rule_keyword_table, obj->rule_keyword_num);
+        fc_index word_ind = is_fc_fules_keyword(word, rules->rule_keyword_table, rules->rule_keyword_num);
 
         // find THEN
         if (!(count % 2) && word_ind == KEYWORD_THEN_INDEX) is_result = true;

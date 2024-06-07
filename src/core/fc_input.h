@@ -23,6 +23,10 @@ struct fc_input
     API
 ==================================================================================*/
 
+bool fc_input_register(struct fc_input* const in, const char* name);
+
+bool fc_input_unregister(struct fc_input* const in);
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

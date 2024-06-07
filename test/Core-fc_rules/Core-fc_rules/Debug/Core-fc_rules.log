@@ -1,6 +1,12 @@
 ﻿  fc_input.c
+  fc_rules.c
   main.c
-  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(32,18): warning C4018: “<”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(252,35): warning C4018: “<=”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(341,28): warning C4018: “<”: 有符号/无符号不匹配
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(360,28): warning C4018: “<”: 有符号/无符号不匹配
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(14,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const fc_rule_keyword *”
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(16,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“list_head”
+  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(369,1): warning C4715: “fc_rules_print_calculation”: 不是所有的控件路径都返回值
   Core-fc_rules.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Debug\Core-fc_rules.exe

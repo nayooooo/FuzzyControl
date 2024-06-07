@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="FuzzyControl">
+      <UniqueIdentifier>{265ad3ba-4810-49e0-9c37-008f6b153641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\exter">
+      <UniqueIdentifier>{613d6e08-9c43-4f70-8745-92039456fa31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\core">
+      <UniqueIdentifier>{b2122bd8-063f-4589-8ec1-a786217e64f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\exter\源文件">
+      <UniqueIdentifier>{1e8ea74c-1ade-4493-9aa9-f1f0b66c07c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\exter\头文件">
+      <UniqueIdentifier>{abdbb8a3-5bdc-49cc-bd27-16f714de53a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\core\源文件">
+      <UniqueIdentifier>{dfc9d703-c6b1-4290-982d-6c0ab8de293b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FuzzyControl\core\头文件">
+      <UniqueIdentifier>{25568ae4-01c1-4686-bb96-af16d0307104}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\exter\fuzzy_opera.c">
+      <Filter>FuzzyControl\exter\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\exter\list.c">
+      <Filter>FuzzyControl\exter\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\fc_controler.c">
+      <Filter>FuzzyControl\core\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\fc_input.c">
+      <Filter>FuzzyControl\core\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\core\fc_rules.c">
+      <Filter>FuzzyControl\core\源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\fc.h">
+      <Filter>FuzzyControl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\exter\fc_exter.h">
+      <Filter>FuzzyControl\exter\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\exter\fuzzy_opera.h">
+      <Filter>FuzzyControl\exter\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\exter\list.h">
+      <Filter>FuzzyControl\exter\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_controler.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_core.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_def.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_error.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_input.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_rules.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\core\fc_std.h">
+      <Filter>FuzzyControl\core\头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

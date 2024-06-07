@@ -140,6 +140,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
 
 /**
  * @brief Register rule controller
+ * @note Do not use this function on fc_rules that have already been registered
  * 
  * @param obj object
  * @return true success
@@ -206,13 +207,13 @@ bool fc_rules_create_calculation(struct fc_calculation* const cal);
 /**
  * @brief Export calculation structure
  * 
- * @param obj object
  * @param cal calculation structure
+ * @param obj rules
  * @param ind the rule index(0, 1, 2, ...)
  * @return true success
  * @retrun false failed
  */
-bool fc_rules_export_calculation(const struct fc_rules* const obj, struct fc_calculation* const cal, const fc_index ind);
+bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct fc_rules* const rules, const fc_index ind);
 
 /**
  * @brief Delete calculation structure
