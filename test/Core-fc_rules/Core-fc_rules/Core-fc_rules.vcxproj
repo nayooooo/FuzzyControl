@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\..\src\core\fc_core.h" />
     <ClInclude Include="..\..\..\src\core\fc_def.h" />
     <ClInclude Include="..\..\..\src\core\fc_error.h" />
+    <ClInclude Include="..\..\..\src\core\fc_input.h" />
     <ClInclude Include="..\..\..\src\core\fc_rules.h" />
     <ClInclude Include="..\..\..\src\core\fc_std.h" />
     <ClInclude Include="..\..\..\src\exter\fc_exter.h" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\core\fc_controler.c" />
+    <ClCompile Include="..\..\..\src\core\fc_input.c" />
     <ClCompile Include="..\..\..\src\core\fc_rules.c" />
     <ClCompile Include="..\..\..\src\exter\fuzzy_opera.c" />
     <ClCompile Include="..\..\..\src\exter\list.c" />

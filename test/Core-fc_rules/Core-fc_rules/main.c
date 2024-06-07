@@ -1,6 +1,6 @@
-#include "fc.h"
-
 #include <vld.h>
+
+#include "fc.h"
 
 static struct fc_rules r;
 struct fc_calculation cal;
@@ -78,6 +78,8 @@ int main()
 
 	fc_rules_delete_calculation(&cal);
 	fc_rules_unregister(&r);
+
+	malloc(1);
 
 	return 0;
 }
