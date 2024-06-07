@@ -216,11 +216,9 @@ static bool __fc_rules_calculation_deconstruct_cb(void* data)
 
     struct __fc_calculation_unit* unit = data;
 
-    if (unit->cr != nullptr)
-    {
-        fc_free((void*)(unit->cr));
-        unit->cr = nullptr;
-    }
+    if (unit->cr == nullptr) return false;
+    fc_free((void*)(unit->cr));
+    unit->cr = nullptr;
 
     return true;
 }

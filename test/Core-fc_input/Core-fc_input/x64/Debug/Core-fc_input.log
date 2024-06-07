@@ -1,7 +1,3 @@
-﻿  fc_rules.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(32,18): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(252,35): warning C4018: “<=”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(341,28): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(360,28): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(369,1): warning C4715: “fc_rules_print_calculation”: 不是所有的控件路径都返回值
+﻿  fc_input.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c(109,1): warning C4715: “fc_input_fuzzing”: 不是所有的控件路径都返回值
   Core-fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\x64\Debug\Core-fc_input.exe
