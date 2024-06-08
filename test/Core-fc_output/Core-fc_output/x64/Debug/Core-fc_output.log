@@ -1,0 +1,8 @@
+﻿  fc_input.c
+  fc_output.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_output.c(132,36): warning C4090: “函数”: 不同的“const”限定符
+  fuzzy_opera.c
+  main.c
+  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c(109,1): warning C4715: “fc_input_fuzzing”: 不是所有的控件路径都返回值
+  Core-fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\x64\Debug\Core-fc_output.exe

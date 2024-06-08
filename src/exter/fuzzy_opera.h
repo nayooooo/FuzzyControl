@@ -67,8 +67,9 @@ extern "C" {
     structure
 ==================================================================================*/
 
-typedef float accurate_number;
-typedef float fuzzy_number;
+typedef float decimal_number;
+typedef decimal_number accurate_number;
+typedef decimal_number fuzzy_number;
 typedef long long fuzzy_size;
 
 #define FUZZY_SIZE_MAX LLONG_MAX

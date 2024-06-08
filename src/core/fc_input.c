@@ -66,7 +66,7 @@ bool fc_input_unregister(struct fc_input* const in)
 bool fc_input_add_fuzzy_set(const struct fc_input* const in, const struct fuzzy_set* set)
 {
 	if (in == nullptr || set == nullptr) return false;
-	if (in->fuzzy_set == nullptr) return false;
+	if (in->fuzzy_set == nullptr || set->ms == nullptr) return false;
 
 	if (!list_push_if(in->fuzzy_set, (void*)set, sizeof(struct fuzzy_set), list_pred_true, __fc_input_fuzzy_set_construct_cb))
 		return false;

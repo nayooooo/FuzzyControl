@@ -9,8 +9,9 @@ extern "C" {
 #include "fc_error.h"
 #include "fc_std.h"
 
-#include "fc_rules.h"
 #include "fc_input.h"
+#include "fc_output.h"
+#include "fc_rules.h"
 #include "fc_controler.h"
 
 /**
@@ -32,6 +33,18 @@ struct fuzzy_set
 {
 	const char* label;
 	fc_membership_fn ms;
+};
+
+/**
+ * @brief Inference results
+ *
+ * @memberof name_tag name tag pairs
+ * @memberof activate activation level
+ */
+struct inference_result
+{
+	const char* name_tag;
+	fuzzy_number activate;
 };
 
 #ifdef __cplusplus

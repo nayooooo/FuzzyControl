@@ -1,3 +1,6 @@
 ﻿  fc_input.c
+  fuzzy_opera.c
+  main.c
+  正在生成代码...
 D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c(109,1): warning C4715: “fc_input_fuzzing”: 不是所有的控件路径都返回值
   Core-fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_input\x64\Debug\Core-fc_input.exe
