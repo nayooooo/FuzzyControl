@@ -30,9 +30,10 @@
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_input.h",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_input.h",
               "RelativeToolTip": "..\\..\\src\\core\\fc_input.h",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABIAAAAYAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABIAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-06-07T06:31:51.191Z"
+              "WhenOpened": "2024-06-07T06:31:51.191Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -44,7 +45,8 @@
               "RelativeToolTip": "..\\..\\src\\core\\fc_input.c",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-06-07T06:33:41.565Z"
+              "WhenOpened": "2024-06-07T06:33:41.565Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -54,7 +56,7 @@
               "RelativeDocumentMoniker": "Core-fc_rules\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\Core-fc_rules\\Core-fc_rules\\main.c",
               "RelativeToolTip": "Core-fc_rules\\main.c",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAAAEsAAAAlAAAA",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAE0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-06-05T08:45:17.764Z",
               "EditorCaption": ""
