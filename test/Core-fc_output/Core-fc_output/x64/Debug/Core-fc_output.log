@@ -1,2 +1,9 @@
-﻿  main.c
+﻿  fc_controler.c
+  fc_input.c
+  fc_output.c
+  fc_rules.c
+  fuzzy_opera.c
+  list.c
+  main.c
+  正在生成代码...
   Core-fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\x64\Debug\Core-fc_output.exe

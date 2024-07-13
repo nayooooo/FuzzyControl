@@ -7,11 +7,14 @@ extern "C" {
 
 #include <stdint.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 typedef int32_t fc_index;
 typedef uint32_t fc_size;
+
+#define fc_printf printf
 
 #define fc_malloc malloc
 #define fc_realloc realloc

@@ -1,11 +1,13 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(FuzzyControl VERSION 1.0.0
         DESCRIPTION "This library can be used to calculate the fuzzy output of fuzzy inputs under custom rules"
-        HOMEPAGE_URL "https://github.com/nayooooo/ICA.git"
+        HOMEPAGE_URL "https://github.com/nayooooo/FuzzyControl.git"
         LANGUAGES "C")
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB SRC_EXTER_LIST ${PROJECT_SOURCE_DIR}/exter/*.c)
 file(GLOB SRC_CORE_LIST ${PROJECT_SOURCE_DIR}/core/*.c)

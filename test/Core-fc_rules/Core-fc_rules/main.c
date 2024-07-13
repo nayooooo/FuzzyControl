@@ -11,9 +11,9 @@ int main()
 
 	printf("\r\n");
 	fc_rules_register(&r);
-	printf("table p: 0x%X\r\n", r.rule_keyword_table);
+	printf("table p: 0x%X\r\n", (unsigned int)(r.rule_keyword_table));
 	printf("table number: %d\r\n", r.rule_keyword_num);
-	printf("rules: 0x%X\r\n", r.rules);
+	printf("rules: 0x%X\r\n", (unsigned int)(r.rules));
 	printf("\r\n");
 
 	printf("\r\n");

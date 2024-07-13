@@ -63,7 +63,7 @@ bool fc_input_unregister(struct fc_input* const in)
 	return true;
 }
 
-bool fc_input_add_fuzzy_set(const struct fc_input* const in, const struct fuzzy_set* set)
+bool fc_input_add_fuzzy_set(const struct fc_input* const in, const struct fuzzy_set* const set)
 {
 	if (in == nullptr || set == nullptr) return false;
 	if (in->fuzzy_set == nullptr || set->ms == nullptr) return false;
@@ -106,6 +106,44 @@ bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size 
 			n = list_find_next_node(in->fuzzy_set, n);
 		}
 	}
+
+	return true;
+}
+
+bool fc_input_fuzzing_by_label(
+	struct fc_input* const in,
+	accurate_number* data, fc_size num,
+	fuzzy_number* fuzzy_data,
+	const char* label
+)
+{
+	if (in == nullptr || data == nullptr || fuzzy_data == nullptr) return false;
+	if (num <= 0) return false;
+	if (label == nullptr) return false;
+
+	// find fuzzy set
+	if (in->fuzzy_set == nullptr) return false;
+	if (list_length(in->fuzzy_set) <= 0) return false;
+	const struct fuzzy_set* fs = nullptr;
+	list_node n = list_get_first_node(in->fuzzy_set);
+	while (n != nullptr)
+	{
+		fs = n->data;
+		if (fs == nullptr) return false;
+		if (fc_strcmp(label, fs->label) == 0)
+			break;
+
+		n = list_find_next_node(in->fuzzy_set, n);
+	}
+	if (n == nullptr || fs == nullptr) return false;
+
+	if (fs->ms == nullptr) return false;
+	for (fc_size i = 0; i < num; i++)
+	{
+		fuzzy_data[i] = fs->ms(data[i]);
+	}
+
+	return true;
 }
 
 bool fc_input_print_data(struct fc_input* const in, const char* label)

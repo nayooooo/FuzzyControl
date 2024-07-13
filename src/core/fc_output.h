@@ -9,6 +9,8 @@ extern "C" {
 #include "./../exter/list.h"
 
 #include "fc_core.h"
+struct fuzzy_set;
+struct inference_result;
 
 /*==================================================================================
     structure
@@ -53,7 +55,7 @@ bool fc_output_unregister(struct fc_output* const out);
  * @return true success
  * @return false failed
  */
-bool fc_output_add_fuzzy_set(const struct fc_output* const out, const struct fuzzy_set* set);
+bool fc_output_add_fuzzy_set(const struct fc_output* const out, const struct fuzzy_set* const set);
 
 /**
  * @brief Clear the fuzzy subset in the output
@@ -108,7 +110,7 @@ fc_size fc_output_get_group_num(const struct fc_output* const out);
  * @return true success
  * @return false failed
  */
-bool fc_output_add_inference_result(const struct fc_output* const out, fc_index ind, const struct inference_result* ir);
+bool fc_output_add_inference_result(const struct fc_output* const out, fc_index ind, const struct inference_result* const ir);
 
 /**
  * @brief Clear all inference results from specified group in the output

@@ -29,7 +29,7 @@ fc_index is_fc_fules_keyword(const fc_rule_keyword word, const fc_rule_keyword* 
 
     fc_index index = 0;
 
-    for (; index < num; index++)
+    for (; (fc_size)index < num; index++)
     {
         if (fc_strcmp(word, keyword_table[index]) == 0)
             return index;
@@ -247,7 +247,8 @@ bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct 
 {
     if (rules == nullptr || cal == nullptr) return false;
 
-    if (list_length(rules->rules) <= ind) return false;
+    if (ind < 0) return false;
+    if (list_length(rules->rules) <= (fc_size)ind) return false;
 
     // get rule
     fc_rule_item rule = list_get_node_data(rules->rules, ind);
@@ -336,7 +337,7 @@ bool fc_rules_print_calculation(const struct fc_calculation* const cal, const ch
     if (cal->condition == nullptr || cal->result == nullptr) return false;
 
     __FC_RULES_PRINTF("%s: \r\n", label ? label : "(unset label)");
-    for (fc_index i = 0; i < list_length(cal->condition); i++)
+    for (fc_index i = 0; (fc_size)i < list_length(cal->condition); i++)
     {
         struct __fc_calculation_unit* unit = list_get_node_data(cal->condition, i);
         if (unit == nullptr) return false;
@@ -355,7 +356,7 @@ bool fc_rules_print_calculation(const struct fc_calculation* const cal, const ch
         __FC_RULES_PRINTF("\"%s\"", unit->cr);
     }
     __FC_RULES_PRINTF(" = ");
-    for (fc_index i = 0; i < list_length(cal->result); i++)
+    for (fc_index i = 0; (fc_size)i < list_length(cal->result); i++)
     {
         struct __fc_calculation_unit* unit = list_get_node_data(cal->result, i);
         if (unit == nullptr) return false;
@@ -364,4 +365,6 @@ bool fc_rules_print_calculation(const struct fc_calculation* const cal, const ch
     }
 
     __FC_RULES_PRINTF("\r\n");
+
+    return true;
 }

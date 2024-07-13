@@ -1,4 +1,5 @@
-﻿  main.c
+﻿  list.c
+  main.c
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core\Core\main.c(43,36): warning C4311: “类型强制转换”: 从“list **”到“int”的指针截断
-  LINK : 没有找到 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core\x64\Debug\Core.exe 或上一个增量链接没有生成它；正在执行完全链接
+  正在生成代码...
   Core.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core\x64\Debug\Core.exe

@@ -34,7 +34,7 @@ typedef const char* fc_rule_consition_result;
     micro function
 ==================================================================================*/
 
-#define __FC_RULES_PRINTF printf
+#define __FC_RULES_PRINTF fc_printf
 
 #define __IS_FC_RULES_RULE_ITEM_EXIST(RULE) (RULE != nullptr)
 

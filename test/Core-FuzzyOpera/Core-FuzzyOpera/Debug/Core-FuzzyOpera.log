@@ -1,4 +1,7 @@
-﻿  main.c
+﻿  fuzzy_opera.c
+  list.c
+  main.c
+  正在生成代码...
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(19,8): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(41,21): warning C4244: “=”: 从“size_t”转换到“fuzzy_number”，可能丢失数据
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(81,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
@@ -20,5 +23,4 @@ D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\m
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(302,20): warning C4305: “=”: 从“double”到“fuzzy_number”截断
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(302,45): warning C4305: “=”: 从“double”到“fuzzy_number”截断
 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Core-FuzzyOpera\main.c(39,31): warning C4244: “初始化”: 从“fuzzy_size”转换到“size_t”，可能丢失数据
-  LINK : 没有找到 D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Debug\Core-FuzzyOpera.exe 或上一个增量链接没有生成它；正在执行完全链接
   Core-FuzzyOpera.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-FuzzyOpera\Debug\Core-FuzzyOpera.exe

@@ -154,9 +154,10 @@
 | - | - | - | - |
 | fc_input_register | struct fc_input* const,const char* | bool | 注册一个模糊输入对象，其名字是动态申请的（防止被意外修改），同时初始化模糊矩阵，并创建一个空链表。注意已经注册过的对象执行此函数，否则会发生内存泄漏 |
 | fc_input_unregister | struct fc_input* const | bool | 注销模糊输入对象 |
-| fc_input_add_fuzzy_set | const struct fc_input* const,const struct fuzzy_set* | bool | 向模糊输入对象添加一个模糊子集，其标签是动态申请的（防止被意外修改） |
+| fc_input_add_fuzzy_set | const struct fc_input* const,const struct fuzzy_set* const | bool | 向模糊输入对象添加一个模糊子集，其标签是动态申请的（防止被意外修改） |
 | fc_input_clear_fuzzy_set | const struct fc_input* const | bool | 清空模糊输入中的模糊子集，即清空链表 |
 | fc_input_fuzzing | struct fc_input* const,accurate_number*,fc_size | bool | 进行模糊化 |
+| fc_input_fuzzing_by_label | struct fc_input* const,accurate_number*,fc_size,fuzzy_number*,const char* | bool | 使用特定的模糊集对数据进行模糊化 |
 | fc_input_print_data | struct fc_input* const,const char* | bool | 打印经过模糊化后的数据 |
 | fc_input_print_fuzzy_set | struct fc_input* const,const char* | bool | 打印模糊输入对象中的模糊子集，以名字——标签对的形式进行打印 |
 

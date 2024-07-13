@@ -98,11 +98,11 @@ bool fuzzy_matrix_create(struct fuzzy_matrix* const mat, const fuzzy_size row, c
     if (__IS_FUZZY_MATRIX_CREATED(mat)) return false;
 
     // Dynamic application matrix memory
-    mat->mat = (fuzzy_number**)__FUZZY_MATRIX_MALLOC(row * sizeof(fuzzy_number*));
+    mat->mat = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((size_t)row * sizeof(fuzzy_number*));
     if (mat->mat == nullptr) return false;
     for (fuzzy_size r = 0; r < row; r++)
     {
-        mat->mat[r] = (fuzzy_number*)__FUZZY_MATRIX_MALLOC(col * sizeof(fuzzy_number));
+        mat->mat[r] = (fuzzy_number*)__FUZZY_MATRIX_MALLOC((size_t)col * sizeof(fuzzy_number));
         if (mat->mat[r] == nullptr)
         {
             for (fuzzy_size i = 0; i < r; i++)
@@ -114,7 +114,7 @@ bool fuzzy_matrix_create(struct fuzzy_matrix* const mat, const fuzzy_size row, c
             mat->mat = nullptr;
             return false;
         }
-        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)col * sizeof(fuzzy_number));
     }
     mat->row = row;
     mat->col = col;
@@ -144,13 +144,13 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         if (row < ori_row)
         {
             // Record the row vectors to be destroyed
-            mark = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((ori_row - row) * sizeof(fuzzy_number*));
+            mark = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((size_t)(ori_row - row) * sizeof(fuzzy_number*));
             if (mark == nullptr) return false;
-            __FUZZY_MATRIX_MEMCPY(mark, &(mat->mat[row]), (ori_row - row) * sizeof(fuzzy_number*));
+            __FUZZY_MATRIX_MEMCPY(mark, &(mat->mat[row]), (size_t)(ori_row - row) * sizeof(fuzzy_number*));
         }
 
         // Applying for row vector pointers for a new matrix
-        temp = __FUZZY_MATRIX_REALLOC(mat->mat, row * sizeof(fuzzy_number*));
+        temp = __FUZZY_MATRIX_REALLOC(mat->mat, (size_t)row * sizeof(fuzzy_number*));
         if (temp == nullptr)
         {
             if (mark != nullptr)
@@ -165,7 +165,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         if (row > ori_row)
         {
-            __FUZZY_MATRIX_MEMSET(&(mat->mat[ori_row]), 0, (row - ori_row) * sizeof(fuzzy_number*));
+            __FUZZY_MATRIX_MEMSET(&(mat->mat[ori_row]), 0, (size_t)(row - ori_row) * sizeof(fuzzy_number*));
         }
 
         // Reduce the number of rows in the new matrix
@@ -198,7 +198,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         for (fuzzy_size r = 0; r < mat->row; r++)
         {
-            temp = __FUZZY_MATRIX_REALLOC(mat->mat[r], col * sizeof(fuzzy_number));
+            temp = __FUZZY_MATRIX_REALLOC(mat->mat[r], (size_t)col * sizeof(fuzzy_number));
             if (temp == nullptr)
             {
                 // Failed to realloc for matrix, marked as damaged matrix
@@ -214,7 +214,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = 0; r < mat->row; r++)
             {
-                __FUZZY_MATRIX_MEMSET(&(mat->mat[r][ori_col]), 0, (col - ori_col) * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(&(mat->mat[r][ori_col]), 0, (size_t)(col - ori_col) * sizeof(fuzzy_number));
             }
         }
 
@@ -222,7 +222,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = ori_row; r < row; r++)
             {
-                __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, col * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)col * sizeof(fuzzy_number));
             }
         }
     }
@@ -270,7 +270,7 @@ bool fuzzy_matrix_clear(const struct fuzzy_matrix* const mat)
 
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
-        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, mat->col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)(mat->col) * sizeof(fuzzy_number));
     }
 
     return true;

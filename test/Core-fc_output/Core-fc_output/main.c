@@ -79,11 +79,11 @@ int main()
 
 	// 得到一个计算式
 	fc_rules_register(&r);
-	rule = "IF A-pass AND B-pass THEN U-1";
+	rule = "IF A-good AND B-excellent THEN U-1";
 	fc_rules_add_rule(&r, rule);
 	fc_rules_create_calculation(&cal);
 	fc_rules_export_calculation(&cal, &r, 0);
-	fc_rules_print_calculation(&cal, "calculation");
+	fc_rules_print_calculation(&cal, "rule");
 
 	// 注册输入部件并添加必要的隶属函数
 	fc_input_register(&in1, "A");
@@ -91,6 +91,19 @@ int main()
 	__fc_input_add_fuzzy_set(&in1);
 	__fc_input_add_fuzzy_set(&in2);
 	
+	// 通过特定模糊集对数据进行模糊化并计算输出（需要修改成根据计算式自动化地计算输出）
+	accurate_number in1_d = 76;
+	fuzzy_number in1_fsd = 0;
+	const char* in1_fs_label = "good";
+	fc_input_fuzzing_by_label(&in1, &in1_d, 1, &in1_fsd, in1_fs_label);
+	printf("[in1] accurate(%.4f) -> fuzzy(\"%s\"): %.4f\r\n", in1_d, in1_fs_label, in1_fsd);
+	accurate_number in2_d = 92;
+	fuzzy_number in2_fsd = 0;
+	const char* in2_fs_label = "excellent";
+	fc_input_fuzzing_by_label(&in2, &in2_d, 1, &in2_fsd, in2_fs_label);
+	printf("[in2] accurate(%.4f) -> fuzzy(\"%s\"): %.4f\r\n", in2_d, in2_fs_label, in2_fsd);
+
+	// 删除所有对象
 	fc_input_unregister(&in1);
 	fc_input_unregister(&in2);
 	fc_rules_delete_calculation(&cal);

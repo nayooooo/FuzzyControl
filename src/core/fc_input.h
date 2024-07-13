@@ -9,6 +9,7 @@ extern "C" {
 #include "./../exter/list.h"
 
 #include "fc_core.h"
+struct fuzzy_set;
 
 /*==================================================================================
     structure
@@ -53,7 +54,7 @@ bool fc_input_unregister(struct fc_input* const in);
  * @return true success
  * @return false failed
  */
-bool fc_input_add_fuzzy_set(const struct fc_input* const in, const struct fuzzy_set* set);
+bool fc_input_add_fuzzy_set(const struct fc_input* const in, const struct fuzzy_set* const set);
 
 /**
  * @brief Clear the fuzzy subset in the input
@@ -74,6 +75,24 @@ bool fc_input_clear_fuzzy_set(const struct fc_input* const in);
  * @return false failed
  */
 bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size num);
+
+/**
+ * @brief Perform one fuzzification by fuzzy set label
+ *
+ * @param in object
+ * @param data accurate data
+ * @param num accurate data number
+ * @param fuzzy_data fuzzy data
+ * @param label fuzzy set label
+ * @return true success
+ * @return false failed
+ */
+bool fc_input_fuzzing_by_label(
+    struct fc_input* const in,
+    accurate_number* data, fc_size num,
+    fuzzy_number* fuzzy_data,
+    const char* label
+);
 
 /**
  * @brief Print blurred data

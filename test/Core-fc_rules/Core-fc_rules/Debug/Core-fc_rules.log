@@ -1,25 +1,8 @@
-﻿  fc_input.c
+﻿  fc_controler.c
+  fc_input.c
   fc_rules.c
   fuzzy_opera.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(32,18): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(250,35): warning C4018: “<=”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(339,28): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(358,28): warning C4018: “<”: 有符号/无符号不匹配
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(101,58): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(105,64): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(117,51): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(147,74): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(149,75): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(153,53): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(168,76): warning C4244: “函数”: 从“fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(201,60): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(217,83): warning C4244: “函数”: 从“fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(225,59): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c(273,56): warning C4244: “函数”: 从“const fuzzy_size”转换到“size_t”，可能丢失数据
+  list.c
   main.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(14,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“const fc_rule_keyword *”
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Core-fc_rules\main.c(16,9): warning C4477: “printf”: 格式字符串“%X”需要类型“unsigned int”的参数，但可变参数 1 拥有了类型“list_head”
   正在生成代码...
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c(367,1): warning C4715: “fc_rules_print_calculation”: 不是所有的控件路径都返回值
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c(109,1): warning C4715: “fc_input_fuzzing”: 不是所有的控件路径都返回值
   Core-fc_rules.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Debug\Core-fc_rules.exe

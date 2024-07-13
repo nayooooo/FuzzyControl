@@ -124,12 +124,12 @@ bool fc_output_unregister(struct fc_output* const out)
 	return false;
 }
 
-bool fc_output_add_fuzzy_set(const struct fc_output* const out, const struct fuzzy_set* set)
+bool fc_output_add_fuzzy_set(const struct fc_output* const out, const struct fuzzy_set* const set)
 {
 	if (out == nullptr || set == nullptr) return false;
 	if (out->fuzzy_set == nullptr || set->ms == nullptr) return false;
 
-	if (!list_push_if(out->fuzzy_set, set, sizeof(struct fuzzy_set), list_pred_true, __fc_output_fuzzy_set_construct_cb))
+	if (!list_push_if(out->fuzzy_set, (void*)set, sizeof(struct fuzzy_set), list_pred_true, __fc_output_fuzzy_set_construct_cb))
 		return false;
 
 	return true;
