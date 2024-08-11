@@ -102,6 +102,22 @@ int main()
 	const char* in2_fs_label = "excellent";
 	fc_input_fuzzing_by_label(&in2, &in2_d, 1, &in2_fsd, in2_fs_label);
 	printf("[in2] accurate(%.4f) -> fuzzy(\"%s\"): %.4f\r\n", in2_d, in2_fs_label, in2_fsd);
+	// 自动计算
+	// 链接所有输入
+	list_head in = list_create();
+	if (in != nullptr) {
+		// 链接输入
+		struct fc_input* pin;
+		pin = &in1; list_push(in, (void*)(&pin), sizeof(struct fc_input*));
+		pin = &in2; list_push(in, (void*)(&pin), sizeof(struct fc_input*));
+
+		fuzzy_number res = 0;  // 激活程度
+		accurate_number data;  // 输入数据
+
+		// 根据输入数据，计算式以及输入进行自动计算
+		struct __fc_calculation_unit unit;
+	}
+	list_delete(in, nullptr);
 
 	// 删除所有对象
 	fc_input_unregister(&in1);

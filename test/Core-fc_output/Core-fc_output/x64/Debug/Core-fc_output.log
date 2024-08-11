@@ -1,9 +1,4 @@
-﻿  fc_controler.c
-  fc_input.c
-  fc_output.c
-  fc_rules.c
-  fuzzy_opera.c
-  list.c
-  main.c
-  正在生成代码...
+﻿  main.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\main.c(115,19): warning C4101: “data”: 未引用的局部变量
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\main.c(118,32): warning C4101: “unit”: 未引用的局部变量
   Core-fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\x64\Debug\Core-fc_output.exe
