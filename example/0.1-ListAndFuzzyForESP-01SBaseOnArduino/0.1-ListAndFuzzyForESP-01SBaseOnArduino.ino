@@ -108,7 +108,8 @@ void setup() {
     list_over:
         Serial.write("\r\n\n");
         list_delete(l, nullptr);
-        Serial.printf("[delete] list node number: %u\r\n", list_length(l));
+        l = nullptr;
+        Serial.printf("[delete] list address: 0x%X\r\n", l);
     }
 
     // test fuzzy matrix

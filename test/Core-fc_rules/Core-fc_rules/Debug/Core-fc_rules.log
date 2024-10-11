@@ -1,8 +1,0 @@
-﻿  fc_controler.c
-  fc_input.c
-  fc_rules.c
-  fuzzy_opera.c
-  list.c
-  main.c
-  正在生成代码...
-  Core-fc_rules.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_rules\Debug\Core-fc_rules.exe

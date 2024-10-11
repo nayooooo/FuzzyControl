@@ -1,7 +1,0 @@
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\fc_controler.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\fc_input.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_output.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\fc_output.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_rules.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\fc_rules.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\fuzzy_opera.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\list.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\list.obj
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\main.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\Core-fc_output\Core-fc_output\x64\Debug\main.obj

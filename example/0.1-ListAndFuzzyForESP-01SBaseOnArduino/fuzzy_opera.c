@@ -1,27 +1,8 @@
 #include "fuzzy_opera.h"
 
-#include <stdio.h>
-
 #ifndef nullptr
 #   define nullptr ((void*)0)
 #endif // !nullptr
-
-#include <stdlib.h>
-#include <string.h>
-
-#define __fuzzy_matrix_malloc malloc
-#define __fuzzy_matrix_free free
-#define __fuzzy_matrix_realloc realloc
-
-#define __fuzzy_matrix_memset memset
-#define __fuzzy_matrix_memcpy memcpy
-
-#ifdef ARDUINO
-    extern int arduino_printf(const char *format, ...);
-#   define __fuzzy_matrix_printf arduino_printf
-#else
-#   define __fuzzy_matrix_printf printf
-#endif
 
 /*==================================================================================
     Internal Fuzzy Operation API
@@ -117,23 +98,23 @@ bool fuzzy_matrix_create(struct fuzzy_matrix* const mat, const fuzzy_size row, c
     if (__IS_FUZZY_MATRIX_CREATED(mat)) return false;
 
     // Dynamic application matrix memory
-    mat->mat = (fuzzy_number**)__fuzzy_matrix_malloc(row * sizeof(fuzzy_number*));
+    mat->mat = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((size_t)row * sizeof(fuzzy_number*));
     if (mat->mat == nullptr) return false;
     for (fuzzy_size r = 0; r < row; r++)
     {
-        mat->mat[r] = (fuzzy_number*)__fuzzy_matrix_malloc(col * sizeof(fuzzy_number));
+        mat->mat[r] = (fuzzy_number*)__FUZZY_MATRIX_MALLOC((size_t)col * sizeof(fuzzy_number));
         if (mat->mat[r] == nullptr)
         {
             for (fuzzy_size i = 0; i < r; i++)
             {
-                __fuzzy_matrix_free(mat->mat[i]);
+                __FUZZY_MATRIX_FREE(mat->mat[i]);
                 mat->mat[i] = nullptr;
             }
-            __fuzzy_matrix_free(mat->mat);
+            __FUZZY_MATRIX_FREE(mat->mat);
             mat->mat = nullptr;
             return false;
         }
-        __fuzzy_matrix_memset(mat->mat[r], 0, col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)col * sizeof(fuzzy_number));
     }
     mat->row = row;
     mat->col = col;
@@ -145,7 +126,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 {
     if (mat == nullptr) return false;
     if (row <= 0 || col <= 0) return false;
-    if (__IS_FUZZY_MATRIX_CREATED(mat) && __is_fuzzy_matrix_damaged(mat)) return false;
+    if (__IS_FUZZY_MATRIX_CREATED(mat) && __IS_FUZZY_MATRIX_DAMAGED(mat)) return false;
 
     if (__IS_FUZZY_MATRIX_CREATED(mat) && (mat->row == row && mat->col == col)) return true;
 
@@ -157,24 +138,25 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
     if (mat->row != row)
     {
         void* temp = nullptr;
-        struct fuzzy_matrix mark;
+        fuzzy_number** mark = nullptr;
 
         // Reduce the number of rows in the new matrix
         if (row < ori_row)
         {
             // Record the row vectors to be destroyed
-            fuzzy_matrix_init(&mark);
-            if (!fuzzy_matrix_create(&mark, ori_row - row, 1)) return false;
-            __fuzzy_matrix_memcpy(mark.mat, &(mat->mat[row]), ori_row - row);
+            mark = (fuzzy_number**)__FUZZY_MATRIX_MALLOC((size_t)(ori_row - row) * sizeof(fuzzy_number*));
+            if (mark == nullptr) return false;
+            __FUZZY_MATRIX_MEMCPY(mark, &(mat->mat[row]), (size_t)(ori_row - row) * sizeof(fuzzy_number*));
         }
 
         // Applying for row vector pointers for a new matrix
-        temp = __fuzzy_matrix_realloc(mat->mat, row * sizeof(fuzzy_number*));
+        temp = __FUZZY_MATRIX_REALLOC(mat->mat, (size_t)row * sizeof(fuzzy_number*));
         if (temp == nullptr)
         {
-            if (__IS_FUZZY_MATRIX_CREATED(&mark))
+            if (mark != nullptr)
             {
-                fuzzy_matrix_delete(&mark);
+                __FUZZY_MATRIX_FREE(mark);
+                mark = nullptr;
             }
             return false;
         }
@@ -183,7 +165,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         if (row > ori_row)
         {
-            __fuzzy_matrix_memset(&(mat->mat[ori_row]), 0, (row - ori_row) * sizeof(fuzzy_number*));
+            __FUZZY_MATRIX_MEMSET(&(mat->mat[ori_row]), 0, (size_t)(row - ori_row) * sizeof(fuzzy_number*));
         }
 
         // Reduce the number of rows in the new matrix
@@ -192,15 +174,19 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
             // Destroy unwanted row vectors
             for (fuzzy_size r = 0; r < ori_row - row; r++)
             {
-                if (mark.mat[r] != nullptr)
+                if (mark[r] != nullptr)
                 {
-                    __fuzzy_matrix_free(mark.mat[r]);
-                    mark.mat[r] = nullptr;
+                    __FUZZY_MATRIX_FREE(mark[r]);
+                    mark[r] = nullptr;
                 }
             }
 
             // Destroy mark
-            fuzzy_matrix_delete(&mark);
+            if (mark != nullptr)
+            {
+                __FUZZY_MATRIX_FREE(mark);
+                mark = nullptr;
+            }
         }
     }
 
@@ -212,11 +198,11 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
 
         for (fuzzy_size r = 0; r < mat->row; r++)
         {
-            temp = __fuzzy_matrix_realloc(mat->mat[r], col * sizeof(fuzzy_number));
+            temp = __FUZZY_MATRIX_REALLOC(mat->mat[r], (size_t)col * sizeof(fuzzy_number));
             if (temp == nullptr)
             {
                 // Failed to realloc for matrix, marked as damaged matrix
-                __set_fuzzy_matrix_as_damaged(mat);
+                __SET_FUZZY_MATRIX_AS_DAMAGED(mat);
                 return false;
             }
             mat->mat[r] = temp;
@@ -228,7 +214,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = 0; r < mat->row; r++)
             {
-                __fuzzy_matrix_memset(&(mat->mat[r][ori_col]), 0, (col - ori_col) * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(&(mat->mat[r][ori_col]), 0, (size_t)(col - ori_col) * sizeof(fuzzy_number));
             }
         }
 
@@ -236,7 +222,7 @@ bool fuzzy_matrix_reshape(struct fuzzy_matrix* const mat, const fuzzy_size row, 
         {
             for (fuzzy_size r = ori_row; r < row; r++)
             {
-                __fuzzy_matrix_memset(mat->mat[r], 0, col * sizeof(fuzzy_number));
+                __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)col * sizeof(fuzzy_number));
             }
         }
     }
@@ -248,7 +234,7 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* const mat, const fuzzy_size row
 {
     if (mat == nullptr) return false;
     if (row <= 0 || col <= 0) return false;
-    if (__IS_FUZZY_MATRIX_CREATED(mat) && __is_fuzzy_matrix_damaged(mat)) return false;
+    if (__IS_FUZZY_MATRIX_CREATED(mat) && __IS_FUZZY_MATRIX_DAMAGED(mat)) return false;
 
     if (__IS_FUZZY_MATRIX_CREATED(mat) && (mat->row == row && mat->col == col)) return true;
 
@@ -263,11 +249,11 @@ bool fuzzy_matrix_reshape_s(struct fuzzy_matrix* const mat, const fuzzy_size row
     fuzzy_matrix_copy_just_elem(&brave, mat, 0, 0);
 
     struct fuzzy_matrix copy;
-    __fuzzy_matrix_memcpy(&copy, mat, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(&copy, mat, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(mat);
     if (!fuzzy_matrix_pay_tribute(mat, &brave))
     {
-        __fuzzy_matrix_memcpy(mat, &copy, sizeof(struct fuzzy_matrix));
+        __FUZZY_MATRIX_MEMCPY(mat, &copy, sizeof(struct fuzzy_matrix));
         fuzzy_matrix_delete(&brave);
         return false;
     }
@@ -280,11 +266,11 @@ bool fuzzy_matrix_clear(const struct fuzzy_matrix* const mat)
 {
     if (mat == nullptr) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(mat)) return false;
-    if (__is_fuzzy_matrix_damaged(mat)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat)) return false;
 
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
-        __fuzzy_matrix_memset(mat->mat[r], 0, mat->col * sizeof(fuzzy_number));
+        __FUZZY_MATRIX_MEMSET(mat->mat[r], 0, (size_t)(mat->col) * sizeof(fuzzy_number));
     }
 
     return true;
@@ -294,7 +280,7 @@ bool fuzzy_matrix_set_elem(const struct fuzzy_matrix* const mat, const fuzzy_num
 {
     if (mat == nullptr) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(mat)) return false;
-    if (__is_fuzzy_matrix_damaged(mat)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat)) return false;
 
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
@@ -312,9 +298,9 @@ bool fuzzy_matrix_pay_tribute(struct fuzzy_matrix* const emperor, struct fuzzy_m
     if (emperor == nullptr || vassal == nullptr) return false;
     if (__IS_FUZZY_MATRIX_CREATED(emperor)) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(vassal)) return false;
-    if (__is_fuzzy_matrix_damaged(vassal)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(vassal)) return false;
 
-    __fuzzy_matrix_memcpy(emperor, vassal, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(emperor, vassal, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(vassal);
 
     return true;
@@ -325,7 +311,7 @@ bool fuzzy_matrix_rob(struct fuzzy_matrix* const king, struct fuzzy_matrix* cons
     if (king == nullptr || brave == nullptr) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(brave)) return false;
 
-    if (__is_fuzzy_matrix_damaged(brave))
+    if (__IS_FUZZY_MATRIX_DAMAGED(brave))
     {
         if (__IS_FUZZY_MATRIX_CREATED(king))
             fuzzy_matrix_delete(king);
@@ -334,7 +320,7 @@ bool fuzzy_matrix_rob(struct fuzzy_matrix* const king, struct fuzzy_matrix* cons
     }
 
     fuzzy_matrix_delete(king);
-    __fuzzy_matrix_memcpy(king, brave, sizeof(struct fuzzy_matrix));
+    __FUZZY_MATRIX_MEMCPY(king, brave, sizeof(struct fuzzy_matrix));
     fuzzy_matrix_init(brave);
 
     return true;
@@ -349,12 +335,12 @@ bool fuzzy_matrix_delete(struct fuzzy_matrix* const mat)
     {
         if (mat->mat[r] != nullptr)
         {
-            __fuzzy_matrix_free(mat->mat[r]);
+            __FUZZY_MATRIX_FREE(mat->mat[r]);
             mat->mat[r] = nullptr;
         }
     }
 
-    __fuzzy_matrix_free(mat->mat);
+    __FUZZY_MATRIX_FREE(mat->mat);
     mat->mat = nullptr;
 
     mat->row = 0;
@@ -367,7 +353,7 @@ bool fuzzy_matrix_copy(struct fuzzy_matrix* const dst, const struct fuzzy_matrix
 {
     if (dst == nullptr || src == nullptr) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(src)) return false;
-    if (__is_fuzzy_matrix_damaged(src)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(src)) return false;
 
     if (
         !__IS_FUZZY_MATRIX_CREATED(dst)
@@ -392,8 +378,8 @@ bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* const dst, const struct fu
 {
     if (dst == nullptr || src == nullptr) return false;
     if ((!__IS_FUZZY_MATRIX_CREATED(dst)) || (!__IS_FUZZY_MATRIX_CREATED(src))) return false;
-    if (__is_fuzzy_matrix_damaged(dst)) return false;
-    if (__is_fuzzy_matrix_damaged(src)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(dst)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(src)) return false;
     if (offset_row < 0 || offset_col < 0) return false;
 
     fuzzy_size min_row = min(dst->row, src->row);
@@ -415,10 +401,10 @@ bool fuzzy_matrix_copy_just_elem(struct fuzzy_matrix* const dst, const struct fu
 bool fuzzy_matrix_horzcat(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2)
 {
     if (dst == nullptr) return false;
-    if (src1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src1)) || __is_fuzzy_matrix_damaged(src1))) return false;
-    if (src2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src2)) || __is_fuzzy_matrix_damaged(src2))) return false;
+    if (src1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src1)) || __IS_FUZZY_MATRIX_DAMAGED(src1))) return false;
+    if (src2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src2)) || __IS_FUZZY_MATRIX_DAMAGED(src2))) return false;
     if (src1 == nullptr || src2 == nullptr)
-        if ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __is_fuzzy_matrix_damaged(dst)) return false;
+        if ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __IS_FUZZY_MATRIX_DAMAGED(dst)) return false;
 
     // Stacking using oneself as a template
     struct fuzzy_matrix template1, template2;
@@ -448,7 +434,7 @@ bool fuzzy_matrix_horzcat(struct fuzzy_matrix* const dst, const struct fuzzy_mat
 
     if (
         !__IS_FUZZY_MATRIX_CREATED(dst)
-        || __is_fuzzy_matrix_damaged(dst)
+        || __IS_FUZZY_MATRIX_DAMAGED(dst)
         || !(dst->row == cat_row && dst->col == cat_col)
     ) {
         fuzzy_matrix_delete(dst);
@@ -479,10 +465,10 @@ bool fuzzy_matrix_horzcat(struct fuzzy_matrix* const dst, const struct fuzzy_mat
 bool fuzzy_matrix_vertcat(struct fuzzy_matrix* const dst, const struct fuzzy_matrix* src1, const struct fuzzy_matrix* src2)
 {
     if (dst == nullptr) return false;
-    if (src1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src1)) || __is_fuzzy_matrix_damaged(src1))) return false;
-    if (src2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src2)) || __is_fuzzy_matrix_damaged(src2))) return false;
+    if (src1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src1)) || __IS_FUZZY_MATRIX_DAMAGED(src1))) return false;
+    if (src2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src2)) || __IS_FUZZY_MATRIX_DAMAGED(src2))) return false;
     if (src1 == nullptr || src2 == nullptr)
-        if ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __is_fuzzy_matrix_damaged(dst)) return false;
+        if ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __IS_FUZZY_MATRIX_DAMAGED(dst)) return false;
 
     // Stacking using oneself as a template
     struct fuzzy_matrix template1, template2;
@@ -512,7 +498,7 @@ bool fuzzy_matrix_vertcat(struct fuzzy_matrix* const dst, const struct fuzzy_mat
 
     if (
         !__IS_FUZZY_MATRIX_CREATED(dst)
-        || __is_fuzzy_matrix_damaged(dst)
+        || __IS_FUZZY_MATRIX_DAMAGED(dst)
         || !(dst->row == cat_row && dst->col == cat_col)
     ) {
         fuzzy_matrix_delete(dst);
@@ -544,8 +530,8 @@ bool fuzzy_matrix_repmat(struct fuzzy_matrix* const dst, const struct fuzzy_matr
 {
     if (dst == nullptr) return false;
     if (row <= 0 || col <= 0) return false;
-    if (src != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src)) || __is_fuzzy_matrix_damaged(src))) return false;
-    if (src == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __is_fuzzy_matrix_damaged(dst))) return false;
+    if (src != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(src)) || __IS_FUZZY_MATRIX_DAMAGED(src))) return false;
+    if (src == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(dst)) || __IS_FUZZY_MATRIX_DAMAGED(dst))) return false;
 
     // Stacking using oneself as a template
     struct fuzzy_matrix template;
@@ -571,7 +557,7 @@ bool fuzzy_matrix_repmat(struct fuzzy_matrix* const dst, const struct fuzzy_matr
 
     if (
         !__IS_FUZZY_MATRIX_CREATED(dst)
-        || __is_fuzzy_matrix_damaged(dst)
+        || __IS_FUZZY_MATRIX_DAMAGED(dst)
         || !(dst->row == real_row && dst->col == real_col)
     ) {
         fuzzy_matrix_delete(dst);
@@ -609,7 +595,7 @@ bool fuzzy_matrix_trav(const struct fuzzy_matrix* const mat, void* const data, c
 {
     if (mat == nullptr) return false;
     if (!__IS_FUZZY_MATRIX_CREATED(mat)) return false;
-    if (__is_fuzzy_matrix_damaged(mat)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat)) return false;
     if (event_cb == nullptr) return false;
 
     for (fuzzy_size r = 0; r < mat->row; r++)
@@ -628,50 +614,50 @@ void fuzzy_matrix_print(const struct fuzzy_matrix* const mat, const char* label)
 {
     if (mat == nullptr)
     {
-        __fuzzy_matrix_printf("\r\nmat is illegal!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is illegal!\r\n");
         return;
     }
     if (!__IS_FUZZY_MATRIX_CREATED(mat))
     {
-        __fuzzy_matrix_printf("\r\nmat is not be created!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is not be created!\r\n");
         return;
     }
-    if (__is_fuzzy_matrix_damaged(mat))
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat))
     {
-        __fuzzy_matrix_printf("\r\nmat is damaged!\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\nmat is damaged!\r\n");
         return;
     }
 
-    __fuzzy_matrix_printf("\r\n");
+    __FUZZY_MATRIX_PRINTF("\r\n");
     if (label != nullptr)
     {
-        __fuzzy_matrix_printf("%s: \r\n", label);
+        __FUZZY_MATRIX_PRINTF("%s: \r\n", label);
     }
-    __fuzzy_matrix_printf("\t");
+    __FUZZY_MATRIX_PRINTF("\t");
     for (fuzzy_size c = 0; c < mat->col; c++)
     {
         fuzzy_size digit = get_digit(c) + 2;
-        __fuzzy_matrix_printf("   [%llu]", c);
+        __FUZZY_MATRIX_PRINTF("   [%llu]", c);
         if ((2 - digit / 4) < 0) continue;
         for (fuzzy_size n = 0; n < 2 - digit / 4; n++)
         {
-            __fuzzy_matrix_printf("\t");
+            __FUZZY_MATRIX_PRINTF("\t");
         }
     }
-    __fuzzy_matrix_printf("\r\n");
+    __FUZZY_MATRIX_PRINTF("\r\n");
     for (fuzzy_size r = 0; r < mat->row; r++)
     {
-        fuzzy_size digit = get_digit(r) + 2;
-        __fuzzy_matrix_printf("[%llu]", r);
+        fuzzy_size digit = get_digit(r) + 1;
+        __FUZZY_MATRIX_PRINTF("[%llu]", r);
         for (fuzzy_size n = 0; n < 1 - digit / 4; n++)
         {
-            __fuzzy_matrix_printf("\t");
+            __FUZZY_MATRIX_PRINTF("\t");
         }
         for (fuzzy_size c = 0; c < mat->col; c++)
         {
-            __fuzzy_matrix_printf("%9.4f\t", mat->mat[r][c]);
+            __FUZZY_MATRIX_PRINTF("%9.4f\t", mat->mat[r][c]);
         }
-        __fuzzy_matrix_printf("\r\n");
+        __FUZZY_MATRIX_PRINTF("\r\n");
     }
 }
 
@@ -682,8 +668,8 @@ void fuzzy_matrix_print(const struct fuzzy_matrix* const mat, const char* label)
 bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_matrix* mat)
 {
     if (matT == nullptr) return false;
-    if (mat != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat)) || __is_fuzzy_matrix_damaged(mat))) return false;
-    if (mat == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(matT)) || __is_fuzzy_matrix_damaged(matT))) return false;
+    if (mat != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat)) || __IS_FUZZY_MATRIX_DAMAGED(mat))) return false;
+    if (mat == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(matT)) || __IS_FUZZY_MATRIX_DAMAGED(matT))) return false;
 
     struct fuzzy_matrix template;
     bool is_copy_template = false;
@@ -727,13 +713,29 @@ bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_m
     return true;
 }
 
-bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2)
+bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* mat1, const struct fuzzy_matrix* mat2)
 {
-    if (result == nullptr || mat1 == nullptr || mat2 == nullptr) return false;
-    if ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || (!__IS_FUZZY_MATRIX_CREATED(mat2))) return false;
-    if (__is_fuzzy_matrix_damaged(mat1)) return false;
-    if (__is_fuzzy_matrix_damaged(mat2)) return false;
-    if (mat2->row != 1) return false;
+    if (result == nullptr) return false;
+    if (mat1 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || __IS_FUZZY_MATRIX_DAMAGED(mat1))) return false;
+    if (mat1 == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(result)) || __IS_FUZZY_MATRIX_DAMAGED(result))) return false;
+    if (mat2 != nullptr && ((!__IS_FUZZY_MATRIX_CREATED(mat2)) || __IS_FUZZY_MATRIX_DAMAGED(mat2))) return false;
+    if (mat2 == nullptr && ((!__IS_FUZZY_MATRIX_CREATED(result)) || __IS_FUZZY_MATRIX_DAMAGED(result))) return false;
+    if (mat2 != nullptr && mat2->row != 1) return false;
+    if (mat2 == nullptr && result->row != 1) return false;
+
+    struct fuzzy_matrix template2;
+    bool is_copy_template2 = false;
+    if (mat1 == nullptr)
+    {
+        mat1 = result;
+    }
+    if (result == mat2 || mat2 == nullptr)
+    {
+        fuzzy_matrix_init(&template2);
+        if (!fuzzy_matrix_copy(&template2, result)) return false;
+        mat2 = &template2;
+        is_copy_template2 = true;
+    }
 
     if (FUZZY_SIZE_MAX / mat1->row < mat1->col) return false;
     struct fuzzy_matrix mat1T;
@@ -751,6 +753,11 @@ bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_m
 
     fuzzy_matrix_delete(&mat1T);
 
+    if (is_copy_template2)
+    {
+        fuzzy_matrix_delete(&template2);
+    }
+
     return ret;
 }
 
@@ -758,8 +765,8 @@ bool fuzzy_opera_dir_pro_s(struct fuzzy_matrix* const result, const struct fuzzy
 {
     if (result == nullptr || mat1 == nullptr || mat2 == nullptr) return false;
     if ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || (!__IS_FUZZY_MATRIX_CREATED(mat2))) return false;
-    if (__is_fuzzy_matrix_damaged(mat1)) return false;
-    if (__is_fuzzy_matrix_damaged(mat2)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat1)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat2)) return false;
     if (mat2->row != 1) return false;
 
     if (FUZZY_SIZE_MAX / mat1->row < mat1->col) return false;
@@ -801,8 +808,8 @@ bool fuzzy_opera(struct fuzzy_matrix* const result, const struct fuzzy_matrix* c
 {
     if (result == nullptr || mat1 == nullptr || mat2 == nullptr) return false;
     if ((!__IS_FUZZY_MATRIX_CREATED(mat1)) || (!__IS_FUZZY_MATRIX_CREATED(mat2))) return false;
-    if (__is_fuzzy_matrix_damaged(mat1)) return false;
-    if (__is_fuzzy_matrix_damaged(mat2)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat1)) return false;
+    if (__IS_FUZZY_MATRIX_DAMAGED(mat2)) return false;
     if (mat1->col != mat2->row) return false;
 
     fuzzy_size result_row = mat1->row;
@@ -831,5 +838,5 @@ bool fuzzy_opera(struct fuzzy_matrix* const result, const struct fuzzy_matrix* c
         }
     }
 
-    return false;
+    return true;
 }

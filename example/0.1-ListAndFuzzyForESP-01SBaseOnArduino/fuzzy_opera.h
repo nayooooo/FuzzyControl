@@ -30,26 +30,46 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include <limits.h>
+#include <stdio.h>
 
- /*==================================================================================
-     define
- ==================================================================================*/
+#include <stdlib.h>
+#include <string.h>
+
+/*==================================================================================
+    define
+==================================================================================*/
 
 #define FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE (-1)
 
- /*==================================================================================
-     micro
- ==================================================================================*/
+/*==================================================================================
+    micro
+==================================================================================*/
 
-#define __is_fuzzy_matrix_created(m) ((m)->mat != nullptr)
-#define __is_fuzzy_matrix_damaged(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
-#define __set_fuzzy_matrix_as_damaged(m) ((m)->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __FUZZY_MATRIX_MALLOC malloc
+#define __FUZZY_MATRIX_FREE free
+#define __FUZZY_MATRIX_REALLOC realloc
+
+#define __FUZZY_MATRIX_MEMSET memset
+#define __FUZZY_MATRIX_MEMCPY memcpy
+
+#ifdef ARDUINO
+    extern int arduino_printf(const char* format, ...);
+#   define __FUZZY_MATRIX_PRINTF arduino_printf
+#else
+#   define __FUZZY_MATRIX_PRINTF printf
+#endif
+
+#define __IS_FUZZY_MATRIX_CREATED(m) ((m)->mat != nullptr)
+#define __IS_FUZZY_MATRIX_DAMAGED(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
+#define __SET_FUZZY_MATRIX_AS_DAMAGED(m) ((m)->col = FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)
 
 /*==================================================================================
     structure
 ==================================================================================*/
 
-typedef float fuzzy_number;
+typedef float decimal_number;
+typedef decimal_number accurate_number;
+typedef decimal_number fuzzy_number;
 typedef long long fuzzy_size;
 
 #define FUZZY_SIZE_MAX LLONG_MAX
@@ -317,6 +337,8 @@ bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_m
  * @brief Direct product of fuzzy matrices
  * @details Use fuzzy'opera for operations, in which memory is allocated to create
  *          transposes of matrices unfolded by rows
+ * @note If `mat1` or `mat2` is nullptr, `matT` will serve as the template for the
+ *       transpose operation,  requiring it to have been previously created and valid.
  * 
  * @param result, accept damaged matrices
  * @param mat1 Direct product left term, matrix must be created and assigned values
@@ -324,7 +346,7 @@ bool fuzzy_opera_transpose(struct fuzzy_matrix* const matT, const struct fuzzy_m
  * @return true success
  * @return false failed
  */
-bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* const mat1, const struct fuzzy_matrix* const mat2);
+bool fuzzy_opera_dir_pro(struct fuzzy_matrix* const result, const struct fuzzy_matrix* mat1, const struct fuzzy_matrix* mat2);
 
 /**
  * @brief Direct product of fuzzy matrices(safe)

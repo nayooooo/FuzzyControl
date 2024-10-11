@@ -29,6 +29,16 @@ extern "C" {
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <stdlib.h>
+#include <string.h>
+
+#define __LIST_MALLOC malloc
+#define __LIST_FREE free
+
+#define __LIST_MEMCPY memcpy
+
+#define __LIST_STRLEN strlen
+
 /*==================================================================================
     structure
 ==================================================================================*/
@@ -47,6 +57,7 @@ typedef struct list **list_head;
 
 // Index type of linked list
 typedef unsigned int list_index;
+typedef unsigned int list_size;
 
 /**
  * @brief Predicate used to determine whether an operation will be executed
@@ -147,9 +158,9 @@ bool list_delete(list_head l, list_node_data_deconstruct_cb deconstruct);
  * @brief Obtain the length of the linked list
  * 
  * @param l The linked list
- * @return list_index
+ * @return list_size
  */
-list_index list_length(list_head l);
+list_size list_length(list_head l);
 
 /*==================================================================================
     internal operation function of linked list
