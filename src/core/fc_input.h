@@ -77,7 +77,7 @@ bool fc_input_clear_fuzzy_set(const struct fc_input* const in);
 bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size num);
 
 /**
- * @brief Perform one fuzzification by fuzzy set label
+ * @brief Perform fuzzification by fuzzy set label
  *
  * @param in object
  * @param data accurate data

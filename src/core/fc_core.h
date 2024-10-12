@@ -47,6 +47,17 @@ struct inference_result
 	fuzzy_number activate;
 };
 
+/**
+ * @brief Gaussian curve
+ * 
+ * @param value pending value
+ * @param mu mean value
+ * @param sigma standard deviation
+ * @param k amplification factor
+ * @return fuzzy_number gaussian value
+ */
+fuzzy_number fc_core_Gaussian(accurate_number value, accurate_number mu, accurate_number sigma, accurate_number k);
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

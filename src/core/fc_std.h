@@ -31,6 +31,10 @@ typedef uint32_t fc_size;
 #define fc_strchr strchr
 #define fc_strstr strstr
 
+#include <math.h>
+
+#define fc_exp exp
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

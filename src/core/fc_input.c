@@ -151,7 +151,20 @@ bool fc_input_print_data(struct fc_input* const in, const char* label)
 	if (in == nullptr) return false;
 	if (in->data.mat == nullptr) return false;
 
-	fuzzy_matrix_print(&(in->data), in->name);
+	if (label != nullptr && *label != '\0')
+	{
+		fc_printf("%s: \r\n", label);
+	}
+	fc_printf("%s\t", in->name);
+	list_node n = list_get_first_node(in->fuzzy_set);
+	for (fc_size i = list_length(in->fuzzy_set); i > 0; i--)
+	{
+		const char* label = ((struct fuzzy_set*)n->data)->label;
+		fc_printf(" %s\t", label);
+		n = list_find_next_node(in->fuzzy_set, n);
+	}
+
+	fuzzy_matrix_print(&(in->data), "fuzzy data");
 
 	return true;
 }
@@ -161,16 +174,16 @@ bool fc_input_print_fuzzy_set(struct fc_input* const in, const char* label)
 	if (in == nullptr) return false;
 	if (in->name == nullptr || in->fuzzy_set == nullptr) return false;
 
-	__FC_RULES_PRINTF("%s: \r\n", label ? label : "(unset label)");
+	fc_printf("%s: \r\n", label ? label : "(unset label)");
 	list_node n = list_get_first_node(in->fuzzy_set);
 	if (n == nullptr)
 	{
-		__FC_RULES_PRINTF("There is no fuzzy set!\r\n");
+		fc_printf("There is no fuzzy set!\r\n");
 		return true;
 	}
 	while (n != nullptr)
 	{
-		__FC_RULES_PRINTF("%s-%s\r\n", in->name, ((struct fuzzy_set*)(n->data))->label);
+		fc_printf("%s-%s\r\n", in->name, ((struct fuzzy_set*)(n->data))->label);
 
 		n = list_find_next_node(in->fuzzy_set, n);
 	}
