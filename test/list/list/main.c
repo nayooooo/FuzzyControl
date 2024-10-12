@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #include "list.h"
-#include "fuzzy_opera.h"
 
 #include "vld.h"
 
