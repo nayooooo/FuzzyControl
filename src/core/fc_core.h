@@ -5,9 +5,12 @@
 extern "C" {
 #endif
 
+#include "./../config/fc_config.h"
+
+#define FC_CORE_EXP fc_exp
+
 #include "fc_def.h"
 #include "fc_error.h"
-#include "fc_std.h"
 
 #include "fc_input.h"
 #include "fc_output.h"

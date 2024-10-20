@@ -12,6 +12,17 @@ extern "C" {
 struct fuzzy_set;
 
 /*==================================================================================
+    micro function
+==================================================================================*/
+
+#define __FC_INPUT_PRINTF fc_printf
+#define __FC_INPUT_MALLOC fc_malloc
+#define __FC_INPUT_FREE fc_free
+#define __FC_INPUT_STRLEN fc_strlen
+#define __FC_INPUT_STRCPY_S fc_strcpy_s
+#define __FC_INPUT_STRCMP fc_strcmp
+
+/*==================================================================================
     structure
 ==================================================================================*/
 

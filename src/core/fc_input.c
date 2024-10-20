@@ -7,9 +7,9 @@ static bool __fc_input_fuzzy_set_construct_cb(void* data)
 	struct fuzzy_set* set = data;
 
 	if (set->label == nullptr) return false;
-	const char* label = (const char*)fc_malloc((fc_strlen(set->label) + 1) * sizeof(char));
+	const char* label = (const char*)__FC_INPUT_MALLOC((__FC_INPUT_STRLEN(set->label) + 1) * sizeof(char));
 	if (label == nullptr) return false;
-	fc_strcpy_s((char*)label, (fc_strlen(set->label) + 1) * sizeof(char), set->label);
+	__FC_INPUT_STRCPY_S((char*)label, (__FC_INPUT_STRLEN(set->label) + 1) * sizeof(char), set->label);
 	set->label = label;
 
 	return true;
@@ -22,7 +22,7 @@ static bool __fc_input_fuzzy_set_deconstruct_cb(void* data)
 	struct fuzzy_set* set = data;
 
 	if (set->label == nullptr) return false;
-	fc_free((void*)(set->label));
+	__FC_INPUT_FREE((void*)(set->label));
 	set->label = nullptr;
 
 	return true;
@@ -32,14 +32,14 @@ bool fc_input_register(struct fc_input* const in, const char* name)
 {
 	if (in == nullptr || name == nullptr) return false;
 
-	in->name = (const char*)fc_malloc((fc_strlen(name) + 1) * sizeof(char));
+	in->name = (const char*)__FC_INPUT_MALLOC((__FC_INPUT_STRLEN(name) + 1) * sizeof(char));
 	if (in->name == nullptr) return false;
-	fc_strcpy_s((char*)(in->name), (fc_strlen(name) + 1) * sizeof(char), name);
+	__FC_INPUT_STRCPY_S((char*)(in->name), (__FC_INPUT_STRLEN(name) + 1) * sizeof(char), name);
 	fuzzy_matrix_init(&(in->data));
 	in->fuzzy_set = list_create();
 	if (in->fuzzy_set == nullptr)
 	{
-		fc_free((void*)(in->name));
+		__FC_INPUT_FREE((void*)(in->name));
 		in->name = nullptr;
 		return false;
 	}
@@ -53,7 +53,7 @@ bool fc_input_unregister(struct fc_input* const in)
 
 	if (in->name != nullptr)
 	{
-		fc_free((void*)(in->name));
+		__FC_INPUT_FREE((void*)(in->name));
 		in->name = nullptr;
 	}
 
@@ -130,7 +130,7 @@ bool fc_input_fuzzing_by_label(
 	{
 		fs = n->data;
 		if (fs == nullptr) return false;
-		if (fc_strcmp(label, fs->label) == 0)
+		if (__FC_INPUT_STRCMP(label, fs->label) == 0)
 			break;
 
 		n = list_find_next_node(in->fuzzy_set, n);
@@ -153,14 +153,14 @@ bool fc_input_print_data(struct fc_input* const in, const char* label)
 
 	if (label != nullptr && *label != '\0')
 	{
-		fc_printf("%s: \r\n", label);
+		__FC_INPUT_PRINTF("%s: \r\n", label);
 	}
-	fc_printf("%s\t", in->name);
+	__FC_INPUT_PRINTF("%s\t", in->name);
 	list_node n = list_get_first_node(in->fuzzy_set);
 	for (fc_size i = list_length(in->fuzzy_set); i > 0; i--)
 	{
 		const char* label = ((struct fuzzy_set*)n->data)->label;
-		fc_printf(" %s\t", label);
+		__FC_INPUT_PRINTF(" %s\t", label);
 		n = list_find_next_node(in->fuzzy_set, n);
 	}
 
@@ -174,16 +174,16 @@ bool fc_input_print_fuzzy_set(struct fc_input* const in, const char* label)
 	if (in == nullptr) return false;
 	if (in->name == nullptr || in->fuzzy_set == nullptr) return false;
 
-	fc_printf("%s: \r\n", label ? label : "(unset label)");
+	__FC_INPUT_PRINTF("%s: \r\n", label ? label : "(unset label)");
 	list_node n = list_get_first_node(in->fuzzy_set);
 	if (n == nullptr)
 	{
-		fc_printf("There is no fuzzy set!\r\n");
+		__FC_INPUT_PRINTF("There is no fuzzy set!\r\n");
 		return true;
 	}
 	while (n != nullptr)
 	{
-		fc_printf("%s-%s\r\n", in->name, ((struct fuzzy_set*)(n->data))->label);
+		__FC_INPUT_PRINTF("%s-%s\r\n", in->name, ((struct fuzzy_set*)(n->data))->label);
 
 		n = list_find_next_node(in->fuzzy_set, n);
 	}

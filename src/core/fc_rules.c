@@ -1,5 +1,4 @@
 #include "fc_rules.h"
-#include "fc_def.h"
 
 static const fc_rule_keyword __fc_rules_keyword_table[] = {
     "IF", "THEN",            // conditional segmentation keywords
@@ -14,7 +13,7 @@ static fc_size __count_sub_string_num(const char* str, const char* substr)
 
     while (*str != '\0')
     {
-        const char* mark = fc_strstr(str, substr);
+        const char* mark = __FC_RULES_STRSTR(str, substr);
         if (mark == nullptr) break;
         num++;
         str = mark + 1;
@@ -31,7 +30,7 @@ fc_index is_fc_fules_keyword(const fc_rule_keyword word, const fc_rule_keyword* 
 
     for (; (fc_size)index < num; index++)
     {
-        if (fc_strcmp(word, keyword_table[index]) == 0)
+        if (__FC_RULES_STRCMP(word, keyword_table[index]) == 0)
             return index;
     }
 
@@ -48,12 +47,12 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     // Only one occurrence of "THEN" is allowed
     if (__count_sub_string_num(rule, keyword_table[KEYWORD_THEN_INDEX]) != 1) return false;
 
-    if (fc_strstr(rule, keyword_table[KEYWORD_IF_INDEX]) != rule) return false;
+    if (__FC_RULES_STRSTR(rule, keyword_table[KEYWORD_IF_INDEX]) != rule) return false;
 
     // Create Rule Copy
-    fc_rule_item rule_copy = (fc_rule_item)fc_malloc((fc_strlen(rule) + 1) * sizeof(char));
+    fc_rule_item rule_copy = (fc_rule_item)__FC_RULES_MALLOC((__FC_RULES_STRLEN(rule) + 1) * sizeof(char));
     if (!__IS_FC_RULES_RULE_ITEM_EXIST(rule_copy)) return false;
-    fc_strcpy_s((char*)rule_copy, (fc_strlen(rule) + 1) * sizeof(char), rule);
+    __FC_RULES_STRCPY_S((char*)rule_copy, (__FC_RULES_STRLEN(rule) + 1) * sizeof(char), rule);
 
     struct
     {
@@ -69,7 +68,7 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
     fc_index count = 0;
 
     // check
-    word = fc_strtok_s((char*)rule_copy, " ", &context);
+    word = __FC_RULES_STRTOK_S((char*)rule_copy, " ", &context);
     while (word != nullptr)
     {
         ind = is_fc_fules_keyword(word, keyword_table, num);
@@ -111,11 +110,11 @@ bool is_fc_rules_legal_rule(const fc_rule_item rule, const fc_rule_keyword* cons
             }
         }
 
-        word = fc_strtok_s(nullptr, " ", &context);
+        word = __FC_RULES_STRTOK_S(nullptr, " ", &context);
         count++;
     }
 
-    fc_free((void*)rule_copy);
+    __FC_RULES_FREE((void*)rule_copy);
     rule_copy = nullptr;
 
     if (flag.exist_IF && flag.exist_THEN && flag.exist_condition && flag.exist_result && flag.is_rule_ok)
@@ -154,7 +153,7 @@ bool fc_rules_add_rule(const struct fc_rules* const obj, fc_rule_item rule)
 
     if (!is_fc_rules_legal_rule(rule, obj->rule_keyword_table, obj->rule_keyword_num)) return false;
 
-    if (!list_push(obj->rules, (void*)rule, fc_strlen(rule) + 1)) return false;
+    if (!list_push(obj->rules, (void*)rule, __FC_RULES_STRLEN(rule) + 1)) return false;
 
     return true;
 }
@@ -201,9 +200,9 @@ static bool __fc_rules_calculation_construct_cb(void* data)
     struct __fc_calculation_unit* unit = data;
     if (unit->cr == nullptr) return false;
 
-    fc_rule_consition_result cr = (fc_rule_consition_result)fc_malloc((fc_strlen(unit->cr) + 1) * sizeof(char));
+    fc_rule_consition_result cr = (fc_rule_consition_result)__FC_RULES_MALLOC((__FC_RULES_STRLEN(unit->cr) + 1) * sizeof(char));
     if (cr == nullptr) return false;
-    fc_strcpy_s((char*)cr, (fc_strlen(unit->cr) + 1) * sizeof(char), unit->cr);
+    __FC_RULES_STRCPY_S((char*)cr, (__FC_RULES_STRLEN(unit->cr) + 1) * sizeof(char), unit->cr);
 
     unit->cr = cr;
 
@@ -217,7 +216,7 @@ static bool __fc_rules_calculation_deconstruct_cb(void* data)
     struct __fc_calculation_unit* unit = data;
 
     if (unit->cr == nullptr) return false;
-    fc_free((void*)(unit->cr));
+    __FC_RULES_FREE((void*)(unit->cr));
     unit->cr = nullptr;
 
     return true;
@@ -255,15 +254,15 @@ bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct 
     if (rule == nullptr) return false;
 
     // create rule copy
-    fc_rule_item rule_copy = (fc_rule_item)fc_malloc((fc_strlen(rule) + 1) * sizeof(char));
+    fc_rule_item rule_copy = (fc_rule_item)__FC_RULES_MALLOC((__FC_RULES_STRLEN(rule) + 1) * sizeof(char));
     if (rule_copy == nullptr) return false;
-    fc_strcpy_s((char*)rule_copy, (fc_strlen(rule) + 1) * sizeof(char), rule);
+    __FC_RULES_STRCPY_S((char*)rule_copy, (__FC_RULES_STRLEN(rule) + 1) * sizeof(char), rule);
 
     bool is_result = false;
     const char* word = nullptr;
     char* context = nullptr;
     fc_index count = 0;
-    word = fc_strtok_s((char*)rule_copy, " ", &context);
+    word = __FC_RULES_STRTOK_S((char*)rule_copy, " ", &context);
 
     // set consition and result
     struct __fc_calculation_unit unit = { "", OPERA_OR };  // The first input should be taken as larger
@@ -305,11 +304,11 @@ bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct 
             }
         }
 
-        word = fc_strtok_s(nullptr, " ", &context);
+        word = __FC_RULES_STRTOK_S(nullptr, " ", &context);
         count++;
     }
 
-    fc_free((void*)rule_copy);
+    __FC_RULES_FREE((void*)rule_copy);
     rule_copy = nullptr;
 
     return false;

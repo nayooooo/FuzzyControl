@@ -27,13 +27,7 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <limits.h>
-#include <stdio.h>
-
-#include <stdlib.h>
-#include <string.h>
 
 /*==================================================================================
     define
@@ -45,19 +39,13 @@ extern "C" {
     micro
 ==================================================================================*/
 
-#define __FUZZY_MATRIX_MALLOC malloc
-#define __FUZZY_MATRIX_FREE free
-#define __FUZZY_MATRIX_REALLOC realloc
-
-#define __FUZZY_MATRIX_MEMSET memset
-#define __FUZZY_MATRIX_MEMCPY memcpy
-
-#ifdef ARDUINO
-    extern int arduino_printf(const char* format, ...);
-#   define __FUZZY_MATRIX_PRINTF arduino_printf
-#else
-#   define __FUZZY_MATRIX_PRINTF printf
-#endif
+#include "./../config/fc_config.h"
+#define __FUZZY_MATRIX_MALLOC fc_malloc
+#define __FUZZY_MATRIX_FREE fc_free
+#define __FUZZY_MATRIX_REALLOC fc_realloc
+#define __FUZZY_MATRIX_MEMSET fc_memset
+#define __FUZZY_MATRIX_MEMCPY fc_memcpy
+#define __FUZZY_MATRIX_PRINTF fc_printf
 
 #define __IS_FUZZY_MATRIX_CREATED(m) ((m)->mat != nullptr)
 #define __IS_FUZZY_MATRIX_DAMAGED(m) ((m)->col == FUZZY_MATRIX_DAMAGED_COLUMN_FEATURE)

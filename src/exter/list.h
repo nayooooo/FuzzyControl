@@ -25,19 +25,11 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdlib.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#define __LIST_MALLOC malloc
-#define __LIST_FREE free
-
-#define __LIST_MEMCPY memcpy
-
-#define __LIST_STRLEN strlen
+#include "./../config/fc_config.h"
+#define __LIST_MALLOC fc_malloc
+#define __LIST_FREE fc_free
+#define __LIST_MEMCPY fc_memcpy
+#define __LIST_STRLEN fc_strlen
 
 /*==================================================================================
     structure

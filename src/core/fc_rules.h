@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#include <stdio.h>
+#include "./../config/fc_config.h"
 
 #include "./../exter/list.h"
 
-#include "fc_std.h"
+#include "fc_core.h"
 
 /*==================================================================================
     type
@@ -35,6 +35,14 @@ typedef const char* fc_rule_consition_result;
 ==================================================================================*/
 
 #define __FC_RULES_PRINTF fc_printf
+#define __FC_RULES_MALLOC fc_malloc
+#define __FC_RULES_FREE fc_free
+#define __FC_RULES_STRLEN fc_strlen
+#define __FC_RULES_STRCPY_S fc_strcpy_s
+#define __FC_RULES_STRCMP fc_strcmp
+#define __FC_RULES_STRTOK_S fc_strtok_s
+#define __FC_RULES_STRCHR fc_strchr
+#define __FC_RULES_STRSTR fc_strstr
 
 #define __IS_FC_RULES_RULE_ITEM_EXIST(RULE) (RULE != nullptr)
 
