@@ -64,24 +64,24 @@
 
 #### 1.2.1 模糊输入
 
-模糊输入部件需要记录单个论域的不同模糊子集，我将论域的名称称为 `名字` ，将模糊子集的名称称为 `标签` ，它们组成一对名字——标签对，用于后续辨别各个模糊子集，另外呢，它还需要能够实现将精确值模糊化的功能，因此我添加了一个模糊化函数，其相关API如下：
+模糊输入部件（[fc_input](./src/core/fc_input.h)）需要记录单个论域的不同模糊子集，我将论域的名称称为 `名字` ，将模糊子集的名称称为 `标签` ，它们组成多对“名字—标签”对，用于后续辨别各个模糊子集，另外呢，它还需要能够实现将精确值模糊化的功能，因此我添加了一个模糊化函数，其相关API如下：
 
 | 名称 | 参数 | 返回值 | 描述 |
 | - | - | - | - |
-| fc_input_register | struct fc_input* const,const char* | bool | 注册一个模糊输入对象，其名字是动态申请的（防止被意外修改），同时初始化模糊矩阵，并创建一个空链表。注意已经注册过的对象执行此函数，否则会发生内存泄漏 |
+| fc_input_register | struct fc_input* const,const char* | bool | 注册一个模糊输入对象，其名字是动态申请的（防止被意外修改），同时初始化模糊矩阵，并创建一个空链表。注意不要对已经注册过的对象执行此函数，否则会发生内存泄漏 |
 | fc_input_unregister | struct fc_input* const | bool | 注销模糊输入对象 |
 | fc_input_add_fuzzy_set | const struct fc_input* const,const struct fuzzy_set* const | bool | 向模糊输入对象添加一个模糊子集，其标签是动态申请的（防止被意外修改） |
 | fc_input_clear_fuzzy_set | const struct fc_input* const | bool | 清空模糊输入中的模糊子集，即清空链表 |
 | fc_input_fuzzing | struct fc_input* const,accurate_number*,fc_size | bool | 进行模糊化 |
 | fc_input_fuzzing_by_label | struct fc_input* const,accurate_number*,fc_size,fuzzy_number*,const char* | bool | 使用特定的模糊集对数据进行模糊化 |
 | fc_input_print_data | struct fc_input* const,const char* | bool | 打印经过模糊化后的数据 |
-| fc_input_print_fuzzy_set | struct fc_input* const,const char* | bool | 打印模糊输入对象中的模糊子集，以名字——标签对的形式进行打印 |
+| fc_input_print_fuzzy_set | struct fc_input* const,const char* | bool | 打印模糊输入对象中的模糊子集，以“名字—标签”对的形式进行打印 |
 
 #### 1.2.2 模糊推理
 
 ##### 规则库
 
-规则库的实现是模糊推理的关键一步，我希望有一个方便用户使用、能够较为轻松解析的规则实现，借助于先前编写的 [`StreamDeviceAT`](https://www.github.com/nayooooo/StreamDeviceAT)，决定使用字符串作为规则条目，并附加一些规则编写规范，那么就能轻松解析了。
+规则库（[fc_rules](./src/core/fc_rules.h)）的实现是模糊推理的关键一步，我希望有一个方便用户使用、能够较为轻松解析的规则实现，借助于先前编写的 [`StreamDeviceAT`](https://www.github.com/nayooooo/StreamDeviceAT)，决定使用字符串作为规则条目，并附加一些规则编写规范，那么就能轻松解析了。
 
 现在对具体需求进行分析，首先，需要制定规则编写规范，我希望的规则是下面这样的：
 

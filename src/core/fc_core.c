@@ -4,5 +4,5 @@ fuzzy_number fc_core_Gaussian(accurate_number value, accurate_number mu, accurat
 {
     if (sigma < 0) return FUZZY_DATA_ILLEGAL_VALUE;
 
-    return k * FC_CORE_EXP(- ((value - mu) * (value - mu)) / (2 * sigma * sigma));
+    return k * __FC_CORE_EXP(- ((value - mu) * (value - mu)) / (2 * sigma * sigma));
 }

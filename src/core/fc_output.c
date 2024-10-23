@@ -7,9 +7,9 @@ static bool __fc_output_fuzzy_set_construct_cb(void* data)
 	struct fuzzy_set* set = data;
 
 	if (set->label == nullptr) return false;
-	const char* label = (const char*)fc_malloc((fc_strlen(set->label) + 1) * sizeof(char));
+	const char* label = (const char*)__FC_OUTPUT_MALLOC((__FC_OUTPUT_STRLEN(set->label) + 1) * sizeof(char));
 	if (label == nullptr) return false;
-	fc_strcpy_s((char*)label, (fc_strlen(set->label) + 1) * sizeof(char), set->label);
+	__FC_OUTPUT_STRCPY_S((char*)label, (__FC_OUTPUT_STRLEN(set->label) + 1) * sizeof(char), set->label);
 	set->label = label;
 
 	return true;
@@ -22,7 +22,7 @@ static bool __fc_output_fuzzy_set_deconstruct_cb(void* data)
 	struct fuzzy_set* set = data;
 
 	if (set->label == nullptr) return false;
-	fc_free((void*)(set->label));
+	__FC_OUTPUT_FREE((void*)(set->label));
 	set->label = nullptr;
 
 	return true;
@@ -34,9 +34,9 @@ static bool __fc_output_inference_result_construct_cb(void* data)
 
 	struct inference_result* ir = data;
 	if (ir->name_tag == nullptr) return false;
-	const char* name_tag = (const char*)fc_malloc((fc_strlen(ir->name_tag) + 1) * sizeof(char));
+	const char* name_tag = (const char*)__FC_OUTPUT_MALLOC((__FC_OUTPUT_STRLEN(ir->name_tag) + 1) * sizeof(char));
 	if (name_tag == nullptr) return false;
-	fc_strcpy_s((char*)name_tag, (fc_strlen(ir->name_tag) + 1) * sizeof(char), ir->name_tag);
+	__FC_OUTPUT_STRCPY_S((char*)name_tag, (__FC_OUTPUT_STRLEN(ir->name_tag) + 1) * sizeof(char), ir->name_tag);
 	ir->name_tag = name_tag;
 
 	return true;
@@ -49,7 +49,7 @@ static bool __fc_output_inference_result_deconstruct_cb(void* data)
 	struct inference_result* ir = data;
 
 	if (ir->name_tag == nullptr) return false;
-	fc_free((void*)(ir->name_tag));
+	__FC_OUTPUT_FREE((void*)(ir->name_tag));
 	ir->name_tag = nullptr;
 
 	return true;
@@ -77,9 +77,9 @@ bool fc_output_register(struct fc_output* const out, const char* name)
 {
 	if (out == nullptr || name == nullptr) return false;
 
-	out->name = (const char*)fc_malloc((fc_strlen(name) + 1) * sizeof(char));
+	out->name = (const char*)__FC_OUTPUT_MALLOC((__FC_OUTPUT_STRLEN(name) + 1) * sizeof(char));
 	if (out->name == nullptr) return false;
-	fc_strcpy_s((char*)(out->name), (fc_strlen(name) + 1) * sizeof(char), name);
+	__FC_OUTPUT_STRCPY_S((char*)(out->name), (__FC_OUTPUT_STRLEN(name) + 1) * sizeof(char), name);
 	out->data = list_create();
 	if (out->data == nullptr) goto error_out;
 	out->fuzzy_set = list_create();
@@ -90,7 +90,7 @@ bool fc_output_register(struct fc_output* const out, const char* name)
 	error_out:
 		if (out->name != nullptr)
 		{
-			fc_free((void*)(out->name));
+			__FC_OUTPUT_FREE((void*)(out->name));
 			out->name = nullptr;
 		}
 		if (out->data != nullptr)
@@ -114,7 +114,7 @@ bool fc_output_unregister(struct fc_output* const out)
 
 	if (out->name != nullptr)
 	{
-		fc_free((void*)(out->name));
+		__FC_OUTPUT_FREE((void*)(out->name));
 		out->name = nullptr;
 	}
 

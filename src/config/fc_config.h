@@ -12,6 +12,18 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef nullptr
+#   define nullptr ((void*)0)
+#endif
+
+#ifndef UNUSED
+#   define UNUSED(x) ((void)x)
+#endif
+
+#ifndef FUZZY_DATA_ILLEGAL_VALUE
+#   define FUZZY_DATA_ILLEGAL_VALUE (-1)
+#endif
+
 typedef int32_t fc_index;
 typedef uint32_t fc_size;
 

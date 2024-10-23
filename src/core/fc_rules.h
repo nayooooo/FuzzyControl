@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-#include "./../config/fc_config.h"
-
 #include "./../exter/list.h"
 
 #include "fc_core.h"
