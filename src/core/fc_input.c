@@ -59,6 +59,7 @@ bool fc_input_unregister(struct fc_input* const in)
 
 	fuzzy_matrix_delete(&(in->data));
 	list_delete(in->fuzzy_set, __fc_input_fuzzy_set_deconstruct_cb);
+	in->fuzzy_set = nullptr;
 
 	return true;
 }

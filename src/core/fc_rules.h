@@ -231,6 +231,15 @@ bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct 
 bool fc_rules_delete_calculation(struct fc_calculation* const cal);
 
 /**
+ * @brief Clear calculation structure
+ *
+ * @param cal calculation structure
+ * @return true success
+ * @retrun false failed
+ */
+bool fc_rules_clear_calculation(struct fc_calculation* const cal);
+
+/**
  * @brief Print calculation structure
  *
  * @param cal calculation structure

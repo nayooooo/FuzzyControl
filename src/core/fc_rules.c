@@ -143,6 +143,7 @@ bool fc_rules_unregister(struct fc_rules* const obj)
     obj->rule_keyword_num = 0;
 
     list_delete(obj->rules, nullptr);
+    obj->rules = nullptr;
 
     return true;
 }
@@ -236,6 +237,8 @@ bool fc_rules_create_calculation(struct fc_calculation* const cal)
     error_out:
         list_delete(cal->condition, nullptr);
         list_delete(cal->result, nullptr);
+        cal->condition = nullptr;
+        cal->result = nullptr;
         return false;
     }
 
@@ -245,6 +248,8 @@ bool fc_rules_create_calculation(struct fc_calculation* const cal)
 bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct fc_rules* const rules, const fc_index ind)
 {
     if (rules == nullptr || cal == nullptr) return false;
+
+    if (!fc_rules_clear_calculation(cal)) return false;
 
     if (ind < 0) return false;
     if (list_length(rules->rules) <= (fc_size)ind) return false;
@@ -321,18 +326,31 @@ bool fc_rules_delete_calculation(struct fc_calculation* const cal)
     if (cal->condition != nullptr)
     {
         list_delete(cal->condition, __fc_rules_calculation_deconstruct_cb);
+        cal->condition = nullptr;
     }
     if (cal->result != nullptr)
     {
         list_delete(cal->result, __fc_rules_calculation_deconstruct_cb);
+        cal->result = nullptr;
     }
+
+    return true;
+}
+
+bool fc_rules_clear_calculation(struct fc_calculation* const cal)
+{
+    if (cal == nullptr) return false;
+    if (cal->condition == nullptr || cal->result == nullptr) return false;
+
+    if (!list_clear(cal->condition, __fc_rules_calculation_deconstruct_cb)) return false;
+    if (!list_clear(cal->result, __fc_rules_calculation_deconstruct_cb)) return false;
 
     return true;
 }
 
 bool fc_rules_print_calculation(const struct fc_calculation* const cal, const char* label)
 {
-    if (cal == nullptr || label == nullptr) return false;
+    if (cal == nullptr) return false;
     if (cal->condition == nullptr || cal->result == nullptr) return false;
 
     __FC_RULES_PRINTF("%s: \r\n", label ? label : "(unset label)");
@@ -354,7 +372,7 @@ bool fc_rules_print_calculation(const struct fc_calculation* const cal, const ch
         }
         __FC_RULES_PRINTF("\"%s\"", unit->cr);
     }
-    __FC_RULES_PRINTF(" = ");
+    __FC_RULES_PRINTF(" => ");
     for (fc_index i = 0; (fc_size)i < list_length(cal->result); i++)
     {
         struct __fc_calculation_unit* unit = list_get_node_data(cal->result, i);
