@@ -62,7 +62,7 @@ typedef enum
     KEYWORD_QM_INDEX,           // ?
     KEYWORD_VB_INDEX,           // |
 }fc_rules_keyword_table_index;
-#define FC_RULES_KEYWORD_TABLE_MAX_INDEX KEYWORD_QM_INDEX
+#define FC_RULES_KEYWORD_TABLE_MAX_INDEX KEYWORD_VB_INDEX
 
 // Operation type
 typedef enum
