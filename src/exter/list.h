@@ -35,6 +35,9 @@ extern "C" {
     structure
 ==================================================================================*/
 
+// You can use the following code to create an alias for a list
+//      list_head a = list_create();
+//      list_head b = a;
 struct list
 {
     void *data;
@@ -290,8 +293,8 @@ bool list_swap_if(list_head l, void *data1, void *data2, list_pred pred1, list_p
  * @param l The linked list to be traversed
  * @param data user data
  * @param event_cb Event callbacks that each node needs to execute, you must give
- * @param true      success
- * @param false     failed
+ * @return true     success
+ * @return false    failed
  */
 bool list_trav(list_head l, void *data, list_event_cb event_cb);
 
@@ -343,6 +346,37 @@ void* list_get_node_data(list_head l, list_index ind);
  *      others      The data of the node
  */
 void* list_get_node_data_if(list_head l, void *data, list_pred pred);
+
+/*==================================================================================
+    parent child linked list operation
+==================================================================================*/
+
+/**
+ * @brief Add a node with the list as its data to the list
+ *
+ * @param l The list
+ * @param sl List to be added, if sl or *sl is nullptr, add a empty list
+ * @return true     success
+ * @return false    failed
+ */
+bool list_push_list(list_head l, list_head* sl);
+
+/**
+ * @brief Remove the last node of the list as a list-node, please ensure it is a list-node
+ * @details This method is suitable for deleting static data linked lists, where all data
+ *          at a node is continuous, rather than discontinuous regions connected by logical
+ *          connections such as pointers, because the area pointed to by the pointer will
+ *          not be reclaimed here.
+ *
+ * @param l The list
+ * @return true     success
+ * @return false    failed
+ */
+bool list_pop_list(list_head l);
+
+/*==================================================================================
+    same level linked list operation
+==================================================================================*/
 
 #ifdef __cplusplus
 } /*extern "C"*/

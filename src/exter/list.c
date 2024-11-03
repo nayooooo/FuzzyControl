@@ -168,8 +168,8 @@ bool list_pop(list_head l)
     if (fln == nullptr) *l = nullptr;  // the list has only 1 node
     else fln->next = nullptr;
     __LIST_FREE(ln->data);
-    __LIST_FREE(ln);
     ln->data = nullptr;
+    __LIST_FREE(ln);
     ln = nullptr;
 
     return true;
@@ -333,4 +333,37 @@ void* list_get_node_data_if(list_head l, void* data, list_pred pred)
     if (n == nullptr) return nullptr;  // list is empty
 
     return n->data;
+}
+
+bool list_push_list(list_head l, list_head* sl)
+{
+    if (l == nullptr) return false;
+
+    list_head al = nullptr;  // list to be added
+    if (sl == nullptr || *sl == nullptr)
+    {
+        // create and add a list-node to l
+        al = list_create();
+        if (al == nullptr) return false;
+    }
+    else al = *sl;
+
+    if (!list_push(l, (void*)&al, sizeof(list_head)))
+        return false;
+
+    return true;
+}
+
+bool list_pop_list(list_head l)
+{
+    if (l == nullptr) return false;
+
+    list_node ln = list_get_last_node(l);
+    if (ln == nullptr) return false;  // The list is empty, can not pop node
+
+    list_head* pl = ln->data;
+    list_delete(*pl, nullptr);
+    *pl = nullptr;
+
+    return list_pop(l);
 }
