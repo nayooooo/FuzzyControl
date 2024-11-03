@@ -57,7 +57,11 @@ static bool __fc_output_inference_result_deconstruct_cb(void* data)
 
 static bool __fc_output_inference_result_group_construct_cb(void* data)
 {
-	UNUSED(data);
+	if (data == nullptr) return false;
+
+	list_head *group = data;
+	*group = list_create();
+	if (*group == nullptr) return false;
 
 	return true;
 }
@@ -66,8 +70,8 @@ static bool __fc_output_inference_result_group_deconstruct_cb(void* data)
 {
 	if (data == nullptr) return false;
 
-	list_head group = data;
-	if (!list_delete(group, __fc_output_inference_result_deconstruct_cb))
+	list_head *group = data;
+	if (!list_delete(*group, __fc_output_inference_result_deconstruct_cb))
 		return false;
 
 	return true;
@@ -155,14 +159,9 @@ bool fc_output_increase_a_inference_result_group(const struct fc_output* const o
 	if (out == nullptr) return false;
 	if (out->data == nullptr) return false;
 
-	list_head group = list_create();
-	if (group == nullptr) return false;
-	if (!list_push_if(out->data, group, sizeof(list_head), list_pred_true, __fc_output_inference_result_group_construct_cb))
-	{
-		list_delete(group, nullptr);
-		group = nullptr;
+	list_head group = nullptr;
+	if (!list_push_if(out->data, (void*)&group, sizeof(list_head), list_pred_true, __fc_output_inference_result_group_construct_cb))
 		return false;
-	}
 
 	return true;
 }
