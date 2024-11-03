@@ -228,13 +228,13 @@ bool fc_rules_create_calculation(struct fc_calculation* const cal)
     if (cal == nullptr) return false;
 
     cal->condition = list_create();
-    if (cal->condition == nullptr) goto error_out;
+    if (cal->condition == nullptr) goto _error_out;
     cal->result = list_create();
-    if (cal->result == nullptr) goto error_out;
+    if (cal->result == nullptr) goto _error_out;
 
     if (0)
     {
-    error_out:
+    _error_out:
         list_delete(cal->condition, nullptr);
         list_delete(cal->result, nullptr);
         cal->condition = nullptr;

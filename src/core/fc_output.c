@@ -67,7 +67,7 @@ static bool __fc_output_inference_result_group_deconstruct_cb(void* data)
 	if (data == nullptr) return false;
 
 	list_head group = data;
-	if (!list_clear(group, __fc_output_inference_result_deconstruct_cb))
+	if (!list_delete(group, __fc_output_inference_result_deconstruct_cb))
 		return false;
 
 	return true;
@@ -81,13 +81,13 @@ bool fc_output_register(struct fc_output* const out, const char* name)
 	if (out->name == nullptr) return false;
 	__FC_OUTPUT_STRCPY_S((char*)(out->name), (__FC_OUTPUT_STRLEN(name) + 1) * sizeof(char), name);
 	out->data = list_create();
-	if (out->data == nullptr) goto error_out;
+	if (out->data == nullptr) goto _error_out;
 	out->fuzzy_set = list_create();
-	if (out->fuzzy_set == nullptr) goto error_out;
+	if (out->fuzzy_set == nullptr) goto _error_out;
 
 	if (0)
 	{
-	error_out:
+	_error_out:
 		if (out->name != nullptr)
 		{
 			__FC_OUTPUT_FREE((void*)(out->name));
@@ -96,10 +96,12 @@ bool fc_output_register(struct fc_output* const out, const char* name)
 		if (out->data != nullptr)
 		{
 			list_delete(out->data, nullptr);
+			out->data = nullptr;
 		}
 		if (out->fuzzy_set != nullptr)
 		{
 			list_delete(out->fuzzy_set, nullptr);
+			out->fuzzy_set = nullptr;
 		}
 
 		return false;
@@ -120,8 +122,10 @@ bool fc_output_unregister(struct fc_output* const out)
 
 	list_delete(out->data, __fc_output_inference_result_group_deconstruct_cb);
 	list_delete(out->fuzzy_set, __fc_output_fuzzy_set_deconstruct_cb);
+	out->data = nullptr;
+	out->fuzzy_set = nullptr;
 
-	return false;
+	return true;
 }
 
 bool fc_output_add_fuzzy_set(const struct fc_output* const out, const struct fuzzy_set* const set)
@@ -156,6 +160,7 @@ bool fc_output_increase_a_inference_result_group(const struct fc_output* const o
 	if (!list_push_if(out->data, group, sizeof(list_head), list_pred_true, __fc_output_inference_result_group_construct_cb))
 	{
 		list_delete(group, nullptr);
+		group = nullptr;
 		return false;
 	}
 
