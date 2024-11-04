@@ -339,31 +339,32 @@ bool list_push_list(list_head l, list_head* sl)
 {
     if (l == nullptr) return false;
 
+    // push a list-node
     list_head al = nullptr;  // list to be added
+    if (!list_push(l, (void*)&al, sizeof(list_head)))
+        return false;
+
+    // get the new node
+    list_node ln = list_get_last_node(l);
+    if (ln == nullptr) goto _error_out;
+
+    // create a list
     if (sl == nullptr || *sl == nullptr)
     {
         // create and add a list-node to l
         al = list_create();
-        if (al == nullptr) return false;
+        if (al == nullptr) goto _error_out;
     }
+    // shallow copy a list
     else al = *sl;
-
-    if (!list_push(l, (void*)&al, sizeof(list_head)))
+    *(list_head*)(ln->data) = al;
+    
+    if (0)
+    {
+    _error_out:
+        list_pop(l);
         return false;
+    }
 
     return true;
-}
-
-bool list_pop_list(list_head l)
-{
-    if (l == nullptr) return false;
-
-    list_node ln = list_get_last_node(l);
-    if (ln == nullptr) return false;  // The list is empty, can not pop node
-
-    list_head* pl = ln->data;
-    list_delete(*pl, nullptr);
-    *pl = nullptr;
-
-    return list_pop(l);
 }

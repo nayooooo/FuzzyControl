@@ -11,6 +11,10 @@
  *          options for constructing callback functions and destructing callback
  *          functions, making it convenient for you to operate on deeply copied node
  *          data.
+ *          Of course, whether it is a deep copy or a shallow copy depends on your
+ *          specific application, such as implementing deep copy in constructing
+ *          callback functions or adding a shallow copy API in this library modeled
+ *          after "list_push_list".
  * @version 1.0.0
  * @date 2024-05-21
  * 
@@ -352,7 +356,10 @@ void* list_get_node_data_if(list_head l, void *data, list_pred pred);
 ==================================================================================*/
 
 /**
- * @brief Add a node with the list as its data to the list
+ * @brief Add(shallow copy) a node with the list as its data to the list
+ * @details Since the template is a pointer to a linked list and the requested data
+ *          is also a reference to that linked list, this API is a shallow copy.
+ * @pop You can use "list_pop" to pop list-node.
  *
  * @param l The list
  * @param sl List to be added, if sl or *sl is nullptr, add a empty list
@@ -360,19 +367,6 @@ void* list_get_node_data_if(list_head l, void *data, list_pred pred);
  * @return false    failed
  */
 bool list_push_list(list_head l, list_head* sl);
-
-/**
- * @brief Remove the last node of the list as a list-node, please ensure it is a list-node
- * @details This method is suitable for deleting static data linked lists, where all data
- *          at a node is continuous, rather than discontinuous regions connected by logical
- *          connections such as pointers, because the area pointed to by the pointer will
- *          not be reclaimed here.
- *
- * @param l The list
- * @return true     success
- * @return false    failed
- */
-bool list_pop_list(list_head l);
 
 /*==================================================================================
     same level linked list operation

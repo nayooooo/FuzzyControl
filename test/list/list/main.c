@@ -16,8 +16,18 @@ static bool int_trav(list_node n, void* data)
 {
     UNUSED(data);
 
-    int* num = (int*)(n->data);
+    int* num = n->data;
     printf("%d  ", *num);
+
+    return true;
+}
+
+static bool list_node_trav(list_node n, void* data)
+{
+    UNUSED(data);
+
+    list_head* ptr = n->data;
+    printf("%p  ", *ptr);
 
     return true;
 }
@@ -92,6 +102,21 @@ list_over:
     list_delete(l, nullptr);
     l = nullptr;
     printf("[delete] list address: 0x%X\r\n", l);
+
+    l = list_create();
+    list_head ll = list_create();
+
+    printf("\r\n\n");
+    list_push_list(l, &ll);
+    list_push_list(l, &ll);
+    list_push_list(l, &ll);
+    printf("ll place: %p\r\n", ll);
+    list_trav(l, nullptr, list_node_trav);
+    printf("\r\n");
+
+list_list_over:
+    list_delete(l, nullptr);
+    list_delete(ll, nullptr);
 
     return 0;
 }
