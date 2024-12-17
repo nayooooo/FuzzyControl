@@ -356,8 +356,8 @@ void* list_get_node_data_if(list_head l, void *data, list_pred pred);
 ==================================================================================*/
 
 /**
- * @brief Add a node with the list as its data to the list(shallow copy, if there
- *        is no copy source, apply for a list)
+ * @brief Add a node with a list as data to the list (create an lvalue reference,
+ *        if there is no reference source, apply for the list)
  * @details Since the template is a pointer to a linked list and the requested data
  *          is also a reference to that linked list, this API is a shallow copy.
  * @pop You can use "list_pop" to pop shallow copy list-node, or use "list_pop_if"

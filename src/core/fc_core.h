@@ -14,6 +14,7 @@ extern "C" {
 #include "fc_input.h"
 #include "fc_output.h"
 #include "fc_rules.h"
+#include "fc_inference.h"
 #include "fc_controler.h"
 
 /**
@@ -59,6 +60,31 @@ struct inference_result
  * @return fuzzy_number gaussian value
  */
 fuzzy_number fc_core_Gaussian(accurate_number value, accurate_number mu, accurate_number sigma, accurate_number k);
+
+/**
+ * @brief Triangle curve
+ * 
+ * @param value pending value
+ * @param l left zero point
+ * @param r right zero point
+ * @param m maximum value point
+ * @param k amplification factor
+ * @return fuzzy_number triangle value
+ */
+fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate_number r, accurate_number m, accurate_number k);
+
+/**
+ * @brief Trapezoid curve
+ * 
+ * @param value pending value
+ * @param l left zero point
+ * @param r right zero point
+ * @param m1 maximum value1 point(left)
+ * @param m2 maximum value2 point(right)
+ * @param k amplification factor
+ * @return fuzzy_number triangle value
+ */
+fuzzy_number fc_core_Trapezoid(accurate_number value, accurate_number l, accurate_number r, accurate_number m1, accurate_number m2, accurate_number k);
 
 #ifdef __cplusplus
 } /*extern "C"*/

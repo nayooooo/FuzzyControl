@@ -16,6 +16,7 @@ struct inference_result;
     micro function
 ==================================================================================*/
 
+#define __FC_OUTPUT_PRINTF fc_printf
 #define __FC_OUTPUT_MALLOC fc_malloc
 #define __FC_OUTPUT_FREE fc_free
 #define __FC_OUTPUT_STRLEN fc_strlen
@@ -141,34 +142,28 @@ bool fc_output_clear_inference_result(const struct fc_output* const out, fc_inde
 fc_size fc_output_get_inference_result_num(const struct fc_output* const out, fc_index ind);
 
 /**
- * @brief How many pieces of data can be obfuscated to obtain
+ * @brief Print inference result
  *
  * @param out object
- * @return fc_size
+ * @param ind inference result group index, must be >= 0
+ * @param label label
+ * @return true success
+ * @return false failed
  */
-fc_size fc_output_get_unfuzzing_data_num(const struct fc_output* const out);
+bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind, const char* label);
 
 /**
- * @brief Perform one anti-fuzzification
+ * @brief Unfuzzied data
  *
  * @param out object
+ * @param ind inference result group index, must be >= 0
  * @param data accurate data buffer to receive
  * @param num accurate data buffer size, must be equal to or
  *            larger than the actual number of conversions
  * @return true success
  * @return false failed
  */
-bool fc_output_unfuzzing(struct fc_output* const out, accurate_number* data, fc_size num);
-
-/**
- * @brief Print blurred data
- *
- * @param out object
- * @param label label
- * @return true success
- * @return false failed
- */
-bool fc_output_print_data(struct fc_output* const out, const char* label);
+bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, accurate_number* data, fc_size num);
 
 /**
  * @brief Print Fuzzy Sets

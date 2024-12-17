@@ -203,9 +203,15 @@ bool list_push_if(list_head l, void *data, size_t data_size, list_pred pred, lis
     // Push node and construct it
     if (!list_push(l, data, data_size)) return false;
     ln = list_get_last_node(l);
-    if (construct != nullptr) construct(ln->data);
+    if (construct != nullptr) if (!construct(ln->data)) goto _error_out;
 
     return true;
+
+_error_out:
+
+    list_pop(l);
+
+    return false;
 }
 
 bool list_pop_if(list_head l, void *data, list_pred pred, list_node_data_deconstruct_cb deconstruct)
@@ -358,13 +364,10 @@ bool list_push_list(list_head l, list_head* sl)
     // shallow copy a list
     else al = *sl;
     *(list_head*)(ln->data) = al;
-    
-    if (0)
-    {
-    _error_out:
-        list_pop(l);
-        return false;
-    }
 
     return true;
+    
+_error_out:
+    list_pop(l);
+    return false;
 }
