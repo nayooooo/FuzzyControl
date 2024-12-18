@@ -41,7 +41,26 @@ struct fc_output
     const char* name;
     list_head data;             // to save inference result groups
     list_head fuzzy_set;
+    accurate_number range[2];   // output range (minimum, maximum)
+    accurate_number step;       // step value
 };
+
+/*==================================================================================
+    type
+==================================================================================*/
+
+/**
+ * @brief Combine the activation degree list and membership function list to
+ *        obtain the output result.
+ * 
+ * @param irh inference result list
+ * @param fsh fuzzy set list
+ * @param min minimum output value
+ * @param max maximum output value
+ * @param step step value
+ * @return accurate_number result
+ */
+typedef accurate_number (*fc_output_unfuzzy_method_fn)(list_head irh, list_head fsh, accurate_number min, accurate_number max, accurate_number step);
 
 /*==================================================================================
     API
@@ -53,10 +72,12 @@ struct fc_output
  * 
  * @param out object
  * @param name name
+ * @param min minimum output value
+ * @param max maximum output value
  * @return true success
  * @return false failed
  */
-bool fc_output_register(struct fc_output* const out, const char* name);
+bool fc_output_register(struct fc_output* const out, const char* name, accurate_number min, accurate_number max, accurate_number step);
 
 /**
  * @brief Unregister output

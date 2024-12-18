@@ -62,22 +62,59 @@ static bool __fc_output_inference_result_group_deconstruct_cb(void* data)
 	return list_delete(*(list_head*)data, __fc_output_inference_result_deconstruct_cb);
 }
 
-static bool __fc_output_verify_inference_result_is_effective(list_node node, void *data)
+static accurate_number __fc_output_unfuzzy_max_method(list_head irh, list_head fsh, accurate_number min, accurate_number max, accurate_number step)
 {
-	const struct inference_result *ir = data;
-	if (ir == nullptr) return false;
-	if (ir->name_tag == nullptr) return false;
+	if (irh == nullptr || fsh == nullptr) return 0;
+	if (min > max || step <= 0) return 0;
 
-	const struct fuzzy_set *fs = node->data;
-	if (fs == nullptr) return false;
-	if (fs->label == nullptr) return false;
+	fuzzy_number ms_max = 0;
+	accurate_number result = min;
+	int count = 1;
+	
+	for (accurate_number i = min; i <= max; i += step)
+	{
+		fuzzy_number ms = fc_core_ir_fs_composite_function(i, irh, fsh);
 
-	return !__FC_OUTPUT_STRCMP(ir->name_tag, fs->label);
+		if (ms_max < ms)
+		{
+			ms_max = ms;
+			result = i;
+			count = 1;
+		}
+		else if (ms_max == ms)
+		{
+			result += i;
+			count += 1;
+		}
+	}
+
+	return result / count;
 }
 
-bool fc_output_register(struct fc_output* const out, const char* name)
+// TODO
+static accurate_number __fc_output_unfuzzy_area_center_method(list_head irh, list_head fsh, accurate_number min, accurate_number max, accurate_number step)
+{
+	if (irh == nullptr || fsh == nullptr) return 0;
+	if (min > max || step <= 0) return 0;
+
+	return 0;
+}
+
+static const fc_output_unfuzzy_method_fn __ufm_fns[] = {
+	__fc_output_unfuzzy_max_method,
+	__fc_output_unfuzzy_area_center_method,
+};
+
+bool fc_output_register(struct fc_output* const out, const char* name, accurate_number min, accurate_number max, accurate_number step)
 {
 	if (out == nullptr || name == nullptr) return false;
+	if (min > max)
+	{
+		accurate_number temp = min;
+		min = max;
+		max = temp;
+	}
+	if (step <= 0) return false;
 
 	out->name = (const char*)__FC_OUTPUT_MALLOC((__FC_OUTPUT_STRLEN(name) + 1) * sizeof(char));
 	if (out->name == nullptr) return false;
@@ -86,6 +123,9 @@ bool fc_output_register(struct fc_output* const out, const char* name)
 	if (out->data == nullptr) goto _error_out;
 	out->fuzzy_set = list_create();
 	if (out->fuzzy_set == nullptr) goto _error_out;
+	out->range[0] = min;
+	out->range[1] = max;
+	out->step = step;
 
 	return true;
 
@@ -267,22 +307,23 @@ bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num,
 		list_head *irg = list_get_node_data(out->data, i);
 		if (irg == nullptr || *irg == nullptr) continue;
 
-		// 2. apply effective reasoning results to computational outputs
+		// 2. verify effectiveness, if not, skip it
 		list_node irn = list_get_first_node(*irg);
-		list_node fs = nullptr;
 		while (irn != nullptr)
 		{
-			// 2.1 verify effectiveness
-			if (irn->data == nullptr) continue;
-			fs = list_find_if(out->fuzzy_set, irn->data, __fc_output_verify_inference_result_is_effective);
-			if (fs == nullptr) continue;
-
-			// 2.2 calculate
-
-			// 2.3 next one
+			if (irn->data == nullptr) break;
+			if (nullptr == list_find_if(out->fuzzy_set, irn->data, (list_pred)fc_core_verify_inference_result_is_effective))
+				break;
+			
 			irn = list_find_next_node(*irg, irn);
 		}
+		if (irn != nullptr) continue;  // illegal ir
+
+		// 3. calculate
+		data[i - ind] = __ufm_fns[method](*irg, out->fuzzy_set, out->range[0], out->range[1], out->step);
 	}
+
+	return true;
 }
 
 bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)

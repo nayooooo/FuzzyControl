@@ -49,6 +49,8 @@ struct inference_result
 	fuzzy_number activate;
 };
 
+bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* ir);
+
 /**
  * @brief Gaussian curve
  * 
@@ -84,6 +86,18 @@ fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate
  * @return fuzzy_number triangle value
  */
 fuzzy_number fc_core_Trapezoid(accurate_number value, accurate_number l, accurate_number r, accurate_number m1, accurate_number m2, accurate_number k);
+
+/**
+ * @brief Provide a composite output function by combining
+ *		  a set of inference results (activation level) and
+ *		  membership functions.
+ * 
+ * @param value value(x)
+ * @param irh inference result list
+ * @param fsh fuzzy set list
+ * @return fuzzy_number result
+ */
+fuzzy_number fc_core_ir_fs_composite_function(accurate_number value, list_head irh, list_head fsh);
 
 #ifdef __cplusplus
 } /*extern "C"*/
