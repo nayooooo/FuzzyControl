@@ -14,7 +14,6 @@ extern "C" {
 #include "fc_input.h"
 #include "fc_output.h"
 #include "fc_rules.h"
-#include "fc_controler.h"
 
 /**
  * @brief Membership function

@@ -1,0 +1,5 @@
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_core.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\Debug\fc_core.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_input.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\Debug\fc_input.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\fuzzy_opera.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\Debug\fuzzy_opera.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\exter\list.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\Debug\list.obj
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\main.c;D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\fc_input\Debug\main.obj

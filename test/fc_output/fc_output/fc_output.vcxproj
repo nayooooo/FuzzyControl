@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\config\fc_config.h" />
     <ClInclude Include="..\..\..\src\core\fc_controler.h" />
     <ClInclude Include="..\..\..\src\core\fc_core.h" />
     <ClInclude Include="..\..\..\src\core\fc_error.h" />

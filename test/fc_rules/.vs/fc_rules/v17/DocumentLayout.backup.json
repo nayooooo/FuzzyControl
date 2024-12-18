@@ -30,7 +30,7 @@
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_rules.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_rules.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_rules.c",
-              "ViewState": "AgIAAF8BAAAAAAAAAAApwGYBAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAF8BAAAAAAAAAAApwGYBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-10-23T20:45:52.329Z",
               "EditorCaption": ""
@@ -57,8 +57,7 @@
               "RelativeToolTip": "fc_rules\\main.c",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-10-23T20:20:36.188Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T20:20:36.188Z"
             }
           ]
         }

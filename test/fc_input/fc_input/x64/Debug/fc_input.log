@@ -1,8 +1,1 @@
-﻿  fc_core.c
-  fc_input.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_core.c(7,14): warning C4244: “return”: 从“double”转换到“fuzzy_number”，可能丢失数据
-  fuzzy_opera.c
-  list.c
-  main.c
-  正在生成代码...
-  fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\x64\Debug\fc_input.exe
+﻿  fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\x64\Debug\fc_input.exe

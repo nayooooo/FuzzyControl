@@ -1,12 +1,8 @@
 ﻿  fc_controler.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(7,10): warning C4047: “=”:“list_head *”与“list_head”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(9,11): warning C4047: “=”:“list_head *”与“list_head”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(21,18): warning C4047: “函数”:“list_head”与“list_head *”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(21,18): warning C4024: “list_delete”: 形参和实参 1 的类型不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(26,18): warning C4047: “函数”:“list_head”与“list_head *”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(26,18): warning C4024: “list_delete”: 形参和实参 1 的类型不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(44,18): warning C4047: “函数”:“list_head”与“list_head *”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(44,18): warning C4024: “list_delete”: 形参和实参 1 的类型不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(49,18): warning C4047: “函数”:“list_head”与“list_head *”的间接级别不同
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(49,18): warning C4024: “list_delete”: 形参和实参 1 的类型不同
+  fc_core.c
+  fc_input.c
+  fc_output.c
+  fc_rules.c
+  main.c
+  正在生成代码...
   fc_controler.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\Debug\fc_controler.exe

@@ -32,8 +32,7 @@
               "RelativeToolTip": "..\\..\\src\\core\\fc_output.h",
               "ViewState": "AgIAAK0AAAAAAAAAAAAcwLcAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-18T14:17:14.749Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-18T14:17:14.749Z"
             },
             {
               "$type": "Document",
@@ -45,8 +44,7 @@
               "RelativeToolTip": "..\\..\\src\\core\\fc_output.c",
               "ViewState": "AgIAAAsBAAAAAAAAAAAswBEBAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-12-18T14:09:09.091Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-18T14:09:09.091Z"
             },
             {
               "$type": "Document",
@@ -56,7 +54,7 @@
               "RelativeDocumentMoniker": "fc_output\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\fc_output\\fc_output\\main.c",
               "RelativeToolTip": "fc_output\\main.c",
-              "ViewState": "AgIAADkAAAAAAAAAAAAcwEEAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAcwEUAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-18T09:46:16.621Z",
               "EditorCaption": ""

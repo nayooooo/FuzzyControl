@@ -34,6 +34,9 @@
     <Filter Include="fc\core\inc">
       <UniqueIdentifier>{69adf3ca-089e-4b41-ba08-073ec28fc36f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fc\config">
+      <UniqueIdentifier>{6ec00d4e-e827-4011-9ef3-5026abbc38b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\exter\fc_exter.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\core\fc_std.h">
       <Filter>fc\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\config\fc_config.h">
+      <Filter>fc\config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

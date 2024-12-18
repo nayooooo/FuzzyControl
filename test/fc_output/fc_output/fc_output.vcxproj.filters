@@ -34,6 +34,9 @@
     <Filter Include="FuzzyControl\core\inc">
       <UniqueIdentifier>{d2e6c4ca-a669-47c5-b385-9672565fa291}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FuzzyControl\config">
+      <UniqueIdentifier>{c76effb3-2336-46ce-8cfb-adb4e9fb0e6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\fc.h">
@@ -65,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\core\fc_rules.h">
       <Filter>FuzzyControl\core\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\config\fc_config.h">
+      <Filter>FuzzyControl\config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

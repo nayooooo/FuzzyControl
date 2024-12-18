@@ -26,8 +26,8 @@ struct fc_rules;
 
 struct fc_controler
 {
-    list_head *in;
-    list_head *out;
+    list_head in;
+    list_head out;
     struct fc_rules *rules;
 };
 
