@@ -91,16 +91,26 @@ static accurate_number __fc_output_unfuzzy_max_method(list_head irh, list_head f
 	return result / count;
 }
 
-// TODO
 static accurate_number __fc_output_unfuzzy_area_center_method(list_head irh, list_head fsh, accurate_number min, accurate_number max, accurate_number step)
 {
 	if (irh == nullptr || fsh == nullptr) return 0;
 	if (min > max || step <= 0) return 0;
 
-	return 0;
+	fuzzy_number int_val = 0;
+	fuzzy_number xint_val = 0;
+
+	for (accurate_number i = min; i <= max; i += step)
+	{
+		fuzzy_number ms = fc_core_ir_fs_composite_function(i, irh, fsh);
+		int_val += ms;
+		xint_val += i * ms;
+	}
+
+	return xint_val / int_val;
 }
 
 static const fc_output_unfuzzy_method_fn __ufm_fns[] = {
+	__fc_output_unfuzzy_max_method,
 	__fc_output_unfuzzy_max_method,
 	__fc_output_unfuzzy_area_center_method,
 };
@@ -261,6 +271,28 @@ fc_size fc_output_get_inference_result_num(const struct fc_output* const out, fc
 	return (fc_size)list_length(*al);
 }
 
+bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)
+{
+	if (out == nullptr) return false;
+	if (out->name == nullptr || out->fuzzy_set == nullptr) return false;
+
+	__FC_OUTPUT_PRINTF("%s: \r\n", label ? label : "(unset label)");
+	list_node n = list_get_first_node(out->fuzzy_set);
+	if (n == nullptr)
+	{
+		__FC_OUTPUT_PRINTF("There is no fuzzy set!\r\n");
+		return true;
+	}
+	while (n != nullptr)
+	{
+		__FC_OUTPUT_PRINTF("%s-%s\r\n", out->name, ((struct fuzzy_set*)(n->data))->label);
+
+		n = list_find_next_node(out->fuzzy_set, n);
+	}
+
+	return true;
+}
+
 bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind, const char* label)
 {
 	if (out == nullptr) return false;
@@ -321,28 +353,6 @@ bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num,
 
 		// 3. calculate
 		data[i - ind] = __ufm_fns[method](*irg, out->fuzzy_set, out->range[0], out->range[1], out->step);
-	}
-
-	return true;
-}
-
-bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)
-{
-	if (out == nullptr) return false;
-	if (out->name == nullptr || out->fuzzy_set == nullptr) return false;
-
-	__FC_OUTPUT_PRINTF("%s: \r\n", label ? label : "(unset label)");
-	list_node n = list_get_first_node(out->fuzzy_set);
-	if (n == nullptr)
-	{
-		__FC_OUTPUT_PRINTF("There is no fuzzy set!\r\n");
-		return true;
-	}
-	while (n != nullptr)
-	{
-		__FC_OUTPUT_PRINTF("%s-%s\r\n", out->name, ((struct fuzzy_set*)(n->data))->label);
-
-		n = list_find_next_node(out->fuzzy_set, n);
 	}
 
 	return true;

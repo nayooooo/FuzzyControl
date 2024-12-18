@@ -29,8 +29,8 @@ struct fuzzy_set;
 struct fc_input
 {
     const char* name;
-    struct fuzzy_matrix data;
     list_head fuzzy_set;
+    struct fuzzy_matrix data;
 };
 
 /*==================================================================================

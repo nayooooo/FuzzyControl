@@ -28,7 +28,8 @@ struct inference_result;
 ==================================================================================*/
 
 typedef enum{
-    FC_OUTPUT_MAX_METHOD,
+    FC_OUTPUT_MAX_VAL_METHOD,
+    FC_OUTPUT_MOM_METHOD,               // Mean of Maximum
     FC_OUTPUT_AREA_CENTER_METHOD,
 } fc_output_unfuzzy_method_t;
 
@@ -173,6 +174,16 @@ bool fc_output_clear_inference_result(const struct fc_output* const out, fc_inde
 fc_size fc_output_get_inference_result_num(const struct fc_output* const out, fc_index ind);
 
 /**
+ * @brief Print Fuzzy Sets
+ *
+ * @param out object
+ * @param label label
+ * @return true success
+ * @return false failed
+ */
+bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label);
+
+/**
  * @brief Print inference result
  *
  * @param out object
@@ -198,16 +209,6 @@ bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind,
  * @return false failed
  */
 bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method);
-
-/**
- * @brief Print Fuzzy Sets
- *
- * @param out object
- * @param label label
- * @return true success
- * @return false failed
- */
-bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label);
 
 #ifdef __cplusplus
 } /*extern "C"*/

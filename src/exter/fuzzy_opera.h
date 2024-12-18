@@ -69,12 +69,14 @@ typedef long long fuzzy_size;
  * @memberof row matrix rows
  * @memberof col matrix columns
  */
+#pragma pack (4)
 struct fuzzy_matrix
 {
-    fuzzy_number** mat;
     fuzzy_size row;
     fuzzy_size col;
+    fuzzy_number** mat;
 };
+#pragma pack ()
 
 /**
  * @brief event callback function
