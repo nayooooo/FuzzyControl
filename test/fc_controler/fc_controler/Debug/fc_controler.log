@@ -1,0 +1,16 @@
+﻿  fc_controler.c
+  fc_core.c
+  fc_input.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.h(16,21): error C2079: “in”使用未定义的 struct“fc_input”
+  (编译源文件“../../../src/core/fc_input.c”)
+  
+  fc_output.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.h(17,22): error C2079: “out”使用未定义的 struct“fc_output”
+  (编译源文件“../../../src/core/fc_output.c”)
+  
+  fc_rules.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.h(18,21): error C2079: “rules”使用未定义的 struct“fc_rules”
+  (编译源文件“../../../src/core/fc_rules.c”)
+  
+  main.c
+  正在生成代码...

@@ -5,13 +5,17 @@
 extern "C" {
 #endif
 
+#include "fc_core.h"
+
 /*==================================================================================
     structure
 ==================================================================================*/
 
 struct fc_controler
 {
-    char a;
+    struct fc_input in;
+    struct fc_output out;
+    struct fc_rules rules;
 };
 
 #ifdef __cplusplus
