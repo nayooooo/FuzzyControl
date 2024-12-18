@@ -62,6 +62,19 @@ static bool __fc_output_inference_result_group_deconstruct_cb(void* data)
 	return list_delete(*(list_head*)data, __fc_output_inference_result_deconstruct_cb);
 }
 
+static bool __fc_output_verify_inference_result_is_effective(list_node node, void *data)
+{
+	const struct inference_result *ir = data;
+	if (ir == nullptr) return false;
+	if (ir->name_tag == nullptr) return false;
+
+	const struct fuzzy_set *fs = node->data;
+	if (fs == nullptr) return false;
+	if (fs->label == nullptr) return false;
+
+	return !__FC_OUTPUT_STRCMP(ir->name_tag, fs->label);
+}
+
 bool fc_output_register(struct fc_output* const out, const char* name)
 {
 	if (out == nullptr || name == nullptr) return false;
@@ -238,17 +251,38 @@ bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind,
 	return true;
 }
 
-bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, accurate_number* data, fc_size num)
+bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method)
 {
 	if (out == nullptr) return false;
 	if (out->data == nullptr || out->fuzzy_set == nullptr) return false;
-	if (ind < 0) return false;
-	if (data == nullptr || num <= 0) return false;
+	if (ind < 0 || num <= 0) return false;
+	if (data == nullptr) return false;
 
-	// TODO:
-	// 1. find target ir group
-	// 2. verify every ir have corresponding membership function
-	// 3. calculate output curve or output value
+	// Ensure a sufficient number of inference result groups
+	if (ind + num > list_length(out->data)) return false;
+
+	for (fc_index i = ind; i < ind + (fc_index)num; i++)
+	{
+		// 1. find target ir group
+		list_head *irg = list_get_node_data(out->data, i);
+		if (irg == nullptr || *irg == nullptr) continue;
+
+		// 2. apply effective reasoning results to computational outputs
+		list_node irn = list_get_first_node(*irg);
+		list_node fs = nullptr;
+		while (irn != nullptr)
+		{
+			// 2.1 verify effectiveness
+			if (irn->data == nullptr) continue;
+			fs = list_find_if(out->fuzzy_set, irn->data, __fc_output_verify_inference_result_is_effective);
+			if (fs == nullptr) continue;
+
+			// 2.2 calculate
+
+			// 2.3 next one
+			irn = list_find_next_node(*irg, irn);
+		}
+	}
 }
 
 bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)

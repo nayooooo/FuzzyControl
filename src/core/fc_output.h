@@ -21,6 +21,16 @@ struct inference_result;
 #define __FC_OUTPUT_FREE fc_free
 #define __FC_OUTPUT_STRLEN fc_strlen
 #define __FC_OUTPUT_STRCPY_S fc_strcpy_s
+#define __FC_OUTPUT_STRCMP fc_strcmp
+
+/*==================================================================================
+    enum
+==================================================================================*/
+
+typedef enum{
+    FC_OUTPUT_MAX_METHOD,
+    FC_OUTPUT_AREA_CENTER_METHOD,
+} fc_output_unfuzzy_method_t;
 
 /*==================================================================================
     structure
@@ -154,16 +164,19 @@ bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind,
 
 /**
  * @brief Unfuzzied data
+ * @note Please ensure that the inference result group and membership
+ *       function provided are valid, otherwise they will be skipped
+ *       directly!
  *
  * @param out object
  * @param ind inference result group index, must be >= 0
+ * @param num the number of inference groups that need to be output
  * @param data accurate data buffer to receive
- * @param num accurate data buffer size, must be equal to or
- *            larger than the actual number of conversions
+ * @param method unfuzzy method
  * @return true success
  * @return false failed
  */
-bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, accurate_number* data, fc_size num);
+bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method);
 
 /**
  * @brief Print Fuzzy Sets
