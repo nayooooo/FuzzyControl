@@ -1,8 +1,3 @@
 ﻿  fc_controler.c
-  fc_core.c
-  fc_input.c
-  fc_output.c
-  fc_rules.c
-  main.c
-  正在生成代码...
+D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(335,54): warning C4090: “函数”: 不同的“const”限定符
   fc_controler.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\Debug\fc_controler.exe

@@ -1,1 +1,8 @@
-﻿  fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_output\Debug\fc_output.exe
+﻿  fc_controler.c
+  fc_core.c
+  fc_input.c
+  fc_output.c
+  fc_rules.c
+  main.c
+  正在生成代码...
+  fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_output\Debug\fc_output.exe

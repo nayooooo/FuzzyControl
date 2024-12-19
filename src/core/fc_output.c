@@ -145,16 +145,10 @@ _error_out:
 		__FC_OUTPUT_FREE((void*)(out->name));
 		out->name = nullptr;
 	}
-	if (out->data != nullptr)
-	{
-		list_delete(out->data, nullptr);
-		out->data = nullptr;
-	}
-	if (out->fuzzy_set != nullptr)
-	{
-		list_delete(out->fuzzy_set, nullptr);
-		out->fuzzy_set = nullptr;
-	}
+	list_delete(out->data, nullptr);
+	list_delete(out->fuzzy_set, nullptr);
+	out->data = nullptr;
+	out->fuzzy_set = nullptr;
 
 	return false;
 }
@@ -271,7 +265,7 @@ fc_size fc_output_get_inference_result_num(const struct fc_output* const out, fc
 	return (fc_size)list_length(*al);
 }
 
-bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)
+bool fc_output_print_fuzzy_set(const struct fc_output* const out, const char* label)
 {
 	if (out == nullptr) return false;
 	if (out->name == nullptr || out->fuzzy_set == nullptr) return false;
@@ -293,7 +287,7 @@ bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label)
 	return true;
 }
 
-bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind, const char* label)
+bool fc_output_print_inference_result(const struct fc_output* const out, fc_index ind, const char* label)
 {
 	if (out == nullptr) return false;
 	if (out->data == nullptr) return false;
@@ -323,7 +317,7 @@ bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind,
 	return true;
 }
 
-bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method)
+bool fc_output_unfuzzing(const struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method)
 {
 	if (out == nullptr) return false;
 	if (out->data == nullptr || out->fuzzy_set == nullptr) return false;

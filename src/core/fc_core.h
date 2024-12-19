@@ -15,6 +15,16 @@ extern "C" {
 #include "fc_output.h"
 #include "fc_rules.h"
 
+#ifndef FLT_EPSILON
+#define FLT_EPSILON      1.192092896e-07F        // smallest such that 1.0+FLT_EPSILON != 1.0
+#endif // !FLT_EPSILON
+
+#define __FC_CORE_NUMBER_EQ(n1, n2)				(fc_fabs(n1 - n2) < FLT_EPSILON)
+
+#define __FC_CORE_OPERA_UNI(uni1, uni2)			(fc_fmaxf(uni1, uni2))
+#define __FC_CORE_OPERA_INT(int1, int2)			(fc_fminf(int1, int2))
+#define __FC_CORE_OPERA_COM(com)				(1 - com)
+
 /**
  * @brief Membership function
  *
@@ -48,7 +58,13 @@ struct inference_result
 	fuzzy_number activate;
 };
 
-bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* ir);
+struct tag_data
+{
+	const char* tag;
+	decimal_number data;
+};
+
+bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* const ir);
 
 /**
  * @brief Gaussian curve

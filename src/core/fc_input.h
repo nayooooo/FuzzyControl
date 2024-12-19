@@ -88,6 +88,17 @@ bool fc_input_clear_fuzzy_set(const struct fc_input* const in);
 bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size num);
 
 /**
+ * @brief Get a fuzzy number by label
+ *
+ * @param in object
+ * @param label fuzzy set label
+ * @param row row index
+ * @return true success
+ * @return false failed
+ */
+fuzzy_number fc_input_get_fuzzy_number_by_label(const struct fc_input* const in, const char *label, fc_index row);
+
+/**
  * @brief Perform fuzzification by fuzzy set label
  *
  * @param in object
@@ -99,7 +110,7 @@ bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size 
  * @return false failed
  */
 bool fc_input_fuzzing_by_label(
-    struct fc_input* const in,
+    const struct fc_input* const in,
     accurate_number* data, fc_size num,
     fuzzy_number* fuzzy_data,
     const char* label
@@ -113,7 +124,7 @@ bool fc_input_fuzzing_by_label(
  * @return true success
  * @return false failed
  */
-bool fc_input_print_data(struct fc_input* const in, const char* label);
+bool fc_input_print_data(const struct fc_input* const in, const char* label);
 
 /**
  * @brief Print Fuzzy Sets
@@ -123,7 +134,7 @@ bool fc_input_print_data(struct fc_input* const in, const char* label);
  * @return true success
  * @return false failed
  */
-bool fc_input_print_fuzzy_set(struct fc_input* const in, const char* label);
+bool fc_input_print_fuzzy_set(const struct fc_input* const in, const char* label);
 
 #ifdef __cplusplus
 } /*extern "C"*/

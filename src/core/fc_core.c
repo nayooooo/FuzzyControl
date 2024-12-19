@@ -1,6 +1,6 @@
 #include "fc_core.h"
 
-bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* ir)
+bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* const ir)
 {
     if (ir == nullptr) return false;
     if (ir->name_tag == nullptr) return false;

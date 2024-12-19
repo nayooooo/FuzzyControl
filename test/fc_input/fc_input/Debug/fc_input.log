@@ -1,7 +1,5 @@
 ﻿  fc_core.c
   fc_input.c
-  fuzzy_opera.c
-  list.c
   main.c
   正在生成代码...
   fc_input.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_input\Debug\fc_input.exe

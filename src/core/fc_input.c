@@ -111,8 +111,26 @@ bool fc_input_fuzzing(struct fc_input* const in, accurate_number* data, fc_size 
 	return true;
 }
 
+fuzzy_number fc_input_get_fuzzy_number_by_label(const struct fc_input* const in, const char* label, fc_index row)
+{
+	if (in == nullptr) return FUZZY_DATA_ILLEGAL_VALUE;
+	if (label == nullptr) return FUZZY_DATA_ILLEGAL_VALUE;
+	if (row < 0 || (row + 1) > in->data.row) return FUZZY_DATA_ILLEGAL_VALUE;
+	if (in->data.mat == nullptr || in->data.row <= 0 || in->data.col <= 0) return FUZZY_DATA_ILLEGAL_VALUE;
+
+	fc_index len = (fc_index)list_length(in->fuzzy_set);
+	for (fc_index i = 0; i < len; i++)
+	{
+		struct fuzzy_set *fs = list_get_node_data(in->fuzzy_set, i);
+		if (fs == nullptr) return FUZZY_DATA_ILLEGAL_VALUE;
+		if (!__FC_INPUT_STRCMP(fs->label, label)) return in->data.mat[row][i];
+	}
+
+	return FUZZY_DATA_ILLEGAL_VALUE;
+}
+
 bool fc_input_fuzzing_by_label(
-	struct fc_input* const in,
+	const struct fc_input* const in,
 	accurate_number* data, fc_size num,
 	fuzzy_number* fuzzy_data,
 	const char* label
@@ -147,7 +165,7 @@ bool fc_input_fuzzing_by_label(
 	return true;
 }
 
-bool fc_input_print_data(struct fc_input* const in, const char* label)
+bool fc_input_print_data(const struct fc_input* const in, const char* label)
 {
 	if (in == nullptr) return false;
 	if (in->data.mat == nullptr) return false;
@@ -170,7 +188,7 @@ bool fc_input_print_data(struct fc_input* const in, const char* label)
 	return true;
 }
 
-bool fc_input_print_fuzzy_set(struct fc_input* const in, const char* label)
+bool fc_input_print_fuzzy_set(const struct fc_input* const in, const char* label)
 {
 	if (in == nullptr) return false;
 	if (in->name == nullptr || in->fuzzy_set == nullptr) return false;

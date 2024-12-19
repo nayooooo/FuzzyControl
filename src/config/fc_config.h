@@ -52,6 +52,9 @@ typedef uint32_t fc_size;
 
 #include <math.h>
 
+#define fc_fabs fabs
+#define fc_fmaxf fmaxf
+#define fc_fminf fminf
 #define fc_exp exp
 
 #ifndef nullptr

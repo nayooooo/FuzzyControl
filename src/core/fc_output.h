@@ -75,6 +75,7 @@ typedef accurate_number (*fc_output_unfuzzy_method_fn)(list_head irh, list_head 
  * @param name name
  * @param min minimum output value
  * @param max maximum output value
+ * @param step step value
  * @return true success
  * @return false failed
  */
@@ -181,7 +182,7 @@ fc_size fc_output_get_inference_result_num(const struct fc_output* const out, fc
  * @return true success
  * @return false failed
  */
-bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label);
+bool fc_output_print_fuzzy_set(const struct fc_output* const out, const char* label);
 
 /**
  * @brief Print inference result
@@ -192,7 +193,7 @@ bool fc_output_print_fuzzy_set(struct fc_output* const out, const char* label);
  * @return true success
  * @return false failed
  */
-bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind, const char* label);
+bool fc_output_print_inference_result(const struct fc_output* const out, fc_index ind, const char* label);
 
 /**
  * @brief Unfuzzied data
@@ -208,7 +209,7 @@ bool fc_output_print_inference_result(struct fc_output* const out, fc_index ind,
  * @return true success
  * @return false failed
  */
-bool fc_output_unfuzzing(struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method);
+bool fc_output_unfuzzing(const struct fc_output* const out, fc_index ind, fc_size num, accurate_number* data, fc_output_unfuzzy_method_t method);
 
 #ifdef __cplusplus
 } /*extern "C"*/

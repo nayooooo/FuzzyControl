@@ -313,7 +313,7 @@ bool fc_rules_export_calculation(struct fc_calculation* const cal, const struct 
     __FC_RULES_FREE((void*)rule_copy);
     rule_copy = nullptr;
 
-    return false;
+    return true;
 }
 
 bool fc_rules_delete_calculation(struct fc_calculation* const cal)
