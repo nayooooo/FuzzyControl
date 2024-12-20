@@ -33,8 +33,7 @@
               "ViewState": "AgIAAI0BAAAAAAAAAAAUwKABAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-18T16:17:39.249Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -47,8 +46,7 @@
               "ViewState": "AgIAABIAAAAAAAAAAAAUwBwAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-12-18T15:01:13.638Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -58,7 +56,7 @@
               "RelativeDocumentMoniker": "fc_controler\\main.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\fc_controler\\fc_controler\\main.c",
               "RelativeToolTip": "fc_controler\\main.c",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAcwIwAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAUwFsAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-18T14:53:53.037Z",
               "IsPinned": true,

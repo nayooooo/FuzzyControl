@@ -89,7 +89,7 @@ int main()
 	printf("\r\n");
 
 	printf("\r\n");
-	fc_controler_increase_a_output(&fcc, "time", 0, 60, 1E-3f);  // 洗衣时间
+	fc_controler_increase_a_output(&fcc, "time", 0, 60, 1E-1f);  // 洗衣时间
 	fc_controler_print_output_list(&fcc, "output");
 	printf("\r\n");
 
@@ -127,8 +127,17 @@ int main()
 	//printf("\r\n");
 
 	printf("\r\n");
-	while (true)
 	{
+		int32_t row = 101;
+		int32_t col = 101;
+		decimal_number result[101][101] = { 0 };
+		FILE* file = fopen("./../Matlab/data/1E-1f/building/time.bin", "wb");
+		if (file == nullptr)
+		{
+			perror("Error opening file");
+			return 1;
+		}
+
 		for (int i = 0; i <= 100; i++)
 		{
 			for (int j = 0; j <= 100; j++)
@@ -136,13 +145,18 @@ int main()
 				struct tag_data indata[2] = { { "sludge", i }, { "grease", j } };
 				struct tag_data outdata[1] = { "time", 0 };
 				fc_controler_reasoning(&fcc, indata, 2, outdata, 1);
-				printf("in: sludge=%4.2f, grease=%4.2f\r\n", indata[0].data, indata[1].data);
-				printf("out: time=%4.2f\r\n", outdata[0].data);
-				if ('\n' == getch()) goto _out;
+				//printf("in: sludge=%4.2f, grease=%4.2f\r\n", indata[0].data, indata[1].data);
+				//printf("out: time=%4.2f\r\n", outdata[0].data);
+				result[i][j] = outdata[0].data;
+				printf("(%d,%d)\n", i, j);
 			}
 		}
+
+		fwrite(&row, sizeof(row), 1, file);
+		fwrite(&col, sizeof(col), 1, file);
+		fwrite(&result, sizeof(result[0][0]), row * col, file);
+		fclose(file);
 	}
-_out:
 	printf("\r\n");
 
 	fc_controler_unregister(&fcc);
