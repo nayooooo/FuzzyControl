@@ -2,6 +2,7 @@
 
 bool fc_core_verify_inference_result_is_effective(list_node node, const struct inference_result* const ir)
 {
+    if (node == nullptr) return false;
     if (ir == nullptr) return false;
     if (ir->name_tag == nullptr) return false;
 
@@ -63,6 +64,7 @@ fuzzy_number fc_core_ir_fs_composite_function(accurate_number value, list_head i
         list_node fsn = list_find_if(fsh, (void*)ir, (list_pred)fc_core_verify_inference_result_is_effective);
         if (fsn == nullptr) continue;
         const struct fuzzy_set* fs = fsn->data;
+        if (fs == nullptr || fs->ms == nullptr) continue;
 
         fuzzy_number temp = fs->ms(value);
         if (temp > ir->activate) temp = ir->activate;

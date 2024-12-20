@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "fc.h"
 
+#include <windows.h>
+
 #include <vld.h>
 
 static struct fc_controler fcc;
@@ -113,12 +115,34 @@ int main()
 	fc_controler_print_rule(&fcc, "rules");
 	printf("\r\n");
 
+	//printf("\r\n");
+	//struct tag_data indata[2] = { { "sludge", 60 }, { "grease", 70 }};
+	//struct tag_data outdata[1] = {"time", 0};
+	//DWORD milliseconds = GetTickCount64();
+	//fc_controler_reasoning(&fcc, indata, 2, outdata, 1);
+	//milliseconds = GetTickCount64() - milliseconds;
+	//printf("reasoning use time: %5.3lf s\r\n", (double)milliseconds / 1000);
+	//printf("in: sludge=%4.2f, grease=%4.2f\r\n", indata[0].data, indata[1].data);
+	//printf("out: time=%4.2f\r\n", outdata[0].data);
+	//printf("\r\n");
+
 	printf("\r\n");
-	struct tag_data indata[2] = { { "sludge", 60 }, { "grease", 70 }};
-	struct tag_data outdata[1] = {"time", 0};
-	fc_controler_reasoning(&fcc, indata, 2, outdata, 1);
-	printf("in: sludge=%4.2f, grease=%4.2f\r\n", indata[0].data, indata[1].data);
-	printf("out: time=%4.2f\r\n", outdata[0].data);
+	while (true)
+	{
+		for (int i = 0; i <= 100; i++)
+		{
+			for (int j = 0; j <= 100; j++)
+			{
+				struct tag_data indata[2] = { { "sludge", i }, { "grease", j } };
+				struct tag_data outdata[1] = { "time", 0 };
+				fc_controler_reasoning(&fcc, indata, 2, outdata, 1);
+				printf("in: sludge=%4.2f, grease=%4.2f\r\n", indata[0].data, indata[1].data);
+				printf("out: time=%4.2f\r\n", outdata[0].data);
+				if ('\n' == getch()) goto _out;
+			}
+		}
+	}
+_out:
 	printf("\r\n");
 
 	fc_controler_unregister(&fcc);

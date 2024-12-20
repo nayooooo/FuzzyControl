@@ -106,7 +106,7 @@ static accurate_number __fc_output_unfuzzy_area_center_method(list_head irh, lis
 		xint_val += i * ms;
 	}
 
-	return xint_val / int_val;
+	return (int_val != 0) ? (xint_val / int_val) : 0;
 }
 
 static const fc_output_unfuzzy_method_fn __ufm_fns[] = {

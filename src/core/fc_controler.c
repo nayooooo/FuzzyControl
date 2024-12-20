@@ -322,6 +322,8 @@ bool fc_controler_reasoning(const struct fc_controler* const fcc, const struct t
 	if (fcc == nullptr) return false;
 	if (fcc->in == nullptr || fcc->out == nullptr || fcc->rules == nullptr) return false;
 	if (list_length(fcc->in) <= 0 || list_length(fcc->out) <= 0 || fc_rules_get_rule_num(fcc->rules) <= 0) return false;
+	if (in == nullptr || out == nullptr) return false;
+	if (in_num <= 0 || out_num <= 0) return false;
 
 	bool is_success = true;
 
@@ -346,6 +348,7 @@ bool fc_controler_reasoning(const struct fc_controler* const fcc, const struct t
 		if (!fc_rules_export_calculation(&cal, fcc->rules, i)) goto _error_out;
 
 		// 2.2 calculate activate value
+		ir.name_tag = ""; ir.activate = 0;
 		list_node n = list_get_first_node(cal.condition);
 		while (n != nullptr)
 		{
@@ -366,7 +369,7 @@ bool fc_controler_reasoning(const struct fc_controler* const fcc, const struct t
 			case OPERA_AND:
 				ir.activate = __FC_CORE_OPERA_INT(ir.activate, ms);
 				break;
-			case OPERA_OR:
+			case OPERA_OR:  // the 1st node of cal.condition, is OPERA_OR
 				ir.activate = __FC_CORE_OPERA_UNI(ir.activate, ms);
 				break;
 			case OPERA_VB:

@@ -1,3 +1,5 @@
-﻿  fc_controler.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\src\core\fc_controler.c(335,54): warning C4090: “函数”: 不同的“const”限定符
+﻿  main.c
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(141,17): warning C4013: “getch”未定义；假设外部返回 int
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(136,47): warning C4244: “初始化”: 从“int”转换到“decimal_number”，可能丢失数据
+D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(136,64): warning C4244: “初始化”: 从“int”转换到“decimal_number”，可能丢失数据
   fc_controler.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\Debug\fc_controler.exe
