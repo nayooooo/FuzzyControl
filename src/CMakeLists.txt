@@ -25,5 +25,9 @@ include_directories(${PROJECT_SOURCE_DIR}/core)
 include_directories(${PROJECT_SOURCE_DIR}/periph)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../lib)
-add_library(${PROJECT_NAME} STATIC ${SRC})
+add_library(${PROJECT_NAME}-static STATIC ${SRC})
+add_library(${PROJECT_NAME} SHARED ${SRC})
+set_target_properties(${PROJECT_NAME}-static PROPERTIES OUTPUT_NAME ${PROJECT_NAME} PREFIX "")
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
+
+file(REMOVE ${PROJECT_SOURCE_DIR}/../lib/lib${PROJECT_NAME}.dll.a)
