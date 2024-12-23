@@ -12,27 +12,27 @@ accurate_number result = 0;
 
 static fuzzy_number __time_VS(accurate_number value)
 {
-	return fc_core_Triangle(value, -1, 10, 0, 1);
+	return fc_core_Triangle(value, -1, 0, 10, 1);
 }
 
 static fuzzy_number __time_S(accurate_number value)
 {
-	return fc_core_Triangle(value, 0, 25, 10, 1);
+	return fc_core_Triangle(value, 0, 10, 25, 1);
 }
 
 static fuzzy_number __time_M(accurate_number value)
 {
-	return fc_core_Triangle(value, 10, 40, 25, 1);
+	return fc_core_Triangle(value, 10, 25, 40, 1);
 }
 
 static fuzzy_number __time_L(accurate_number value)
 {
-	return fc_core_Triangle(value, 25, 60, 40, 1);
+	return fc_core_Triangle(value, 25, 40, 60, 1);
 }
 
 static fuzzy_number __time_VL(accurate_number value)
 {
-	return fc_core_Triangle(value, 40, 61, 60, 1);
+	return fc_core_Triangle(value, 40, 60, 61, 1);
 }
 
 int main()

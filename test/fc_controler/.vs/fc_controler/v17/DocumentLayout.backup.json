@@ -30,10 +30,11 @@
               "RelativeDocumentMoniker": "..\\..\\src\\core\\fc_controler.c",
               "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\src\\core\\fc_controler.c",
               "RelativeToolTip": "..\\..\\src\\core\\fc_controler.c",
-              "ViewState": "AgIAAI0BAAAAAAAAAAAUwKABAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANMAAAAAAAAAAAAjwJkBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-18T16:17:39.249Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -54,9 +55,9 @@
               "Title": "main.c",
               "DocumentMoniker": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\fc_controler\\fc_controler\\main.c",
               "RelativeDocumentMoniker": "fc_controler\\main.c",
-              "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\fc_controler\\fc_controler\\main.c",
-              "RelativeToolTip": "fc_controler\\main.c",
-              "ViewState": "AgIAAIIAAAAAAAAAAAAUwFsAAAA5AAAAAAAAAA==",
+              "ToolTip": "D:\\embedded\\EmbeddedSoftware\\FuzzyControl\\test\\fc_controler\\fc_controler\\main.c*",
+              "RelativeToolTip": "fc_controler\\main.c*",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAEkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-12-18T14:53:53.037Z",
               "IsPinned": true,

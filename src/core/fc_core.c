@@ -20,7 +20,7 @@ fuzzy_number fc_core_Gaussian(accurate_number value, accurate_number mu, accurat
     return (fuzzy_number)(k * __FC_CORE_EXP(- ((value - mu) * (value - mu)) / (2 * sigma * sigma)));
 }
 
-fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate_number r, accurate_number m, accurate_number k)
+fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate_number m, accurate_number r, accurate_number k)
 {
     if (l > m || l > r) return FUZZY_DATA_ILLEGAL_VALUE;
     if (m > r) return FUZZY_DATA_ILLEGAL_VALUE;

@@ -82,12 +82,12 @@ fuzzy_number fc_core_Gaussian(accurate_number value, accurate_number mu, accurat
  * 
  * @param value pending value
  * @param l left zero point
- * @param r right zero point
  * @param m maximum value point
+ * @param r right zero point
  * @param k amplification factor
  * @return fuzzy_number triangle value
  */
-fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate_number r, accurate_number m, accurate_number k);
+fuzzy_number fc_core_Triangle(accurate_number value, accurate_number l, accurate_number m, accurate_number r, accurate_number k);
 
 /**
  * @brief Trapezoid curve

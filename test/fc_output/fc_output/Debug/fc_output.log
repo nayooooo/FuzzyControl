@@ -5,4 +5,5 @@
   fc_rules.c
   main.c
   正在生成代码...
+  LINK : 没有找到 D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_output\Debug\fc_output.exe 或上一个增量链接没有生成它；正在执行完全链接
   fc_output.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_output\Debug\fc_output.exe
