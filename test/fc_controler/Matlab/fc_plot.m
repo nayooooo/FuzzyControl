@@ -1,6 +1,6 @@
 %%
 clear;clc;
-USE_DATA_PATH = 'data/1E-4f';
+USE_DATA_PATH = 'data/1E-5f';
 USE_DATA_RESULT = 'time.bin';
 %%
 disp([USE_DATA_PATH '/' USE_DATA_RESULT]);

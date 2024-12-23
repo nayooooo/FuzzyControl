@@ -70,8 +70,8 @@ struct _cal_thread_param
 long long progress = 0;
 HANDLE hMutex;
 DWORD startTime;
-#define ACCURACY		1E-4f
-#define ACCURACY_STR	"1E-4f"
+#define ACCURACY		 2E-6f
+#define ACCURACY_STR	"2E-6f"
 
 static DWORD WINAPI cal_thread(LPVOID param)
 {
@@ -123,12 +123,12 @@ static DWORD WINAPI cal_thread(LPVOID param)
 
 		WaitForSingleObject(hMutex, INFINITE);
 		progress += 1;
-		printf("\033[2K\r进度: %7.5f%% 数据点用时 %5.3lfs，预计还需 %llu h %llu min %llu s",
+		printf("\033[2K\r进度: %7.5f%% 数据点用时 %5.3lf s，预计还需 %llu h %llu min %llu s",
 			(float)progress / (101 * 101) * 100,
 			(float)milliseconds / 1000,
-			((unsigned long long)(currentseconds - startTime) * ((unsigned long long)101 * 101) / progress / 1000) / 60 / 60,
-			((unsigned long long)(currentseconds - startTime) * ((unsigned long long)101 * 101) / progress / 1000) % ((unsigned long long)60 * 60) / 60,
-			((unsigned long long)(currentseconds - startTime) * ((unsigned long long)101 * 101) / progress / 1000) % ((unsigned long long)60 * 60) % 60);
+			((unsigned long long)(currentseconds - startTime) * (((unsigned long long)101 * 101 - progress)) / progress / 1000) / 60 / 60,
+			((unsigned long long)(currentseconds - startTime) * (((unsigned long long)101 * 101 - progress)) / progress / 1000) % ((unsigned long long)60 * 60) / 60,
+			((unsigned long long)(currentseconds - startTime) * (((unsigned long long)101 * 101 - progress)) / progress / 1000) % ((unsigned long long)60 * 60) % 60);
 		fflush(stdout);
 		ReleaseMutex(hMutex);
 	}
@@ -183,11 +183,11 @@ int main(int argc, char* argv[])
 			return 1;
 		}
 	}
-	printf("进度: %7.5f%%", (float)progress / (101 * 101) * 100);
+	printf("进度: %7.5f%% 数据点用时 -- s，预计还需 -- h -- min -- s", (float)progress / (101 * 101) * 100);
 
 	for (int i = 0; i <= 100; i++)
 	{
-		WaitForSingleObject(threads[i], INFINITE);  // 不要用于精度要求高的问题求解
+		while (WAIT_OBJECT_0 != WaitForSingleObject(threads[i], INFINITE));
 		CloseHandle(threads[i]);
 	}
 	CloseHandle(hMutex);
