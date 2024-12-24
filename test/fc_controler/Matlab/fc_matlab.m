@@ -12,5 +12,5 @@ end
 delta = result - resualt_mat;
 error = delta ./ resualt_mat;
 [r, c] = size(error);
-err = sum(sum(error)) / (r * c);
+err = sum(sum(abs(error))) / (r * c);
 disp(['error: ' num2str(err * 100) '%']);
