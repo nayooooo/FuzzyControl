@@ -1,7 +1,0 @@
-﻿  main.c
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(116,51): warning C4244: “初始化”: 从“int”转换到“decimal_number”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(116,72): warning C4244: “初始化”: 从“int”转换到“decimal_number”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(118,24): warning C4244: “初始化”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(120,26): warning C4244: “初始化”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
-D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\fc_controler\main.c(166,14): warning C4244: “=”: 从“ULONGLONG”转换到“DWORD”，可能丢失数据
-  fc_controler.vcxproj -> D:\embedded\EmbeddedSoftware\FuzzyControl\test\fc_controler\Debug\fc_controler.exe

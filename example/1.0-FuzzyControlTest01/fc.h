@@ -8,7 +8,7 @@ extern "C" {
 #include "fc_config.h"
 #include "fc_exter.h"
 #include "fc_core.h"
-#include "fc_controler.h"
+#include "fc_controller.h"
 
 #ifdef __cplusplus
 } /*extern "C"*/
