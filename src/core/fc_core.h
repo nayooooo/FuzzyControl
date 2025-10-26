@@ -16,7 +16,7 @@ extern "C" {
 #include "fc_rules.h"
 
 #ifndef FLT_EPSILON
-#define FLT_EPSILON      1.192092896e-07F        // smallest such that 1.0+FLT_EPSILON != 1.0
+#define FLT_EPSILON 	 1.192092896e-07F		 // smallest such that 1.0+FLT_EPSILON != 1.0
 #endif // !FLT_EPSILON
 
 #define __FC_CORE_NUMBER_EQ(n1, n2)				(fc_fabs(n1 - n2) < FLT_EPSILON)
@@ -118,4 +118,4 @@ fuzzy_number fc_core_ir_fs_composite_function(accurate_number value, list_head i
 } /*extern "C"*/
 #endif
 
-#endif  // !__FC_CORE_H__
+#endif	// !__FC_CORE_H__
